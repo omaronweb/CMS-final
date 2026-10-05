@@ -1754,3 +1754,17 @@ body.edit-tags-php .wp-list-table th.column-posts.sorted a {
   justify-content: flex-start !important;
   text-align: start !important;
 }
+/* The widened toggle button: no round WordPress focus ring on click; keyboard
+   focus gets a rounded rectangle that fits the header instead of an oval */
+.postbox .postbox-header .handle-actions .handlediv,
+.postbox .postbox-header .handle-actions .handlediv:focus {
+  border-radius: 6px;
+  outline: none;
+  box-shadow: none;
+}
+.postbox .postbox-header .handle-actions .handlediv:focus .toggle-indicator::before {
+  box-shadow: none;
+}
+.postbox .postbox-header .handle-actions .handlediv:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--zad-admin-primary, #2271b1);
+}
