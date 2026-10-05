@@ -317,13 +317,13 @@
     document.addEventListener('change', function (e) { if (e.target.closest('.acf-field')) run(); });
   })();
 
-  // Excerpt (المقتطف) — point "أعرف أكثر عن المقتطف" link to GitHub Pages
+  // Excerpt (المقتطف) — point "أعرف أكثر عن المقتطف" link to the Arabic guide
   (function () {
     var box = document.getElementById('postexcerpt');
     if (!box) return;
     var link = box.querySelector('.inside a.proto-dead');
     if (!link) return;
-    link.href = 'https://omasarizad.github.io/aalaam-cms/excerpts.html';
+    link.href = 'docs/excerpt.html';
     link.target = '_blank';
     link.className = '';
     link.style.cssText = 'color:#2563eb;text-decoration:none;font-weight:500;';
