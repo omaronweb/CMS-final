@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أسئلة للفريق</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--muted:#5b6577;--line:#e3e6ec;--brand:#1f6f5c;--hl:#eef6f3;--wait:#7a4d00;--waitbg:#fdecc8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1c2027;--ink:#e6e9ef;--muted:#9aa3b2;--line:#2d333d;--brand:#5cc3a6;--hl:#1f2a27;--wait:#fdecc8;--waitbg:#4a3a17}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 -apple-system,"Segoe UI",Tahoma,"IBM Plex Sans Arabic",sans-serif}
+main{max-width:760px;margin:auto;padding:32px 16px 56px}
+h1{font-size:26px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 24px}
+ol#qs{list-style:none;margin:0;padding:0;counter-reset:q}
+ol#qs>li{counter-increment:q;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;position:relative}
+ol#qs>li::before{content:counter(q);position:absolute;inset-inline-start:-12px;top:14px;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+.q{font-size:17px;font-weight:700;margin:0 0 6px}
+.why{color:var(--muted);margin:0 0 10px;font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}
+.tag{background:var(--hl);color:var(--brand);border-radius:4px;padding:0 8px}
+.status{background:var(--waitbg);color:var(--wait);border-radius:4px;padding:0 8px}
+.status.done{background:var(--hl);color:var(--brand)}
+.ans{margin:10px 0 0;padding:8px 12px;border-inline-start:3px solid var(--brand);background:var(--hl);border-radius:4px}
+a{color:var(--brand)}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+<h1>أسئلة للفريق</h1>
+<p class="sub">أسئلة حول تحسينات نظام إدارة المحتوى نحتاج إلى رأي الفريق فيها قبل اعتمادها.</p>
+<ol id="qs"></ol>
+<footer>لإضافة سؤال جديد: أضف عنصرًا إلى قائمة <code>questions</code> في أسفل هذا الملف. &nbsp;·&nbsp; <a href="index.html">العودة إلى النموذج</a></footer>
+</main>
+<script>
+// Add a question: { q: السؤال, why: السياق, where: [اسم الصفحة, رابطها], area: المجال, answer: الرد (اتركه فارغًا حتى يرد الفريق) }
+var questions = [
+  {
+    q: 'هل يمكن إخفاء اللغات التي ليس فيها أي محتوى؟',
+    why: 'أعلى قائمة المقالات يظهر شريط اللغات: «العربية (8) | الإنجليزية (0) | جميع اللغات (8)». الرابط الذي عدده صفر لا يعرض شيئًا عند الضغط عليه.',
+    where: ['قائمة المقالات', 'edit__post_type-article.html'],
+    area: 'صفحات القوائم',
+    answer: ''
+  },
+  {
+    q: 'هل يمكن إخفاء قائمة «الإجراءات الجماعية» وزر «تطبيق» حتى يحدد المستخدم أكثر من منشور؟',
+    why: 'القائمة (تحرير، نقل إلى سلة المهملات) والزر ظاهران دائمًا فوق الجدول، مع أنهما لا يعملان إلا بعد تحديد منشورات.',
+    where: ['قائمة المقالات', 'edit__post_type-article.html'],
+    area: 'صفحات القوائم',
+    answer: ''
+  },
+  {
+    q: 'هل يستخدم المستخدمون الحاليون التنسيق الشرطي؟',
+    why: 'نحتاج أن نعرف إن كان المستخدمون يعتمدون عليه فعلًا قبل أن نقرر إبقاءه أو تبسيطه أو إزالته.',
+    where: ['الإعدادات العامة', 'post__action-edit__post-702.html'],
+    area: 'الإعدادات',
+    answer: ''
+  }
+];
+document.getElementById('qs').innerHTML = questions.map(function (x) {
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  return '<li><p class="q">' + esc(x.q) + '</p>' +
+    (x.why ? '<p class="why">' + esc(x.why) + '</p>' : '') +
+    '<div class="meta">' + (x.area ? '<span class="tag">' + esc(x.area) + '</span>' : '') +
+    '<span class="status' + (x.answer ? ' done' : '') + '">' + (x.answer ? 'تمت الإجابة' : 'بانتظار الرد') + '</span>' +
+    (x.where ? '<a href="' + esc(x.where[1]) + '">' + esc(x.where[0]) + '</a>' : '') + '</div>' +
+    (x.answer ? '<p class="ans">' + esc(x.answer) + '</p>' : '') + '</li>';
+}).join('');
+</script>
+</body>
+</html>
