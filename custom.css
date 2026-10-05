@@ -1469,10 +1469,8 @@ body.edit-tags-php .wp-list-table .row-title,
 body.edit-tags-php .wp-list-table .column-name strong {
   font-weight: 400 !important;
 }
-body.edit-tags-php .wp-list-table tr:not(.level-0) > .column-name > strong {
-  display: inline-block;
+body.edit-tags-php .wp-list-table tr:not(.level-0) > td.column-name {
   border-inline-start: 2px solid #c3c8d1;
-  padding-inline-start: 10px;
 }
 
 

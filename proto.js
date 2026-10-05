@@ -391,6 +391,7 @@
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
       ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'], // تحرير مقالة
       ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
+      ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
       ['team-questions.html', 'أسئلة للفريق'] // أسئلة للفريق
     ];

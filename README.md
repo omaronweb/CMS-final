@@ -14,6 +14,7 @@ does on the live CMS.
 | Add post (article) | `post-new__post_type-article.html` | CMS-improvements, article fields in the live order with the "حقول إضافية" accordion (cms-testing) |
 | Edit article (top row of the list) | `post__action-edit__lang-ar__post-272.html` | CMS-improvements, same field order and accordion as Add post |
 | Categories | `edit-tags__post_type-article__taxonomy-topic.html` | CMS-improvements |
+| Groups (المجموعات) | `edit-tags__post_type-article__taxonomy-article-type.html` | CMS-improvements |
 | General settings | `post__action-edit__post-702.html` | cms-testing (live), with the CMS-improvements sidebar and admin bar |
 
 Open `index.html` in a browser. Links to pages that are not part of this set show a toast.
