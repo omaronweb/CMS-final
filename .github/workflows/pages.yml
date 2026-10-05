@@ -25,6 +25,14 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      # Browsers keep custom.css and proto.js for ~10 minutes, so a new deploy
+      # can look unchanged; tag them with this commit so every deploy is fetched fresh
+      - name: Cache-bust prototype CSS/JS
+        run: |
+          v="${GITHUB_SHA::7}"
+          find . -name '*.html' -not -path './.git/*' -print0 | xargs -0 sed -i \
+            -e "s#href=\"custom\.css\"#href=\"custom.css?v=$v\"#g" \
+            -e "s#src=\"proto\.js\"#src=\"proto.js?v=$v\"#g"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
