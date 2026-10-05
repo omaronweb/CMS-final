@@ -1774,3 +1774,11 @@ body.edit-tags-php .acf-field[data-name="topic_fields_images"],
 body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_fields_images"]))) {
   display: none;
 }
+
+/* Required title: red asterisk after the "إضافة عنوان" placeholder, as on the
+   live CMS (cms-testing article-new) */
+#titlewrap #title-prompt-text::after {
+  content: "*";
+  margin-inline-start: 4px;
+  color: #d63638;
+}
