@@ -1740,3 +1740,17 @@ body:is(.post-php, .post-new-php) #icl_div #icl_document_connect_translations_dr
   align-items: center;
   justify-content: flex-end;
 }
+
+
+/* ------------------------------------------------------------------
+   Taxonomy tables: العدد (count) column reads from the right like the
+   other columns (WordPress aligns .num columns to the centre/left)
+   ------------------------------------------------------------------ */
+body.edit-tags-php .wp-list-table :is(th, td).column-posts {
+  text-align: start !important;
+}
+body.edit-tags-php .wp-list-table th.column-posts.sortable a,
+body.edit-tags-php .wp-list-table th.column-posts.sorted a {
+  justify-content: flex-start !important;
+  text-align: start !important;
+}
