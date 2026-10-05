@@ -1530,10 +1530,9 @@ body.post-type-article .acf-field-accordion[data-name="article_fields_additional
   display: none;
   position: absolute;
   top: 100%;
-  inset-inline-start: 12px;
+  inset-inline: 12px; /* stays inside the box, so narrow side boxes don't push it off screen */
   z-index: 1002;
-  width: max-content;
-  max-width: min(320px, 80vw);
+  width: auto;
   margin-top: -4px;
   padding: 8px 10px;
   border-radius: 4px;
@@ -1710,4 +1709,36 @@ body:is(.post-php, .post-new-php) #icl_div #icl_post_language {
 }
 body:is(.post-php, .post-new-php) #icl_div #icl_document_connect_translations_dropdown > p {
   margin: 8px 0 0;
+}
+
+
+/* ------------------------------------------------------------------
+   Add / Edit article: title placeholder centred in the 48px title input
+   ------------------------------------------------------------------ */
+#titlewrap #title-prompt-text {
+  top: 0;
+  inset-inline: 0;
+  height: 48px;
+  padding: 0 9px !important;
+  line-height: 48px;
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------
+   Section headers: the empty space between the title and the arrow
+   opens and closes the box too (the toggle button grows to fill it,
+   its arrow stays at the end)
+   ------------------------------------------------------------------ */
+.postbox .postbox-header .handle-actions {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-self: stretch;
+}
+.postbox .postbox-header .handle-actions .handlediv {
+  flex: 1 1 auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

@@ -173,7 +173,7 @@
   // Trim "أضف ..." buttons/headings/inputs to just "أضف"
   var addWord = '\u0623\u0636\u0641';
   // Text-content elements (buttons, links, headings)
-  $$('.page-title-action, .split-page-title-action a, .insert-media, #wp-link-submit, .form-wrap h2').forEach(function (el) {
+  $$('.page-title-action, .split-page-title-action a, #wp-link-submit, .form-wrap h2').forEach(function (el) {
     var t = el.textContent.trim();
     if (t.indexOf(addWord) === 0 && t.length > addWord.length) {
       el.textContent = addWord;
