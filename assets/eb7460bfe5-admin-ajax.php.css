@@ -1,0 +1,127 @@
+/* This font important for some special characters to be displayed correctly like aya-separator also to make Arabic text beautiful. */
+@import url("a373ef4188-css2.css");
+body {
+	font-family: 'Noto Naskh Arabic', sans-serif !important;
+}
+
+@font-face {
+    font-family: arabisque;
+    src: url("a925595c1e-AGA_Arabesque.ttf");
+}
+
+.arabisque {
+    font-family: arabisque !important;
+}
+
+.highlighted {
+    background-color: #ffff00;
+}
+
+.right-quote,
+.left-quote {
+    border: 1px solid #000000;
+    border-radius: 4px;
+    background-color: #cccccc;
+    padding: 10px;
+    max-width: 50%;
+}
+
+.left-quote {
+    float: left;
+    margin: 10px 10px 10px 0;
+}
+
+.right-quote {
+    float: right;
+    margin: 10px 0 10px 10px;
+}
+
+.aya-separator::before,
+.aya-separator::after {
+    content: ' ';
+    position: relative;
+}
+
+.aaya {
+    color: #aa2222;
+}
+
+.hadith {
+    color: #006600;
+}
+
+.aaya::before {
+    content: "﴾";
+    margin-right: 1px;
+}
+
+.aaya::after {
+    content: "﴿";
+    margin-left: 1px;
+}
+
+.rtl .aaya::before {
+    content: "﴿" ;
+    margin-left: 0;
+    margin-right: 1px;
+}
+
+.rtl .aaya::after {
+    content: "﴾";
+    margin-left: 1px;
+    margin-right: 0;
+}
+
+.hadith:before {
+    content: "«";
+    margin-right: 1px;
+    position: relative;
+}
+
+.hadith:after {
+    content: "»";
+    margin-left: 1px;
+    position: relative;
+}
+
+.original-text {
+    background: #f8f8f8;
+    border-left: 3px solid #2e6b91;
+    display: block;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.rtl .original-text {
+    border-right: 3px solid #2e6b91;
+    border-left: 0;
+}
+
+/* Poetry start */
+table.poetry {
+    margin: auto;
+    min-width: 200px;
+    width: auto;
+}
+
+table.poetry,
+table.poetry td,
+table.poetry tr {
+    border: 0;
+}
+
+body.wp-editor table.poetry,
+body.wp-editor table.poetry td,
+body.wp-editor table.poetry tr {
+    border: 1px dashed #d1cdd3;
+}
+
+table.poetry td {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: justify;
+    text-align-last: justify;
+    -moz-text-align-last: justify;
+    -webkit-text-align-last: justify;
+}
+

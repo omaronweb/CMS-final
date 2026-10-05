@@ -1,0 +1,10 @@
+@font-face {
+    font-family: arabisque;
+    src: url("a925595c1e-AGA_Arabesque.ttf");
+}
+
+.mce-islamic-character-menu .mce-txt,
+.mce-islamic-character-menu-item .mce-text{
+    font-family: arabisque !important;
+    font-size: 25px;
+}

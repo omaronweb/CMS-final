@@ -1,0 +1,9 @@
+/* Make all elements in editor take its direction based on its content to make it ltr if the content is ltr or rtl if rtl */
+body :is(
+	p,
+	div,
+	h1,h2,h3,h4,h5,h6,
+	pre
+) {
+	unicode-bidi: plaintext;
+}
