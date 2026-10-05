@@ -1758,21 +1758,3 @@ body.edit-tags-php .wp-list-table th.column-posts.sorted a {
 .postbox .postbox-header .handle-actions .handlediv:focus-visible {
   box-shadow: inset 0 0 0 2px var(--zad-admin-primary, #2271b1);
 }
-
-
-/* ------------------------------------------------------------------
-   Add / Edit article: less space between the title (and permalink) and
-   the "أضف ملفات وسائط" button above the editor
-   ------------------------------------------------------------------ */
-#titlediv #edit-slug-box:not(:has(*)) {
-  display: none; /* empty until a new post has a permalink */
-}
-#titlediv {
-  margin-bottom: 0;
-}
-#postdivrich #wp-content-editor-tools {
-  padding-top: 8px;
-}
-#postdivrich #wp-content-wrap {
-  padding-top: 43px !important;
-}
