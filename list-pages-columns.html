@@ -42,6 +42,13 @@ a{color:var(--brand)}
 .list tr:last-child>*{border-bottom:0}
 .list th{width:200px}
 em{color:var(--muted);font-style:normal;font-size:13px}
+.notes{background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--brand);border-radius:10px;padding:14px 18px;margin:8px 0 18px}
+.notes h2{margin:0 0 6px;font-size:17px}
+.notes ol{margin:0;padding-inline-start:22px}
+.notes li{margin-bottom:4px}
+.order{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px;padding:0;list-style:none}
+.order li{background:var(--hl);color:var(--brand);border-radius:6px;padding:0 10px;font-size:14px;margin:0}
+.order li.end{border:1px solid var(--brand)}
 footer{color:var(--muted);font-size:13px;margin-top:32px}
 </style>
 </head>
@@ -51,6 +58,16 @@ footer{color:var(--muted);font-size:13px;margin-top:32px}
 <p>جدول بكل صفحات القوائم (27 نوع محتوى) في نسخة CMS-improvements، والأعمدة (41 عمودًا مختلفًا) التي يعرضها جدول كل صفحة.</p>
 </header>
 <main>
+<section class="notes" aria-labelledby="notes-h">
+<h2 id="notes-h">ملاحظات حول الأعمدة</h2>
+<ol>
+<li>يجب أن تعرض كل صفحة الأعمدة الأهم فقط.</li>
+<li>أعمدة مثل الاسم اللطيف (slug) وSEO وما يشبهها ليست مهمة، ولا داعي لعرضها.</li>
+<li>ترتيب الأعمدة، عندما تكون موجودة في الصفحة:
+<ul class="order"><li>مربع التحديد</li><li>الصورة</li><li>العنوان</li><li>المحتوى</li><li>الملخص (المقتطف)</li><li class="end">حالة النشر</li><li class="end">آخر تعديل</li></ul></li>
+<li>«حالة النشر» و«آخر تعديل» يأتيان دائمًا في آخر الجدول.</li>
+</ol>
+</section>
 <div class="bar">
 <input type="search" id="q" placeholder="ابحث عن صفحة…" aria-label="ابحث عن صفحة">
 <span class="legend"><b>●</b> ظاهر افتراضيًا &nbsp; <span style="color:var(--off)">○</span> موجود لكنه مخفي من «خيارات الشاشة» &nbsp; الرقم تحت اسم العمود = عدد الصفحات التي تحتويه</span>
