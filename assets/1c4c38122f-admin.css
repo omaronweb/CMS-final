@@ -1,0 +1,323 @@
+/* Color Variables */
+:root {
+	/* Main Theme Colors */
+	--zad-brown: #55473b;
+	--zad-green: #2A9452;
+	--zad-dark: #1d2327;
+
+	/* Additional Colors */
+	--zad-bg-light: rgba(0, 0, 0, 0.1);
+	--zad-green-light: rgba(42, 148, 82, 0.3); /* #2a9452 with opacity */
+	--zad-white: #fff;
+	--zad-light-gray: #f5f5f5;
+	--zad-border-gray: #ddd;
+
+	/* Background & Border Colors */
+	--zad-bg-primary: #f1f7e8;
+	--zad-border-primary: var(--zad-green);
+	--zad-bg-info: #e8f4f8;
+	--zad-border-info: #0073aa;
+	--zad-bg-success: #ecf8e8;
+	--zad-border-success: #46b450;
+	--zad-bg-warning: #fff8e5;
+	--zad-border-warning: #ffb900;
+	--zad-bg-danger: #fbeaea;
+	--zad-border-danger: #dc3232;
+}
+
+/* Hide adding/editing slug everywhere */
+body.zad-common-wp-slug-validation-type-sequential_validation :is(
+	.form-field.term-slug-wrap,
+	.inline-edit-row input[name="post_name"],
+	.inline-edit-row input[name="slug"],
+	#slugdiv,
+	button.edit-slug,
+	.rank-math-modal .field-group:has( > label[for="rank-math-editor-permalink"] )
+) {
+	display: none !important;
+}
+
+.inline-edit-row fieldset label.inline-edit-status {
+	display: none;
+}
+
+/* Dashboard optimizations rules */
+body:not(.udb-role-administrator) .notice.notice-warning:not(.is-dismissible),
+body:not(.udb-role-administrator) .notice.notice-error:not(.is-dismissible),
+body:not(.udb-role-administrator) .notice.notice-success:not(.is-dismissible),
+body:not(.udb-role-administrator) .notice.notice-info,
+body:not(.udb-role-administrator) .notice.udb-notice,
+body:not(.zad-common-wp-role-administrator) .notice.acfml-notice,
+/*empty dashboard widgets*/
+body.index-php #dashboard-widgets .postbox-container .empty-container,
+body.index-php #dashboard-widgets .meta-box-sortables .postbox .udb-info,
+body:not(.udb-role-administrator) :is(
+#acfml-field-group-synchronise,
+.otgs-installer-notice,
+/* In create post page lang box*/
+#icl_translation_priority_dropdown,
+#icl_div .inside > strong,
+#icl_div .inside > label,
+#icl_div .inside > br:not([clear="all"]),
+/*.acf-label .description,*/
+/*remove help button behind screen option btn */
+#contextual-help-link-wrap,
+/* publish post box */
+#submitpost .misc-amp-status,
+#submitpost #amp-post-preview,
+/*remove message from FileBird*/
+#njt-FileBird-review,
+/* Hide description from create tags */
+.taxonomy-post_tag .form-field.term-description-wrap,
+.form-field.term-description-wrap p,
+.form-field.term-parent-wrap p,
+/*Arrow top bottom for boxes in create post */
+.handle-order-lower,.handle-order-higher,
+/* Hide instructions admin col */
+#ac-segments__instructions,
+/* delete label under input */
+.form-field.form-required.term-name-wrap p,
+/* Delete label in ACF attachment  */
+#acf-group_attachment_fields [for="acf-field_attachment_fields_attachments"],
+/*bulk action in the bottom */
+.tablenav.bottom .alignleft.actions.bulkactions,
+/*Hide post visibility password in publish box*/
+#submitpost [for="visibility-radio-password"],
+/* Hide quick edit modified date , post password */
+#inline-edit-col-modified-date,.inline-edit-col-right,.inline-edit-author,
+.inline-edit-col-left .inline-edit-group.wp-clearfix
+)
+{
+	display: none !important;
+}
+/* Main Menu item color and collapse button style */
+#adminmenu {
+	display: flex;
+	flex-direction: column;
+}
+#collapse-menu {
+	order: -1;
+	margin-bottom: 8px !important;
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+#adminmenu div.wp-menu-image {
+	opacity: 1 !important;
+}
+
+#adminmenu .udb-admin-logo-wrapper a {
+	background: transparent !important;
+}
+
+#collapse-button .collapse-button-icon:after {
+	content: "\f333"
+}
+
+#collapse-button .collapse-button-icon, #collapse-button .collapse-button-label {
+	right: 7px
+}
+
+#collapse-button[aria-expanded="false"] .collapse-button-icon {
+	right: 0 !important;
+}
+
+
+.wp-admin:not(.folded) #adminmenu div.wp-menu-image{
+	right: initial !important;
+	left: 0;
+}
+body .wp-menu-name {
+	padding-left: 46px !important;
+	padding-right: 10px !important;
+}
+body.rtl .wp-menu-name {
+	padding-left: 10px !important;
+	padding-right: 46px !important;
+}
+body.rtl.wp-admin:not(.folded) #adminmenu div.wp-menu-image {
+	left: auto !important;
+	right: 4px !important;
+}
+
+#adminmenu div.wp-menu-image:before,
+#collapse-button {
+	color: #fff !important;
+	text-align: left;
+}
+
+#wpadminbar :is(#wp-admin-bar-site-name, #wp-admin-bar-comments) {
+	display: none;
+}
+
+/**
+ * Styles for Post Count Shortcodes
+ */
+
+body.index-php:not(.is-dargging-metabox) #dashboard-widgets [id*="ms-udb"] {
+	min-height: 107px !important;
+}
+
+/** Post Type Count Shortcode Styling **/
+.dashboard-content-sections h3 {
+	color: var(--zad-brown);
+	font-size: 38px;
+	font-weight: 700;
+	margin: 0 0 10px;
+	white-space: nowrap;
+	padding: 0;
+}
+
+.dashboard-content-sections .dashboard-count {
+	font-size: 38px;
+	font-weight: 700;
+	margin: 0 0 10px;
+	white-space: nowrap;
+	padding: 0;
+	color: #2A9452;
+}
+
+.dashboard-content-sections .dashboard-content-label {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--zad-dark);
+	margin-bottom: 5px;
+}
+
+/** Box Style Post Type Count Shortcode **/
+.zad-small-box {
+	position: relative;
+	display: block;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.zad-small-box .inner {
+	padding: 20px;
+}
+
+.zad-small-box h3 {
+	font-size: 45px !important;
+	font-weight: 700 !important;
+	margin: 0 0 10px !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	color: var(--zad-brown) !important;
+}
+
+.zad-small-box p {
+	font-size: 15px;
+	color: var(--zad-dark);
+	margin: 0;
+}
+
+.zad-small-box a {
+	color: var(--zad-green);
+	text-decoration: none;
+}
+
+.zad-small-box a > i.dashicons {
+	position: absolute !important;
+	top: 15px;
+	right: 15px;
+	font-size: 70px !important;
+	color: var(--zad-green-light) !important;
+	transition: all 0.3s linear;
+}
+
+.zad-small-box:hover a > i.dashicons {
+	color: rgba(42, 148, 82, 0.6);
+}
+
+.zad-small-box .small-box-footer {
+	position: relative;
+	text-align: center;
+	padding: 10px 0;
+	color: var(--zad-green);
+	display: block;
+	background-color: var(--zad-bg-light);
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.zad-small-box .small-box-footer .more-info-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.zad-small-box .small-box-footer .more-text {
+	font-size: 16px !important;
+	display: inline-block;
+	margin-left: 3px;
+}
+
+.zad-small-box .small-box-footer i.dashicons {
+	padding: 0 !important;
+	margin-right: 5px;
+	font-size: 20px !important;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* Background Colors */
+
+.zad-small-box.bg-primary {
+	background-color: var(--zad-bg-primary);
+	border-left: 4px solid var(--zad-border-primary);
+}
+
+.zad-small-box.bg-info {
+	background-color: var(--zad-bg-info);
+	border-left: 4px solid var(--zad-border-info);
+}
+
+.zad-small-box.bg-success {
+	background-color: var(--zad-bg-success);
+	border-left: 4px solid var(--zad-border-success);
+}
+
+.zad-small-box.bg-warning {
+	background-color: var(--zad-bg-warning);
+	border-left: 4px solid var(--zad-border-warning);
+}
+
+.zad-small-box.bg-danger {
+	background-color: var(--zad-bg-danger);
+	border-left: 4px solid var(--zad-border-danger);
+}
+
+/* Fix for widget display issues */
+#dashboard-widgets .inside,
+.udb-content .inside,
+#ms-udb-widget .inside,
+#dashboard-widgets .postbox.closed .inside {
+	display: block !important;
+}
+
+/* Force widgets with our content to always show content */
+.postbox.closed .inside .udb-html-wrapper .zad-small-box,
+.postbox .inside .udb-html-wrapper .zad-small-box {
+	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+/* Ultimate Dashboard integration */
+.udb-content .zad-small-box {
+	margin-bottom: 0;
+}
+
+/* Ensure the dashboard widget content is visible */
+.postbox .inside.udb-html-content {
+	display: block !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+/* Fix for Ultimate Dashboard Pro */
+.udb-admin .udb-content-wrapper .zad-small-box {
+	margin: 0;
+}

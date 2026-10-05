@@ -1,0 +1,12 @@
+.hijri-date-inputs-wrapper {
+    display: flex;
+}
+
+.hijri-date-inputs-wrapper {
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.hijri-date-input {
+    width: 100%;
+}

@@ -1,0 +1,31 @@
+/*
+ * The admin bar in the colour set's dark shade, in wp-admin and on the front end.
+ * Enqueued only with a colour set; `html body` outranks Ultimate Dashboard's and
+ * core's identical selectors.
+ */
+html body #wpadminbar {
+	background: var(--zad-admin-primary-dark);
+}
+html body #wpadminbar .menupop .ab-sub-wrapper,
+html body #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
+html body #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu,
+html body #wpadminbar:not(.mobile) .ab-top-menu > li:hover > .ab-item,
+html body #wpadminbar:not(.mobile) .ab-top-menu > li > .ab-item:focus,
+html body #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
+html body #wpadminbar.nojs .ab-top-menu > li.menupop:hover > .ab-item,
+html body #wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
+	background: var(--zad-admin-primary-dark-tint);
+}
+html body #wpadminbar.mobile .quicklinks .hover .ab-icon:before,
+html body #wpadminbar.mobile .quicklinks .hover .ab-item:before,
+html body #wpadminbar #adminbarsearch:before,
+html body .wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
+	color: var(--zad-admin-primary);
+}
+html body #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input:focus,
+html body .wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
+	background: var(--zad-admin-primary);
+}
+html body #wpadminbar #wp-admin-bar-recovery-mode {
+	background-color: var(--zad-admin-primary);
+}

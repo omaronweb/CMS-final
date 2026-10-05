@@ -1,0 +1,4 @@
+/** Hide reciter taxonomy because it should not linked with the posts directly but it used in acf taxonomy field only **/
+body:is(.post-php, .post-new-php) #tagsdiv-reciter {
+	display: none;
+}
