@@ -276,7 +276,7 @@ body,
 .postbox,
 .stuffbox {
   border: 1px solid #d1d5db;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: none;
   overflow: hidden;
   background: #f9fafb;
@@ -356,7 +356,7 @@ body,
    ------------------------------------------------------------------ */
 .wp-list-table {
   border: 1px solid #d1d5db;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
   border-collapse: separate;
   border-spacing: 0;
@@ -624,7 +624,7 @@ input[type="radio"]:checked::before {
    ------------------------------------------------------------------ */
 #dashboard-widgets > a {
   border: 1px solid #e5e7eb !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   background: #ffffff !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
   transition: transform var(--cms-duration) ease, box-shadow var(--cms-duration) ease, border-color var(--cms-duration) ease !important;
@@ -723,7 +723,7 @@ div.notice {
    ------------------------------------------------------------------ */
 #screen-options-wrap,
 #contextual-help-wrap {
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 8px 8px;
   border-color: #e5e7eb;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
@@ -1544,11 +1544,11 @@ body.post-type-article .postbox:has(.acf-field-accordion[data-name="article_fiel
   z-index: 10;
 }
 body.post-type-article .postbox .postbox-header {
-  border-start-start-radius: 9px;
-  border-start-end-radius: 9px;
+  border-start-start-radius: 7px;
+  border-start-end-radius: 7px;
 }
 body.post-type-article .postbox.closed .postbox-header {
-  border-radius: 9px;
+  border-radius: 7px;
 }
 
 /* Field help behind the icon too (same rule as public-config in zad-common-wp) */
