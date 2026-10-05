@@ -338,15 +338,15 @@ body,
 }
 
 /* ------------------------------------------------------------------
-   Collapse sidebar postboxes except Publish (#submitdiv)
-   Excluded on شروح الكتب (book-series) edit pages
+   Sidebar postboxes except Publish (#submitdiv) start collapsed and open
+   on click (proto.js adds .closed; on the live CMS WordPress remembers
+   each box's open/closed state per user)
    ------------------------------------------------------------------ */
-body:not(.post-type-book-series) #postbox-container-1 .postbox:not(#submitdiv) .inside {
-  display: none !important;
+.postbox.closed > .inside {
+  display: none;
 }
-
-body:not(.post-type-book-series) #postbox-container-1 .postbox:not(#submitdiv) .postbox-header .toggle-indicator::before {
-  content: "\f140" !important;
+.postbox .postbox-header .hndle {
+  cursor: pointer;
 }
 
 

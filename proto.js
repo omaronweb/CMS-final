@@ -83,6 +83,13 @@
   });
 
   // Postboxes (meta boxes)
+  // Side boxes except Publish start collapsed (CMS-improvements), and open on click
+  if (!body.classList.contains('post-type-book-series')) {
+    $$('#postbox-container-1 .postbox:not(#submitdiv)').forEach(function (box) {
+      box.classList.add('closed');
+      var b = $('.handlediv', box); if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
   $$('.postbox .handlediv, .postbox .hndle').forEach(function (h) {
     h.addEventListener('click', function (e) {
       if (e.target.closest('.handle-order-higher, .handle-order-lower, a')) return;
