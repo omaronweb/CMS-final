@@ -20,7 +20,7 @@
     var a = e.target.closest('a');
     if (a && a.classList.contains('proto-dead')) {
       e.preventDefault();
-      say('Not part of prototype: ' + (a.getAttribute('data-orig-href') || '').replace(/^https?:\/\/[^/]+/, ''));
+      say('\u0647\u0630\u0647 \u0627\u0644\u0635\u0641\u062D\u0629 \u0644\u064A\u0633\u062A \u0645\u0646 \u0627\u0644\u0646\u0645\u0648\u0630\u062C \u2014 \u0627\u0633\u062A\u062E\u062F\u0645 \u0635\u0641\u062D\u0627\u062A \u0627\u0644\u0646\u0645\u0648\u0630\u062C \u0623\u0633\u0641\u0644 \u0627\u0644\u0634\u0627\u0634\u0629');
       return;
     }
     if (a && a.getAttribute('href') === '#') e.preventDefault();
@@ -411,5 +411,23 @@
     bar.appendChild(dmBtn);
 
     body.appendChild(bar);
+
+    // Prototype pages — the only pages included in CMS-final, one click away
+    var protoPages = [
+      ['index.html', 'الرئيسية'],                          // الرئيسية
+      ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات
+      ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
+      ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
+      ['post__action-edit__post-702.html', 'الإعدادات العامة'] // الإعدادات العامة
+    ];
+    var here = (location.pathname.split('/').pop() || 'index.html');
+    var nav = document.createElement('nav');
+    nav.id = 'proto-pages';
+    nav.setAttribute('aria-label', 'Prototype pages');
+    nav.innerHTML = '<span class="proto-pages-label">صفحات النموذج:</span>' +
+      protoPages.map(function (p) {
+        return '<a href="' + p[0] + '"' + (p[0] === here ? ' class="is-current" aria-current="page"' : '') + '>' + p[1] + '</a>';
+      }).join('');
+    body.appendChild(nav);
   })();
 })();

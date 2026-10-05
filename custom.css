@@ -1381,3 +1381,56 @@ th#taxonomy-fiqhi-topic {
 .postbox .acf-accordion .acf-accordion-content {
   background: #f9fafb;
 }
+
+
+/* ------------------------------------------------------------------
+   Prototype only — not part of the CMS design.
+   Links to pages outside this prototype are dimmed in the sidebar,
+   admin bar and Home cards; the "صفحات النموذج" bar lists the pages
+   that are included.
+   ------------------------------------------------------------------ */
+#adminmenu li:not(.udb-admin-logo-wrapper) > a.proto-dead,
+#adminmenu .wp-submenu a.proto-dead,
+#wpadminbar a.proto-dead,
+#dashboard-widgets > a.proto-dead {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#adminmenu li:has(> a.proto-dead) .wp-submenu a:not(.proto-dead) {
+  opacity: 1;
+}
+#proto-pages {
+  position: fixed;
+  bottom: 16px;
+  inset-inline-end: 76px;
+  z-index: 9999999;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100vw - 120px);
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.88);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  font-size: 13px;
+  direction: rtl;
+}
+#proto-pages .proto-pages-label {
+  color: rgba(255, 255, 255, 0.6);
+  margin-inline-end: 4px;
+}
+#proto-pages a {
+  color: #ffffff !important;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+#proto-pages a:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+#proto-pages a.is-current {
+  background: var(--cms-gold);
+  color: var(--cms-menu) !important;
+  font-weight: 600;
+}
