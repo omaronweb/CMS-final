@@ -1434,3 +1434,18 @@ th#taxonomy-fiqhi-topic {
   color: var(--cms-menu) !important;
   font-weight: 600;
 }
+
+
+/* ------------------------------------------------------------------
+   Categories (شجرة التصنيفات): child topics carry a right border so the
+   parent → child relationship reads at a glance; all rows regular weight
+   ------------------------------------------------------------------ */
+body.edit-tags-php .wp-list-table .row-title,
+body.edit-tags-php .wp-list-table .column-name strong {
+  font-weight: 400 !important;
+}
+body.edit-tags-php .wp-list-table tr:not(.level-0) > .column-name > strong {
+  display: inline-block;
+  border-inline-start: 2px solid #c3c8d1;
+  padding-inline-start: 10px;
+}
