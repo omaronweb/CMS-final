@@ -2,18 +2,18 @@
 :root {
 	/* Main Theme Colors */
 	--zad-brown: #55473b;
-	--zad-green: #2A9452;
+	--zad-green: var(--zad-admin-primary, #2A9452);
 	--zad-dark: #1d2327;
 
 	/* Additional Colors */
 	--zad-bg-light: rgba(0, 0, 0, 0.1);
-	--zad-green-light: rgba(42, 148, 82, 0.3); /* #2a9452 with opacity */
+	--zad-green-light: color-mix(in srgb, var(--zad-green) 30%, transparent);
 	--zad-white: #fff;
 	--zad-light-gray: #f5f5f5;
 	--zad-border-gray: #ddd;
 
 	/* Background & Border Colors */
-	--zad-bg-primary: #f1f7e8;
+	--zad-bg-primary: var(--zad-admin-primary-light, #f1f7e8);
 	--zad-border-primary: var(--zad-green);
 	--zad-bg-info: #e8f4f8;
 	--zad-border-info: #0073aa;
@@ -105,8 +105,15 @@ body:not(.udb-role-administrator) :is(
 	opacity: 1 !important;
 }
 
-#adminmenu .udb-admin-logo-wrapper a {
-	background: transparent !important;
+/*
+With WP_DEBUG_DISPLAY on, WordPress adds `.php-error` and pushes the menu column
+down 2em (26px) to make room for printed PHP errors, which drags Ultimate
+Dashboard's logo bar off the top of the screen. Stretch the bar back up by the
+same amount so it keeps covering the column.
+*/
+body.php-error #adminmenu .udb-admin-logo-wrapper a {
+	margin-top: calc(-32px - 26px);
+	padding-top: calc(10px + 26px);
 }
 
 #collapse-button .collapse-button-icon:after {
@@ -173,7 +180,7 @@ body.index-php:not(.is-dargging-metabox) #dashboard-widgets [id*="ms-udb"] {
 	margin: 0 0 10px;
 	white-space: nowrap;
 	padding: 0;
-	color: #2A9452;
+	color: var(--zad-green);
 }
 
 .dashboard-content-sections .dashboard-content-label {
@@ -227,7 +234,7 @@ body.index-php:not(.is-dargging-metabox) #dashboard-widgets [id*="ms-udb"] {
 }
 
 .zad-small-box:hover a > i.dashicons {
-	color: rgba(42, 148, 82, 0.6);
+	color: color-mix(in srgb, var(--zad-green) 60%, transparent);
 }
 
 .zad-small-box .small-box-footer {
@@ -320,4 +327,9 @@ body.index-php:not(.is-dargging-metabox) #dashboard-widgets [id*="ms-udb"] {
 /* Fix for Ultimate Dashboard Pro */
 .udb-admin .udb-content-wrapper .zad-small-box {
 	margin: 0;
+}
+
+/* Fix rtl issue in site kit plugin */
+body.rtl .googlesitekit-data-block {
+	text-align: right !important;
 }

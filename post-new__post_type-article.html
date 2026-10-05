@@ -875,16 +875,18 @@
 <div class="postbox acf-postbox closed" id="acf-group_article_fields">
 <div class="postbox-header"><h2 class="hndle ui-sortable-handle">حقول المقالة</h2>
 <div class="handle-actions hide-if-no-js"><button aria-describedby="acf-group_article_fields-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="acf-group_article_fields-handle-order-higher-description">تحريك صندوق حقول المقالة للأعلى</span><button aria-describedby="acf-group_article_fields-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="acf-group_article_fields-handle-order-lower-description">تحريك صندوق حقول المقالة للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: حقول المقالة</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside acf-fields -top">
-<div class="acf-field acf-field-date-picker acf-field-article-fields-release-date" data-key="field_article_fields_release_date" data-name="article_fields_release_date" data-type="date_picker">
+<div class="acf-field acf-field-repeater acf-field-article-fields-images" data-key="field_article_fields_images" data-name="article_fields_images" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_article_fields_release_date">تاريخ الإلقاء</label></div>
+<label for="acf-field_article_fields_images">الصور</label></div>
 <div class="acf-input">
-<div class="acf-date-picker acf-input-wrap" data-date_format="yy-mm-dd" data-first_day="6">
-<input id="acf-field_article_fields_release_date" name="acf[field_article_fields_release_date]" type="hidden" value=""/> <input class="input hasDatepicker" placeholder="التاريخ الميلادي" type="text" value=""/>
-<div class="hijri-date-inputs-wrapper">
-<input class="input hijri-date-input hijri-day" data-type="day" max="30" maxlength="2" min="1" placeholder="اليوم الهجري" type="number" value=""/>
-<input class="input hijri-date-input hijri-month" data-type="month" max="12" maxlength="2" min="1" placeholder="الشهر الهجري" type="number" value=""/>
-<input class="input hijri-date-input hijri-year" data-type="year" max="9999" maxlength="4" min="1" placeholder="العام الهجري" type="number" value=""/>
+<div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
+<input class="acf-repeater-hidden-input" name="acf[field_article_fields_images]" type="hidden" value=""/> <table class="acf-table">
+<tbody>
+</tbody>
+</table>
+<div class="acf-actions">
+<a class="acf-button acf-repeater-add-row button button-primary" data-event="add-row" href="#">إضافة صورة</a>
+<div class="clear"></div>
 </div>
 </div>
 </div>
@@ -894,12 +896,6 @@
 <label for="acf-field_article_fields_youtube_id">معرف يوتيوب</label></div>
 <div class="acf-input">
 <div class="acf-input-wrap"><input id="acf-field_article_fields_youtube_id" name="acf[field_article_fields_youtube_id]" placeholder="أدخل معرف يوتيوب" type="text" value=""/></div></div>
-</div>
-<div class="acf-field acf-field-url acf-field-article-fields-video-url" data-key="field_article_fields_video_url" data-name="article_fields_video_url" data-type="url">
-<div class="acf-label">
-<label for="acf-field_article_fields_video_url">رابط الفيديو</label><p class="description">أدخل رابط الفيديو.</p></div>
-<div class="acf-input">
-<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_article_fields_video_url" name="acf[field_article_fields_video_url]" type="url" value=""/></div></div>
 </div>
 <div class="acf-field acf-field-repeater acf-field-article-fields-audios" data-key="field_article_fields_audios" data-name="article_fields_audios" data-type="repeater">
 <div class="acf-label">
@@ -933,6 +929,49 @@
 </div>
 </div>
 </div>
+<div class="acf-field acf-field-url acf-field-article-fields-video-url" data-key="field_article_fields_video_url" data-name="article_fields_video_url" data-type="url">
+<div class="acf-label">
+<label for="acf-field_article_fields_video_url">رابط الفيديو</label><p class="description">أدخل رابط الفيديو.</p></div>
+<div class="acf-input">
+<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_article_fields_video_url" name="acf[field_article_fields_video_url]" type="url" value=""/></div></div>
+</div>
+<div class="acf-field acf-field-repeater acf-field-article-fields-pdfs" data-key="field_article_fields_pdfs" data-name="article_fields_pdfs" data-type="repeater">
+<div class="acf-label">
+<label for="acf-field_article_fields_pdfs">ملفات PDF</label><p class="description">أضف ملف PDF واحد أو أكثر للتحميل.</p></div>
+<div class="acf-input">
+<div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
+<input class="acf-repeater-hidden-input" name="acf[field_article_fields_pdfs]" type="hidden" value=""/> <table class="acf-table">
+<tbody>
+</tbody>
+</table>
+<div class="acf-actions">
+<a class="acf-button acf-repeater-add-row button button-primary" data-event="add-row" href="#">إضافة ملف PDF</a>
+<div class="clear"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="acf-field acf-field-accordion acf-field-article-fields-additional-fields" data-name="article_fields_additional_fields" data-type="accordion" data-key="field_article_fields_additional_fields">
+<div class="acf-label">
+<label for="acf-field_article_fields_additional_fields">حقول إضافية</label></div>
+<div class="acf-input">
+		<div class="acf-fields" data-open="0" data-multi_expand="1" data-endpoint="0"></div>
+			</div>
+</div>
+<div class="acf-field acf-field-date-picker acf-field-article-fields-release-date" data-key="field_article_fields_release_date" data-name="article_fields_release_date" data-type="date_picker">
+<div class="acf-label">
+<label for="acf-field_article_fields_release_date">تاريخ الإلقاء</label></div>
+<div class="acf-input">
+<div class="acf-date-picker acf-input-wrap" data-date_format="yy-mm-dd" data-first_day="6">
+<input id="acf-field_article_fields_release_date" name="acf[field_article_fields_release_date]" type="hidden" value=""/> <input class="input hasDatepicker" placeholder="التاريخ الميلادي" type="text" value=""/>
+<div class="hijri-date-inputs-wrapper">
+<input class="input hijri-date-input hijri-day" data-type="day" max="30" maxlength="2" min="1" placeholder="اليوم الهجري" type="number" value=""/>
+<input class="input hijri-date-input hijri-month" data-type="month" max="12" maxlength="2" min="1" placeholder="الشهر الهجري" type="number" value=""/>
+<input class="input hijri-date-input hijri-year" data-type="year" max="9999" maxlength="4" min="1" placeholder="العام الهجري" type="number" value=""/>
+</div>
+</div>
+</div>
+</div>
 <div class="acf-field acf-field-textarea acf-field-article-fields-transcript" data-key="field_article_fields_transcript" data-name="article_fields_transcript" data-type="textarea">
 <div class="acf-label">
 <label for="acf-field_article_fields_transcript">التفريغ</label><p class="description">النص الحرفي المنطوق في الصوت/الفيديو. اتركه فارغاً إن لم يتوفر.</p></div>
@@ -961,38 +1000,6 @@
 <div class="acf-input">
 <div class="acf-input-wrap"><input id="acf-field_article_fields_view_count" min="0" name="acf[field_article_fields_view_count]" step="any" type="number" value=""/></div></div>
 </div>
-<div class="acf-field acf-field-repeater acf-field-article-fields-images" data-key="field_article_fields_images" data-name="article_fields_images" data-type="repeater">
-<div class="acf-label">
-<label for="acf-field_article_fields_images">الصور</label></div>
-<div class="acf-input">
-<div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
-<input class="acf-repeater-hidden-input" name="acf[field_article_fields_images]" type="hidden" value=""/> <table class="acf-table">
-<tbody>
-</tbody>
-</table>
-<div class="acf-actions">
-<a class="acf-button acf-repeater-add-row button button-primary" data-event="add-row" href="#">إضافة صورة</a>
-<div class="clear"></div>
-</div>
-</div>
-</div>
-</div>
-<div class="acf-field acf-field-repeater acf-field-article-fields-pdfs" data-key="field_article_fields_pdfs" data-name="article_fields_pdfs" data-type="repeater">
-<div class="acf-label">
-<label for="acf-field_article_fields_pdfs">ملفات PDF</label><p class="description">أضف ملف PDF واحد أو أكثر للتحميل.</p></div>
-<div class="acf-input">
-<div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
-<input class="acf-repeater-hidden-input" name="acf[field_article_fields_pdfs]" type="hidden" value=""/> <table class="acf-table">
-<tbody>
-</tbody>
-</table>
-<div class="acf-actions">
-<a class="acf-button acf-repeater-add-row button button-primary" data-event="add-row" href="#">إضافة ملف PDF</a>
-<div class="clear"></div>
-</div>
-</div>
-</div>
-</div>
 <div class="acf-field acf-field-repeater acf-field-article-fields-words" data-key="field_article_fields_words" data-name="article_fields_words" data-type="repeater">
 <div class="acf-label">
 <label for="acf-field_article_fields_words">ملفات Word</label><p class="description">أضف ملف Word واحد أو أكثر للتحميل.</p></div>
@@ -1009,6 +1016,17 @@
 </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 </div>
 </div>
 <div class="postbox hide-if-js acf-postbox closed" id="acf-group_views_fields" style="">

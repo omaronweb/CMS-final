@@ -143,6 +143,11 @@ body:not(.zad-common-wp-role-administrator) :is(
 	display: none !important;
 }
 
+/* Hide Taxonomy Terms Order's promotion box above its order screen for non-administrator roles. */
+body:not(.zad-common-wp-role-administrator) #cpt_info_box {
+	display: none !important;
+}
+
 /* Hide some filters or count for non-administrator roles. */
 body.users-php:not(.zad-common-wp-role-administrator) ul.subsubsub :is(
 	li.all .count,
@@ -167,10 +172,18 @@ body.rtl .ac-search-button {
 	margin-right: 8px !important;
 }
 #graphiql,
-#order-terms,
 .ep-features,
 .wpallimport-plugin #wpbody {
 	direction: ltr;
+}
+/* Taxonomy Terms Order indents child terms from the left only */
+body.rtl #order-terms ul.children {
+	margin-left: 0;
+	margin-right: 25px;
+}
+/* ...and left-aligns its taxonomy table headers, which then sit apart from their columns */
+body.rtl .wp-list-taxonomy thead tr th {
+	text-align: start;
 }
 body.rtl.wpallimport-plugin .show_hints {
 	left: auto;
@@ -202,8 +215,18 @@ table.widefat {
 table.striped > tbody > :nth-child(odd){
 	background: #F0F0F1;
 }
+/* Taxonomy terms list: white rows split per top-level term, parents with children light primary */
+body.edit-tags-php table.striped > tbody > tr {
+	background: #fff;
+}
+body.edit-tags-php table.striped > tbody > tr.level-0:has(+ tr:not(.level-0)) {
+	background: var(--zad-admin-primary-light, rgba(219, 235, 198, 1));
+}
+body.edit-tags-php table.striped > tbody > tr.level-0:not(:first-child) > * {
+	border-top: 1px solid #D1D5DB;
+}
 table.wp-list-table #the-list .acp-be-editrow {
-	background: rgba(219, 235, 198, 1) !important;
+	background: var(--zad-admin-primary-light, rgba(219, 235, 198, 1)) !important;
 }
 /* add border radius to search in post list pages */
 .search-box input[name="s"],
@@ -301,6 +324,7 @@ body:is(.post-php, .post-new-php) :is(
 {
 	display: flex;
 	flex-wrap: wrap;
+	align-content: flex-start;
 	gap: 16px;
 }
 /* Make all ACF true/false fields as one row in add/edit posts page */
@@ -311,13 +335,220 @@ body:is(.post-php, .post-new-php) .acf-field.acf-field-true-false {
 	gap: 12px;
 	justify-content: flex-end;
 }
+/*
+ACF fields with a width float side by side, so a short field next to a tall one leaves a hole and
+the next row starts shifted. Lay those rows out as wrapping flex rows that stretch to one height and
+share any leftover width.
+*/
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-width]) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-width]) > .acf-field {
+	float: none;
+	clear: none;
+	box-sizing: border-box;
+	/* ACF's JS writes an inline min-height to even out float rows; stretch already does that, and a stale value leaves tall empty rows */
+	min-height: 0 !important;
+}
+/*
+In a multi-column row a number field stacks its label like its neighbours instead of the one-line layout
+above; #post-body outweighs that rule, whose :is() takes the specificity of the ids it lists.
+*/
+body:is(.post-php, .post-new-php) #post-body .acf-postbox .acf-fields:has(> .acf-field[data-width]) > .acf-field.acf-field-number {
+	display: block;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-width]) > .acf-field[data-width] {
+	flex-grow: 1;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-width]) > .acf-field:not([data-width]) {
+	width: 100%;
+}
+/* Inputs fill their field instead of keeping the browser/Select2 default width */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field[data-width] .acf-input :is(input[type="text"], input[type="number"], input[type="url"], select, textarea) {
+	width: 100%;
+	max-width: none;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field[data-width] .acf-input .select2-container {
+	width: 100% !important;
+}
+/* Labels stand out from their help text */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field > .acf-label label {
+	font-weight: 600;
+	color: #1d2327;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field > .acf-label p.description {
+	margin-top: 2px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #6b7280;
+}
+/* Repeater rows read as cards with a narrow, numbered handle */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-repeater.-block > .acf-table {
+	border-radius: 6px;
+	overflow: hidden;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-repeater > .acf-table > tbody > .acf-row > .acf-row-handle.order {
+	width: 24px;
+	background: #f6f7f7;
+	font-weight: 600;
+	color: #50575e;
+}
+/*
+Accents from the site's colour set on what you move around by, not on the fields themselves:
+accordion headers, the repeater row number, the focused input and the highlighted dropdown option.
+*/
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field-accordion > .acf-accordion-title {
+	border-inline-start: 3px solid transparent;
+	background: var(--zad-admin-primary-light, #f6f7f7);
+	transition: background-color 0.15s;
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field-accordion > .acf-accordion-title:hover {
+	background: color-mix(in srgb, var(--zad-admin-primary, #2271b1) 10%, #fff);
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field-accordion > .acf-accordion-title :is(label, .acf-accordion-icon) {
+	color: var(--zad-admin-primary, #2271b1);
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field-accordion.-open > .acf-accordion-title {
+	border-inline-start-color: var(--zad-admin-primary, #2271b1);
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-repeater > .acf-table > tbody > .acf-row > .acf-row-handle.order {
+	background: var(--zad-admin-primary-light, #f6f7f7);
+	color: var(--zad-admin-primary, #50575e);
+}
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field :is(input[type="text"], input[type="number"], input[type="url"], input[type="email"], textarea, select):focus,
+body:is(.post-php, .post-new-php) .acf-postbox .acf-field :is(.select2-container--focus, .select2-container--open) .select2-selection {
+	border-color: var(--zad-admin-primary, #2271b1);
+	box-shadow: 0 0 0 1px var(--zad-admin-primary, #2271b1);
+	outline: none;
+}
+/* Select2 opens its list at the end of <body>, outside the meta box */
+body:is(.post-php, .post-new-php) .select2-container .select2-results__option--highlighted:is([aria-selected], [data-selected]) {
+	background-color: var(--zad-admin-primary, #5897fb);
+	color: #fff;
+}
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description) > label:hover::after {
+	color: var(--zad-admin-primary, #2271b1);
+}
+/*
+On the Public Configuration screen a field's help text waits behind an info icon next to its label and
+shows on hover. Specific Posts (of a posts section or a tab) is left out: inside its accordion the label is hidden, so its help text
+stays in view. z-index 1002 clears Select2's 1001, or the dropdown below would cover the text.
+*/
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description) {
+	position: relative;
+}
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description):has(> label:hover) {
+	z-index: 1002;
+}
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description) > label {
+	display: inline-block;
+}
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description) > label::after {
+	content: "\f14c";
+	margin-inline-start: 4px;
+	font-family: dashicons;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1;
+	vertical-align: text-bottom;
+	color: #8c8f94;
+	cursor: help;
+}
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description) > p.description {
+	display: none;
+	position: absolute;
+	top: 100%;
+	inset-inline-start: 0;
+	width: max-content;
+	max-width: min(360px, 90vw);
+	margin: 4px 0 0;
+	padding: 8px 10px;
+	border-radius: 4px;
+	background: #1d2327;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+	font-size: 12px;
+	line-height: 1.6;
+	color: #fff;
+}
+body.post-type-public-config .acf-postbox .acf-field:not([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label:has(> p.description):has(> label:hover) > p.description {
+	display: block;
+}
+/*
+A posts or tabs homepage row starts with Section Type and Section Title side by side. Section Type is shared by
+every section type, so it only halves while a Section Title shows; other types keep it on its own row.
+*/
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-name="type"] ~ .acf-field:is([data-name="section_title"], [data-name="tabs_section_title"]):not(.acf-hidden)) > .acf-field:is([data-name="type"], [data-name="section_title"], [data-name="tabs_section_title"]) {
+	flex-basis: 50%;
+}
+/* A posts section's or a tab's taxonomy term pickers, inside their "Taxonomies" accordion, five per row */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-width]) > .acf-field:is([data-name^="section_tax_"], [data-name^="tab_tax_"]) {
+	flex-basis: 20%;
+}
+/* A posts section's or a tab's Specific Posts picker gets a row of its own, so its two lists have room */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-fields:has(> .acf-field[data-width]) > .acf-field:is([data-name="section_post_ids"], [data-name="tab_post_ids"]) {
+	flex-basis: 100%;
+}
+/* Its accordion is already titled "Specific Posts"; keep only the field's help text */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-accordion-content .acf-field:is([data-name="section_post_ids"], [data-name="tab_post_ids"]) > .acf-label > label {
+	display: none;
+}
+/* ACF relationship: filters on one even row, and the dropdown text kept clear of its RTL arrow */
+body:is(.post-php, .post-new-php) .acf-relationship .filters {
+	display: flex;
+	gap: 8px;
+	padding: 8px;
+	background: #f6f7f7;
+}
+body:is(.post-php, .post-new-php) .acf-relationship .filters .filter {
+	flex: 1 1 0;
+	min-width: 0;
+	width: auto;
+	float: none;
+	padding: 0;
+}
+body:is(.post-php, .post-new-php) .acf-relationship .filters :is(input, select) {
+	width: 100%;
+	height: 32px;
+	margin: 0;
+	border-radius: 4px;
+}
+body:is(.post-php, .post-new-php) .acf-relationship .filters select {
+	padding-inline: 8px 24px;
+	text-overflow: ellipsis;
+}
+/* Inside a repeater the relationship lists get room for several items, not the global 80px */
+body:is(.post-php, .post-new-php) .acf-postbox .acf-repeater .acf-relationship .list {
+	height: 180px !important;
+}
+body:is(.post-php, .post-new-php) .acf-relationship .list {
+	padding: 0;
+}
+body:is(.post-php, .post-new-php) .acf-relationship .list .acf-rel-item {
+	padding: 8px 10px;
+	border-bottom: 1px solid #f0f0f1;
+	border-radius: 0;
+	line-height: 1.5;
+}
+/* Post type group headings stay visible while their items scroll */
+body:is(.post-php, .post-new-php) .acf-relationship .list .acf-rel-label {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	display: block;
+	padding: 6px 10px;
+	background: #f0f0f1;
+	font-weight: 600;
+	color: #1d2327;
+}
 /* Customize publish/update, delete and draft buttons in add/edit posts page */
 :root {
 	/* Those variables can be overwritten in each plugin */
-	--zad-common-wp-publish-btn-primary: #d36a1e;
+	--zad-common-wp-publish-btn-primary: var(--zad-admin-secondary, #d36a1e);
 	--zad-common-wp-publish-btn-color: #ffffff;
-	--zad-common-wp-draft-btn-primary: #4a7c12;
-	--zad-common-wp-draft-btn-bg-primary: #f1f7e8;
+	--zad-common-wp-draft-btn-primary: var(--zad-admin-primary, #4a7c12);
+	--zad-common-wp-draft-btn-bg-primary: var(--zad-admin-primary-light, #f1f7e8);
 	--zad-common-wp-draft-btn-color: #ffffff;
 }
 body:is(.post-php, .post-new-php) #submitdiv .button-primary {
@@ -584,4 +815,196 @@ body[class*="locale-ar"] button[role="radio"][class*="fb-"][value="dropbox"]::af
 
 body:not(.zad-common-wp-role-administrator).post-type-public-config .acf-field-branding-config-fields-color-set {
 	display: none !important;
+}
+
+/* Branding colour set on buttons, links and Admin Columns */
+.wp-core-ui .button-link,
+.wp-core-ui .button-secondary {
+	color: var(--zad-admin-primary, #2271b1);
+}
+.wp-core-ui .button-secondary {
+	border-color: var(--zad-admin-primary, #2271b1);
+}
+:root body.wp-admin.wp-core-ui {
+	--ac-link: var(--zad-admin-primary, #0073aa);
+	--ac-button-color: var(--zad-admin-primary, #2271b1);
+	--ac-button-border: var(--zad-admin-primary, #2271b1);
+	--ac-button-hover: var(--zad-admin-primary-dark, #0a4b78);
+	--ac-primary-color: var(--zad-admin-primary, #2271b1);
+	--ac-primary-color-hover: var(--zad-admin-primary-dark, #135e96);
+}
+
+/* Admin menu in the colour set's dark shade (only with a colour set; the bar is in admin-bar.css) */
+body.zad-admin-branded #adminmenuback,
+body.zad-admin-branded #adminmenuwrap,
+body.zad-admin-branded #adminmenu {
+	background: var(--zad-admin-primary-dark);
+}
+/* The logo bar; zad-common paints it in Ultimate Dashboard's menu colour with !important */
+body.zad-admin-branded #adminmenu .udb-admin-logo-wrapper a {
+	background: var(--zad-admin-primary-dark) !important;
+}
+/* Ultimate Dashboard's separator above the collapse button, drawn in its admin-bar colour */
+body.zad-admin-branded #adminmenu #collapse-menu {
+	border-top-color: var(--zad-admin-primary-dark);
+}
+/* Count bubbles: `secondary`, since some sets' `primary` equals the menu colour */
+body.zad-admin-branded #adminmenu .awaiting-mod,
+body.zad-admin-branded #adminmenu .update-plugins,
+body.zad-admin-branded #adminmenu li.current a .awaiting-mod,
+body.zad-admin-branded #adminmenu li a.wp-has-current-submenu .update-plugins,
+body.zad-admin-branded #adminmenu li:hover a .awaiting-mod,
+body.zad-admin-branded #adminmenu li.menu-top:hover > a .update-plugins {
+	background: var(--zad-admin-secondary, var(--zad-admin-primary));
+}
+body.zad-admin-branded #adminmenu a:hover,
+body.zad-admin-branded #adminmenu li.menu-top:hover,
+body.zad-admin-branded #adminmenu li.opensub > a.menu-top,
+body.zad-admin-branded #adminmenu li > a.menu-top:focus,
+body.zad-admin-branded #adminmenu li.current a.menu-top,
+body.zad-admin-branded #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+body.zad-admin-branded #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head,
+body.zad-admin-branded.folded #adminmenu li.current.menu-top {
+	background: var(--zad-admin-primary-dark-shade);
+}
+body.zad-admin-branded #adminmenu .wp-submenu,
+body.zad-admin-branded #adminmenu .wp-has-current-submenu .wp-submenu,
+body.zad-admin-branded #adminmenu .wp-has-current-submenu.opensub .wp-submenu,
+body.zad-admin-branded.folded #adminmenu .wp-has-current-submenu .wp-submenu,
+body.zad-admin-branded #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
+	background: var(--zad-admin-primary-dark-tint);
+}
+body.zad-admin-branded #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover::after {
+	border-inline-end-color: var(--zad-admin-primary-dark-tint);
+}
+
+/* Ultimate Dashboard's accent (links, buttons, focus, media, pointers) in the colour set's `primary` */
+body.zad-admin-branded a {
+	color: var(--zad-admin-primary);
+}
+body.zad-admin-branded a:hover,
+body.zad-admin-branded a:active,
+body.zad-admin-branded a:focus {
+	color: color-mix(in srgb, var(--zad-admin-primary) 70%, transparent);
+}
+body.zad-admin-branded input[type=radio]:checked::before {
+	background: var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui input[type="reset"]:hover,
+body.zad-admin-branded.wp-core-ui input[type="reset"]:active {
+	color: color-mix(in srgb, var(--zad-admin-primary) 70%, transparent);
+}
+body.zad-admin-branded input[type="text"]:focus,
+body.zad-admin-branded input[type="password"]:focus,
+body.zad-admin-branded input[type="color"]:focus,
+body.zad-admin-branded input[type="date"]:focus,
+body.zad-admin-branded input[type="datetime"]:focus,
+body.zad-admin-branded input[type="datetime-local"]:focus,
+body.zad-admin-branded input[type="email"]:focus,
+body.zad-admin-branded input[type="month"]:focus,
+body.zad-admin-branded input[type="number"]:focus,
+body.zad-admin-branded input[type="search"]:focus,
+body.zad-admin-branded input[type="tel"]:focus,
+body.zad-admin-branded input[type="time"]:focus,
+body.zad-admin-branded input[type="url"]:focus,
+body.zad-admin-branded input[type="week"]:focus,
+body.zad-admin-branded input[type="checkbox"]:focus,
+body.zad-admin-branded input[type="radio"]:focus,
+body.zad-admin-branded select:focus,
+body.zad-admin-branded textarea:focus {
+	border-color: var(--zad-admin-primary);
+	box-shadow: 0 0 0 1px var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui .button.active,
+body.zad-admin-branded.wp-core-ui .button.active:focus,
+body.zad-admin-branded.wp-core-ui .button.active:hover {
+	border-color: var(--zad-admin-primary);
+	box-shadow: inset 0 2px 5px -3px var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui .button-primary,
+body.zad-admin-branded.wp-core-ui .button-primary:active {
+	background: var(--zad-admin-primary);
+	border-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui .button-primary:hover,
+body.zad-admin-branded.wp-core-ui .button-primary:focus {
+	background: color-mix(in srgb, var(--zad-admin-primary) 85%, transparent);
+	border-color: color-mix(in srgb, var(--zad-admin-primary) 85%, transparent);
+}
+body.zad-admin-branded.wp-core-ui .button-primary:focus {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui .button-primary.active,
+body.zad-admin-branded.wp-core-ui .button-primary.active:focus,
+body.zad-admin-branded.wp-core-ui .button-primary.active:hover {
+	background: color-mix(in srgb, var(--zad-admin-primary) 70%, transparent);
+	border-color: color-mix(in srgb, var(--zad-admin-primary) 70%, transparent);
+}
+body.zad-admin-branded.wp-core-ui .button-primary[disabled],
+body.zad-admin-branded.wp-core-ui .button-primary:disabled,
+body.zad-admin-branded.wp-core-ui .button-primary.button-primary-disabled,
+body.zad-admin-branded.wp-core-ui .button-primary.disabled {
+	background: var(--zad-admin-primary) !important;
+	border-color: var(--zad-admin-primary) !important;
+}
+body.zad-admin-branded.wp-core-ui .button-group > .button.active {
+	border-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui .wp-ui-primary,
+body.zad-admin-branded.wp-core-ui .wp-ui-highlight,
+body.zad-admin-branded.wp-core-ui .wp-ui-notification {
+	background-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded.wp-core-ui .wp-ui-text-primary,
+body.zad-admin-branded.wp-core-ui .wp-ui-text-highlight,
+body.zad-admin-branded.wp-core-ui .wp-ui-text-notification,
+body.zad-admin-branded.wp-core-ui .wp-ui-text-icon {
+	color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .wrap .add-new-h2:hover,
+body.zad-admin-branded .wrap .page-title-action:hover {
+	background-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .view-switch a.current:before,
+body.zad-admin-branded .view-switch a:hover:before {
+	color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .wp-pointer .wp-pointer-content h3 {
+	background-color: var(--zad-admin-primary);
+	border-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .wp-pointer .wp-pointer-content h3:before {
+	color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .wp-pointer.wp-pointer-undefined .wp-pointer-arrow-inner {
+	border-bottom-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .media-progress-bar div,
+body.zad-admin-branded .attachment.details .check,
+body.zad-admin-branded .widgets-chooser li.widgets-chooser-selected {
+	background-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .details.attachment {
+	box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px var(--zad-admin-primary);
+}
+body.zad-admin-branded .attachment.details .check {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 2px var(--zad-admin-primary);
+}
+body.zad-admin-branded .media-selection .attachment.selection.details .thumbnail {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--zad-admin-primary);
+}
+body.zad-admin-branded .theme-browser .theme.add-new-theme a:focus:after,
+body.zad-admin-branded .wp-responsive-open div#wp-responsive-toggle a,
+body.zad-admin-branded .mce-container.mce-menu .mce-menu-item-preview.mce-active {
+	background: var(--zad-admin-primary);
+}
+body.zad-admin-branded .theme-browser .theme.add-new-theme a:focus span:after {
+	color: var(--zad-admin-primary);
+}
+body.zad-admin-branded .theme-filter.current {
+	border-bottom-color: var(--zad-admin-primary);
+}
+body.zad-admin-branded.more-filters-opened .more-filters,
+body.zad-admin-branded.more-filters-opened .more-filters:focus {
+	background-color: var(--zad-admin-primary);
 }

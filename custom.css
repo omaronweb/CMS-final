@@ -28,6 +28,17 @@
 
 /* ---- Your overrides below ---- */
 
+/* Brand colour set read by the live zad-common admin CSS
+   (accordion headers, repeater handles, focus rings, links) */
+:root {
+  --zad-admin-primary: #1a2744;
+  --zad-admin-primary-dark: #0f1a2e;
+  --zad-admin-primary-light: #eef1f6;
+  --zad-admin-secondary: #d36a1e;
+  --zad-admin-primary-dark-tint: #1a2744;
+  --zad-admin-primary-dark-shade: #0a1222;
+}
+
 /* ==========================================================================
    Mushkat — Premium Admin Skin
    Navy + Gold · Overrides UDB inline color scheme · CSS-only
@@ -68,27 +79,39 @@
   background: #1a2744 !important;
 }
 
-/* --- Submenu: navy mid-tone, tight padding --- */
+/* --- Sidebar layout from testing (live CMS), in the improvements navy + gold ---
+   Live design: the hovered/current item sits on a darker shade of the menu colour,
+   its open submenu on a lighter tint, a pointer joins the current item to the page,
+   icons are solid white and the logo shares the menu background. */
+:root {
+  --cms-menu: #0f1a2e;        /* menu + admin bar */
+  --cms-menu-shade: #0a1222;  /* hovered / current top item */
+  --cms-menu-tint: #1a2744;   /* open submenu */
+  --cms-gold: #c49a2a;
+  --cms-canvas: #f0f0f1;      /* page background (testing) */
+}
+
+/* Submenu panel: tint, live paddings */
 #adminmenu .wp-submenu,
 #adminmenu .wp-has-current-submenu .wp-submenu,
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
-  background: #1a2744 !important;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  background: var(--cms-menu-tint) !important;
+  padding: 7px 0 8px !important;
 }
 
 #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after {
-  border-left-color: #1a2744 !important;
+  border-left-color: var(--cms-menu-tint) !important;
 }
 
-[dir="rtl"] #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after {
-  border-right-color: #1a2744 !important;
+[dir="rtl"] #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
+.rtl #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after {
+  border-right-color: var(--cms-menu-tint) !important;
   border-left-color: transparent !important;
 }
 
-/* Submenu link spacing — compact, with horizontal padding */
+/* Submenu links: 70% white, live spacing */
 #adminmenu .wp-submenu a,
 #adminmenu .wp-has-current-submenu .wp-submenu a,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a,
@@ -96,13 +119,12 @@
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu a,
 #adminmenu .wp-has-current-submenu ul > li > a,
 .folded #adminmenu li.menu-top .wp-submenu > li > a {
-  color: rgba(255, 255, 255, 0.6) !important;
-  padding: 4px 14px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  padding: 7px 15px !important;
   line-height: 1.4;
   font-size: 13px;
 }
 
-/* Submenu hover */
 #adminmenu .wp-submenu a:focus,
 #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-has-current-submenu .wp-submenu a:focus,
@@ -116,49 +138,62 @@
   color: #ffffff !important;
 }
 
-/* Submenu current item — gold */
+/* Current submenu item: bold (live), gold (improvements) */
 #adminmenu .wp-submenu li.current a,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a,
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a {
-  color: #c49a2a !important;
+  color: var(--cms-gold) !important;
+  font-weight: 600;
 }
 
-/* --- Top-level menu hover — navy lighter, not green --- */
+/* Top-level items: white text, live spacing */
+#adminmenu a.menu-top,
+#adminmenu .wp-menu-name {
+  color: #ffffff !important;
+}
+#adminmenu > li.menu-top > a .wp-menu-name {
+  font-size: 14px;
+}
+
+/* Hover and current top item: darker shade */
 #adminmenu a:hover,
 #adminmenu li.menu-top:hover,
 #adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top:focus {
-  color: #ffffff !important;
-  background-color: #1a2744 !important;
-}
-
-/* --- Current / active item — gold tint, not green --- */
+#adminmenu li > a.menu-top:focus,
 #adminmenu li.current a.menu-top,
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head,
 .folded #adminmenu li.current.menu-top,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
   color: #ffffff !important;
-  background: rgba(196, 154, 42, 0.15) !important;
+  background: var(--cms-menu-shade) !important;
+}
+/* Submenu links keep the tint on hover */
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus {
+  background: transparent !important;
 }
 
-/* Menu arrow — hide the triangle pointer entirely */
+/* Pointer from the current item to the page, in the page colour */
 #adminmenu .wp-menu-arrow,
 #adminmenu .wp-menu-arrow div {
   display: none !important;
 }
-
-/* Kill any ::after pseudo on menu items — no arrow/bar artifacts */
-#adminmenu li.current a.menu-top::after,
-#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu::after {
-  display: none !important;
+ul#adminmenu a.wp-has-current-submenu:after,
+ul#adminmenu > li.current > a.current:after {
+  display: block !important;
+  border-left-color: var(--cms-canvas) !important;
+}
+[dir="rtl"] ul#adminmenu a.wp-has-current-submenu:after,
+[dir="rtl"] ul#adminmenu > li.current > a.current:after,
+.rtl ul#adminmenu a.wp-has-current-submenu:after,
+.rtl ul#adminmenu > li.current > a.current:after {
+  border-right-color: var(--cms-canvas) !important;
+  border-left-color: transparent !important;
 }
 
-/* --- Menu icons: white default, full white on hover/active --- */
-#adminmenu div.wp-menu-image:before {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-
+/* Icons: solid white */
+#adminmenu div.wp-menu-image:before,
 #adminmenu li.menu-top:hover div.wp-menu-image:before,
 #adminmenu li.opensub > a.menu-top div.wp-menu-image:before,
 #adminmenu li.wp-has-current-submenu div.wp-menu-image:before,
@@ -169,26 +204,26 @@
 #adminmenu li a:focus div.wp-menu-image:before,
 #adminmenu li.opensub div.wp-menu-image:before {
   color: #ffffff !important;
+  opacity: 1;
+}
+#adminmenu div.wp-menu-image.svg {
+  opacity: 1 !important;
 }
 
 /* --- Badges / update counts — gold on navy --- */
 #adminmenu .awaiting-mod,
-#adminmenu .update-plugins {
-  color: #0f1a2e !important;
-  background: #c49a2a !important;
-}
-
+#adminmenu .update-plugins,
 #adminmenu li.current a .awaiting-mod,
 #adminmenu li a.wp-has-current-submenu .update-plugins,
 #adminmenu li:hover a .awaiting-mod,
 #adminmenu li.menu-top:hover > a .update-plugins {
-  color: #ffffff !important;
-  background: #1a2744 !important;
+  color: var(--cms-menu) !important;
+  background: var(--cms-gold) !important;
 }
 
-/* --- Collapse menu border --- */
+/* Collapse button: no separator line (live) */
 #adminmenu #collapse-menu {
-  border-top-color: #1a2744 !important;
+  border-top-color: var(--cms-menu) !important;
 }
 
 /* --- Separator --- */
@@ -196,21 +231,9 @@
   opacity: 0.2;
 }
 
-/* --- Logo wrapper (UDB) --- */
+/* Logo shares the menu background (live) */
 #adminmenu .udb-admin-logo-wrapper a {
-  background: #1a2744 !important;
-}
-
-/* --- Menu arrow for content area pointer --- */
-ul#adminmenu a.wp-has-current-submenu:after,
-ul#adminmenu > li.current > a.current:after {
-  border-left-color: #f1f5f9 !important;
-}
-
-[dir="rtl"] ul#adminmenu a.wp-has-current-submenu:after,
-[dir="rtl"] ul#adminmenu > li.current > a.current:after {
-  border-right-color: #f1f5f9 !important;
-  border-left-color: transparent !important;
+  background: var(--cms-menu) !important;
 }
 
 /* --- Links: navy, not green --- */
@@ -226,21 +249,23 @@ a:focus {
 
 
 /* ------------------------------------------------------------------
-   1. Canvas — slate-100 background, white cards
+   1. Canvas — live CMS (testing) background, white cards
    ------------------------------------------------------------------ */
+body,
+#wpwrap,
 #wpcontent,
 #wpbody-content,
 .wrap {
-  background-color: #f1f5f9;
+  background-color: var(--cms-canvas);
 }
 
 .proto-external-frame {
-  background: #f1f5f9;
+  background: var(--cms-canvas);
 }
 
 /* WP footer area */
 #wpfooter {
-  background: #f1f5f9;
+  background: var(--cms-canvas);
 }
 
 
@@ -329,7 +354,7 @@ body:not(.post-type-book-series) #postbox-container-1 .postbox:not(#submitdiv) .
    4. Tables
    ------------------------------------------------------------------ */
 .wp-list-table {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #d1d5db;
   border-radius: 10px;
   overflow: hidden;
   border-collapse: separate;
@@ -345,35 +370,53 @@ body:not(.post-type-book-series) #postbox-container-1 .postbox:not(#submitdiv) .
   border-color: #e5e7eb;
 }
 
+/* Header and rows coloured as on the live CMS (testing): white header with
+   regular-weight titles, rows striped light gray / white */
 .wp-list-table thead th,
 .wp-list-table thead td {
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #9ca3af;
+  background: #ffffff;
+  border-bottom: 1px solid #d1d5db;
+  font-size: 14px;
+  font-weight: 400;
+  color: #3c434a;
 }
 
 .wp-list-table tfoot th,
 .wp-list-table tfoot td {
-  background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-top: 1px solid #d1d5db;
 }
 
 .striped > tbody > :nth-child(odd),
 ul.striped > :nth-child(odd),
 .alternate {
-  background-color: #faf8f2;
+  background-color: #f0f0f1;
 }
 
 .striped > tbody > :nth-child(even) {
   background-color: #ffffff;
 }
 
-.wp-list-table tbody tr:hover {
-  background-color: #f5f0e0;
+/* Row titles in the brand colour, bold (live) */
+.wp-list-table .row-title,
+.wp-list-table .column-title strong a,
+.wp-list-table .column-name strong a {
+  color: var(--zad-admin-primary) !important;
+  font-weight: 600;
+}
+
+/* Row actions only appear on the hovered / focused row */
+.wp-list-table tbody tr .row-actions {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+.wp-list-table tbody tr:hover .row-actions,
+.wp-list-table tbody tr:focus-within .row-actions,
+.wp-list-table tbody tr.is-expanded .row-actions {
+  position: static;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Column widths — fit content, max 320px */
@@ -746,9 +789,18 @@ div.notice {
 /* ------------------------------------------------------------------
    14. Filter tabs
    ------------------------------------------------------------------ */
+/* Language / status filters above the table are shown (live styling from
+   the zad-common admin CSS: white pill with a border) */
 .subsubsub,
-.icl_subsubsub {
-  display: none !important;
+.icl_subsubsub ul,
+#icl_subsubsub {
+  border-radius: 8px !important;
+}
+.subsubsub a .count {
+  color: #6b7280;
+}
+.subsubsub a.current {
+  color: var(--zad-admin-primary);
 }
 
 /* Taxonomy edit-tags: align left column (add form) with right column (table) */
@@ -885,8 +937,8 @@ p.search-box {
 .nav-tab-active,
 .nav-tab-active:hover,
 .about-wrap .nav-tab-active {
-  background-color: #f1f5f9 !important;
-  border-bottom-color: #f1f5f9 !important;
+  background-color: var(--cms-canvas) !important;
+  border-bottom-color: var(--cms-canvas) !important;
 }
 
 /* Recovery mode bar */
@@ -1007,24 +1059,23 @@ body.post-type-book th.column-535f15c3bb22d0 {
 
 
 /* ------------------------------------------------------------------
-   List pages — hide entire top tablenav row (bulk actions, filters, item count)
+   List pages — bars above the table (bulk actions, filters, item count)
+   are shown, as on the live CMS
    ------------------------------------------------------------------ */
-.tablenav.top {
+/* Category (taxonomy) pages keep the CMS-improvements look: no bars above the table */
+body.edit-tags-php .tablenav.top,
+body.edit-tags-php .subsubsub,
+body.edit-tags-php .icl_subsubsub {
   display: none !important;
 }
-.tablenav.bottom .alignleft.actions.bulkactions {
-  display: none !important;
+.tablenav .actions select,
+.tablenav .actions .button {
+  height: 32px;
+  min-height: 32px;
+  vertical-align: middle;
 }
-#ac-table-actions,
-.ac-table-actions {
-  display: none !important;
-}
-.clear-tablenav-filter {
-  display: none !important;
-}
-/* Also hide bottom tablenav bulk actions */
-.tablenav.bottom .alignleft.actions {
-  display: none !important;
+.tablenav .actions select {
+  border-radius: 8px;
 }
 
 
@@ -1142,19 +1193,8 @@ body.post-type-book th.column-535f15c3bb22d0 {
    ------------------------------------------------------------------ */
 
 
-/* ------------------------------------------------------------------
-   Hide smart filters / date filters / filter button from all list pages
-   ------------------------------------------------------------------ */
-.tablenav.top .acp-smartfilter-actions {
-  display: none !important;
-}
-#filter-by-date,
-label[for="filter-by-date"],
-#post-query-submit,
-.ac-clear-filters,
-#rank-math-schema-filter {
-  display: none !important;
-}
+/* (Smart filters, date filter and the filter button are shown again —
+   they were hidden here in CMS-improvements) */
 
 
 /* ------------------------------------------------------------------
@@ -1323,4 +1363,21 @@ th#taxonomy-fiqhi-topic {
 #submitdiv .misc-pub-section.rank-math-seo-score .score-icon i,
 #submitdiv .misc-pub-section.rank-math-seo-score .score-icon {
   color: #9ca3af !important;
+}
+
+
+/* ------------------------------------------------------------------
+   ACF accordions (e.g. "حقول إضافية" in Add post, sections in General
+   settings): collapsed header from the live CMS; content keeps the
+   meta box background
+   ------------------------------------------------------------------ */
+.acf-accordion .acf-accordion-title {
+  cursor: pointer;
+}
+.acf-accordion .acf-accordion-title label {
+  font-weight: 600;
+  cursor: pointer;
+}
+.postbox .acf-accordion .acf-accordion-content {
+  background: #f9fafb;
 }

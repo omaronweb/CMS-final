@@ -221,6 +221,95 @@
     }
   })();
 
+  // ACF field-group meta boxes get the acf-postbox class from ACF's JS on the live CMS
+  // (and its .inside the acf-fields -top classes when the page was captured without them)
+  $$('.postbox[id^="acf-group_"]').forEach(function (box) {
+    box.classList.add('acf-postbox');
+    var inside = $(':scope > .inside', box);
+    if (inside && !inside.classList.contains('acf-fields')) inside.classList.add('acf-fields', '-top');
+  });
+
+  // ACF accordions — what ACF's JS does on the live CMS: the fields after an accordion
+  // (up to the next accordion) move into it, behind a clickable title.
+  // An accordion marked as an endpoint only closes the group and is removed.
+  $$('.acf-field-accordion').forEach(function (acc) {
+    var fieldsEl = $('.acf-input > .acf-fields', acc);
+    if (!fieldsEl) return;
+    var next = acc.nextElementSibling;
+    if (fieldsEl.getAttribute('data-endpoint') === '1') { acc.remove(); return; }
+    while (next && next.classList.contains('acf-field') && !next.classList.contains('acf-field-accordion')) {
+      var n = next.nextElementSibling;
+      fieldsEl.appendChild(next);
+      next = n;
+    }
+    var open = fieldsEl.getAttribute('data-open') === '1';
+    var labelWrap = $(':scope > .acf-label', acc);
+    var title = document.createElement('div');
+    title.className = 'acf-accordion-title';
+    title.innerHTML = '<i class="acf-accordion-icon dashicons"></i>' + (labelWrap ? labelWrap.innerHTML : '');
+    var parent = acc.parentNode;
+    fieldsEl.classList.add('acf-accordion-content');
+    if (parent && parent.classList.contains('-left')) fieldsEl.classList.add('-left'); else fieldsEl.classList.add('-top');
+    acc.innerHTML = '';
+    acc.appendChild(title);
+    acc.appendChild(fieldsEl);
+    acc.classList.add('acf-accordion');
+    function sync() {
+      acc.classList.toggle('-open', open);
+      fieldsEl.style.display = open ? '' : 'none'; // ACF shows/hides the content inline
+      $('.acf-accordion-icon', title).className = 'acf-accordion-icon dashicons dashicons-arrow-' + (open ? 'down' : (document.dir === 'rtl' || body.classList.contains('rtl') ? 'left' : 'right'));
+    }
+    sync();
+    title.addEventListener('click', function () { open = !open; sync(); });
+  });
+
+  // ACF conditional logic — hide fields whose conditions are not met, as on the live CMS
+  (function () {
+    var conditional = $$('.acf-field[data-conditions]');
+    if (!conditional.length) return;
+    function valueOf(field) {
+      if (!field) return [];
+      var input = $(':scope > .acf-input', field) || field;
+      var sel = $('select', input);
+      if (sel) return $$('option', sel).filter(function (o) { return o.selected; }).map(function (o) { return o.value; });
+      var checks = $$('input[type=radio], input[type=checkbox]', input);
+      if (checks.length) return checks.filter(function (c) { return c.checked; }).map(function (c) { return c.value; });
+      var txt = $('input, textarea', input);
+      return txt && txt.value ? [txt.value] : [];
+    }
+    function findField(from, key) {
+      var scope = from.parentNode;
+      while (scope) {
+        var hit = scope.querySelector ? scope.querySelector('.acf-field[data-key="' + key + '"]') : null;
+        if (hit) return hit;
+        scope = scope.parentNode;
+      }
+      return null;
+    }
+    function test(rule, from) {
+      var v = valueOf(findField(from, rule.field));
+      switch (rule.operator) {
+        case '==': return v.indexOf(String(rule.value)) !== -1;
+        case '!=': return v.indexOf(String(rule.value)) === -1;
+        case '==empty': return !v.length || v.every(function (x) { return x === ''; });
+        case '!=empty': return v.some(function (x) { return x !== ''; });
+        case '==contains': return v.join(' ').indexOf(rule.value) !== -1;
+        case '!=contains': return v.join(' ').indexOf(rule.value) === -1;
+        default: return true;
+      }
+    }
+    function run() {
+      conditional.forEach(function (f) {
+        var groups;
+        try { groups = JSON.parse(f.getAttribute('data-conditions')); } catch (e) { return; }
+        var show = groups.some(function (and) { return and.every(function (r) { return test(r, f); }); });
+        f.classList.toggle('acf-hidden', !show);
+      });
+    }
+    run();
+    document.addEventListener('change', function (e) { if (e.target.closest('.acf-field')) run(); });
+  })();
+
   // Excerpt (المقتطف) — point "أعرف أكثر عن المقتطف" link to GitHub Pages
   (function () {
     var box = document.getElementById('postexcerpt');
