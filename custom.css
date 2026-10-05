@@ -1684,3 +1684,30 @@ button,
 #poststuff .postbox .tagsdiv + p.hide-if-no-js {
   margin: 8px 0 0;
 }
+
+
+/* ------------------------------------------------------------------
+   Language box (اللغة): no "لغة هذا المقالة" label (the box title says
+   it), and the language select fills the width at the standard height
+   ------------------------------------------------------------------ */
+body:is(.post-php, .post-new-php) #icl_div #icl_document_language_dropdown {
+  float: none;
+  display: block;
+  margin-top: 0;
+}
+body:is(.post-php, .post-new-php) #icl_div #icl_document_language_dropdown > p:has(> label[for="icl_post_language"]) {
+  display: none;
+}
+body:is(.post-php, .post-new-php) #icl_div #icl_post_language {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 32px;
+  min-height: 32px;
+  margin: 0;
+  padding-block: 0;
+  line-height: 30px;
+}
+body:is(.post-php, .post-new-php) #icl_div #icl_document_connect_translations_dropdown > p {
+  margin: 8px 0 0;
+}
