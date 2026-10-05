@@ -220,8 +220,9 @@
       // Broader check: are we on an edit-tags page?
       if (!$$('form#edittag, form#posts-filter').length) return;
     }
-    // Apply hierarchy: rows[1],[2] = children of rows[0]; rows[3] = grandchild of rows[1]
-    var levels = [0, 1, 2, 1, 2, 3, 0, 1, 0, 0]; // pattern for first 10 rows
+    // Apply hierarchy: nested children and grandchildren under the first row, then a parent
+    // whose three children are siblings next to each other with no children of their own
+    var levels = [0, 1, 2, 1, 2, 3, 0, 1, 1, 1, 0, 0]; // pattern for the first 12 rows
     for (var i = 0; i < Math.min(rows.length, levels.length); i++) {
       var lvl = levels[i];
       rows[i].className = rows[i].className.replace(/level-\d+/, 'level-' + lvl);
