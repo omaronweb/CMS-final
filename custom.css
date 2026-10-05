@@ -1758,3 +1758,13 @@ body.edit-tags-php .wp-list-table th.column-posts.sorted a {
 .postbox .postbox-header .handle-actions .handlediv:focus-visible {
   box-shadow: inset 0 0 0 2px var(--zad-admin-primary, #2271b1);
 }
+
+/* Section headers: a visible line between the header and an open section's
+   content (it was #e5e7eb on #f9fafb, nearly invisible); none when closed,
+   where the box's own border already closes it */
+.postbox .postbox-header {
+  border-bottom: 1px solid #d1d5db;
+}
+.postbox.closed .postbox-header {
+  border-bottom-color: transparent;
+}
