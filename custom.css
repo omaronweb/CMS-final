@@ -1782,3 +1782,30 @@ body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_
   margin-inline-start: 4px;
   color: #d63638;
 }
+
+
+/* ------------------------------------------------------------------
+   Sidebar: the groups (المقالات، الأبحاث، الخواطر) sit under
+   المجموعات in the الكتابات submenu, one step in
+   ------------------------------------------------------------------ */
+#adminmenu .wp-submenu li.cms-submenu-child a {
+  padding-inline-start: 34px !important;
+  font-size: 13px;
+  position: relative;
+}
+#adminmenu .wp-submenu li.cms-submenu-child a::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 22px;
+  top: 50%;
+  width: 5px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Required section (المجموعات when groups exist): red asterisk after the title */
+.postbox .hndle .cms-required-mark {
+  margin-inline-start: 4px;
+  color: #d63638;
+}

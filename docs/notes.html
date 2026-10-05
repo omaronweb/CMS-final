@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ملاحظات للتطوير</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--muted:#5b6577;--line:#e3e6ec;--brand:#1a2744;--req:#d63638}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1c2027;--ink:#e6e9ef;--muted:#9aa3b2;--line:#2d333d;--brand:#9fb3d9;--req:#f08a8b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 -apple-system,"Segoe UI",Tahoma,"IBM Plex Sans Arabic",sans-serif}
+main{max-width:720px;margin:auto;padding:32px 16px 56px}
+h1{font-size:26px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 24px;font-size:14px}
+h2{font-size:20px;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+a{color:var(--brand)}
+.note{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:16px}
+.note ul{margin:6px 0 0;padding-inline-start:20px}
+.req{color:var(--req);font-weight:700}
+footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>ملاحظات للتطوير</h1>
+<p class="sub">قواعد سلوك في لوحة التحكم يحتاج الفريق إلى تطبيقها على النظام الفعلي.</p>
+
+<h2 id="groups">المجموعات في إضافة الكتابات وتحريرها</h2>
+<div class="note">
+<p>قسم <strong>المجموعات</strong> في صفحتي إضافة كتابة وتحريرها يتبع عدد المجموعات المضافة في صفحة المجموعات:</p>
+<ul>
+<li><strong>إذا وُجدت مجموعة واحدة على الأقل</strong> (مثل المقالات، الأبحاث، الخواطر): يكون القسم <strong>مفتوحًا افتراضيًا</strong>، واختيار مجموعة <strong>إلزامي</strong>، ويظهر بجانب عنوانه رمز الحقل الإلزامي <span class="req">*</span>. لا يمكن نشر الكتابة أو تحديثها قبل اختيار مجموعة.</li>
+<li><strong>إذا لم تُضف أي مجموعة</strong>: يكون القسم <strong>مطويًا افتراضيًا</strong>، وليس إلزاميًا.</li>
+</ul>
+<p>في النموذج توجد ثلاث مجموعات، لذلك يظهر القسم مفتوحًا وإلزاميًا.</p>
+</div>
+
+<h2 id="menu">قائمة الكتابات الجانبية</h2>
+<div class="note">
+<p>أُعيدت تسمية <strong>المقالات</strong> إلى <strong>الكتابات</strong>، وتظهر المجموعات تحت <strong>المجموعات</strong> في القائمة الفرعية، كل مجموعة رابط إلى قائمة الكتابات التابعة لها.</p>
+</div>
+
+<footer><a href="../index.html">العودة إلى النموذج</a></footer>
+</main>
+</body>
+</html>

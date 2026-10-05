@@ -90,6 +90,23 @@
       var b = $('.handlediv', box); if (b) b.setAttribute('aria-expanded', 'false');
     });
   }
+  // المجموعات on Add / Edit: when the site has groups, choosing one is required, so the box
+  // opens by default with a required mark; with no groups the box stays collapsed
+  // (the rule is written up in docs/notes.html)
+  (function () {
+    var box = document.getElementById('article-typediv');
+    if (!box) return;
+    var hasGroups = !!box.querySelector('#article-typechecklist li');
+    box.classList.toggle('closed', !hasGroups);
+    box.classList.toggle('cms-required', hasGroups);
+    var b = $('.handlediv', box); if (b) b.setAttribute('aria-expanded', String(hasGroups));
+    var h = $('.hndle', box);
+    if (hasGroups && h && !h.querySelector('.cms-required-mark')) {
+      var m = document.createElement('span');
+      m.className = 'cms-required-mark'; m.setAttribute('aria-hidden', 'true'); m.textContent = '*';
+      h.insertBefore(m, h.firstChild.nextSibling);
+    }
+  })();
   $$('.postbox .handlediv, .postbox .hndle').forEach(function (h) {
     h.addEventListener('click', function (e) {
       if (e.target.closest('.handle-order-higher, .handle-order-lower, a')) return;
@@ -388,12 +405,14 @@
     // Prototype pages — the only pages included in CMS-final, one click away
     var protoPages = [
       ['index.html', 'الرئيسية'],                          // الرئيسية
-      ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات
+      ['edit__post_type-article.html', 'قائمة الكتابات'], // قائمة الكتابات
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
       ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'], // تحرير مقالة
       ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
       ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
+      ['homepage.html', 'واجهة الموقع'], // الصفحة الرئيسية للموقع
+      ['docs/notes.html', 'ملاحظات'], // ملاحظات المنطق
       ['list-pages-columns.html', 'أعمدة القوائم'], // أعمدة صفحات القوائم
       ['team-questions.html', 'أسئلة للفريق'] // أسئلة للفريق
     ];
