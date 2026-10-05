@@ -1410,20 +1410,10 @@ th#taxonomy-fiqhi-topic {
 
 /* ------------------------------------------------------------------
    Prototype only — not part of the CMS design.
-   Links to pages outside this prototype are dimmed in the sidebar,
-   admin bar and Home cards; the "صفحات النموذج" bar lists the pages
-   that are included.
+   The "صفحات النموذج" bar lists the pages that are included.
    ------------------------------------------------------------------ */
-#adminmenu li:not(.udb-admin-logo-wrapper) > a.proto-dead,
-#adminmenu .wp-submenu a.proto-dead,
-#wpadminbar a.proto-dead,
-#dashboard-widgets > a.proto-dead {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-#adminmenu li:has(> a.proto-dead) .wp-submenu a:not(.proto-dead) {
-  opacity: 1;
-}
+/* Links to pages outside the prototype look and hover like the rest (Omar: don't disable them);
+   clicking one only shows a short notice */
 #proto-pages {
   position: fixed;
   bottom: 16px;
