@@ -1649,3 +1649,38 @@ button,
 #screen-options-wrap {
   animation: cms-fade-in var(--cms-duration) ease;
 }
+
+
+/* ------------------------------------------------------------------
+   Tag boxes (الوسوم, الكلمات المفتاحية): compact spacing, the input
+   fills the row and the add button sits at its end
+   ------------------------------------------------------------------ */
+#poststuff .postbox .tagsdiv .ajaxtag {
+  display: flex;
+  gap: 6px;
+  margin-top: 0;
+}
+#poststuff .postbox .tagsdiv .ajaxtag .newtag {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  min-height: 32px;
+  margin: 0;
+}
+#poststuff .postbox .tagsdiv .ajaxtag .tagadd {
+  flex: 0 0 auto;
+  min-height: 32px;
+  margin: 0;
+}
+#poststuff .postbox .tagsdiv .howto {
+  margin: 4px 0 0;
+}
+#poststuff .postbox .tagsdiv .tagchecklist {
+  margin: 8px 0 0;
+}
+#poststuff .postbox .tagsdiv .tagchecklist:empty {
+  display: none;
+}
+#poststuff .postbox .tagsdiv + p.hide-if-no-js {
+  margin: 8px 0 0;
+}
