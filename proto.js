@@ -394,6 +394,7 @@
       ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
       ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
+      ['list-pages-columns.html', 'أعمدة القوائم'], // أعمدة صفحات القوائم
       ['team-questions.html', 'أسئلة للفريق'] // أسئلة للفريق
     ];
     var here = (location.pathname.split('/').pop() || 'index.html');
