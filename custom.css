@@ -1768,3 +1768,9 @@ body.edit-tags-php .wp-list-table th.column-posts.sorted a {
 .postbox.closed .postbox-header {
   border-bottom-color: transparent;
 }
+
+/* Topics: no الصور (images) field in the add form */
+body.edit-tags-php .acf-field[data-name="topic_fields_images"],
+body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_fields_images"]))) {
+  display: none;
+}
