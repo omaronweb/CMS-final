@@ -329,7 +329,7 @@
     link.style.cssText = 'color:#2563eb;text-decoration:none;font-weight:500;';
   })();
 
-  // ── Dark Mode + Font Switcher ─────────────
+  // ── Font (saved choice) ─────────────
   (function () {
     var fonts = [
       { id: 'default',  label: 'افتراضي',    family: '' },
@@ -359,11 +359,7 @@
       '@font-face { font-family: "IBM Plex Sans Arabic"; src: local("IBM Plex Sans Arabic"), url("fonts/IBMPlexSansArabic-Light.ttf") format("truetype"); font-weight: 300; font-style: normal; }';
     document.head.appendChild(fontStyle);
 
-    var darkMode = localStorage.getItem('mushkat-dark-mode') === 'true';
     var savedFont = localStorage.getItem('mushkat-font') || 'default';
-
-    // Apply saved dark mode immediately
-    if (darkMode) body.classList.add('dark-mode');
 
     // Apply saved font immediately
     function applyFont(fontId) {
@@ -387,37 +383,6 @@
     }
     applyFont(savedFont);
 
-    // Build toggle bar — dark mode only
-    var bar = document.createElement('div');
-    bar.id = 'css-switcher';
-    bar.setAttribute('style',
-      'position:fixed;bottom:16px;inset-inline-end:16px;z-index:9999999;' +
-      'display:flex;align-items:center;padding:6px;border-radius:12px;' +
-      'background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);' +
-      'box-shadow:0 4px 24px rgba(0,0,0,0.35);font-family:-apple-system,sans-serif;'
-    );
-
-    // Dark mode toggle (sun/moon)
-    var dmBtn = document.createElement('button');
-    dmBtn.id = 'dark-mode-toggle';
-    dmBtn.textContent = darkMode ? '\u263E' : '\u2600';
-    dmBtn.title = darkMode ? 'Light Mode' : 'Dark Mode';
-    dmBtn.setAttribute('style',
-      'padding:4px 10px;border:none;border-radius:7px;cursor:pointer;' +
-      'font-size:16px;line-height:1;background:transparent;' +
-      'color:' + (darkMode ? '#fbbf24' : '#888') + ';transition:all 0.12s ease;'
-    );
-    dmBtn.addEventListener('click', function () {
-      darkMode = !darkMode;
-      body.classList.toggle('dark-mode', darkMode);
-      localStorage.setItem('mushkat-dark-mode', String(darkMode));
-      dmBtn.textContent = darkMode ? '\u263E' : '\u2600';
-      dmBtn.title = darkMode ? 'Light Mode' : 'Dark Mode';
-      dmBtn.style.color = darkMode ? '#fbbf24' : '#888';
-    });
-    bar.appendChild(dmBtn);
-
-    body.appendChild(bar);
 
     // Prototype pages — the only pages included in CMS-final, one click away
     var protoPages = [
