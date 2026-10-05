@@ -816,33 +816,57 @@ div.notice {
 
 
 /* ------------------------------------------------------------------
-   15. Search box
+   15. Search box — input and button joined into one control, same height
+   in every browser (Safari's native search field ignores height unless
+   its appearance is reset)
    ------------------------------------------------------------------ */
 p.search-box {
-  column-gap: 0 !important;
+  display: inline-flex !important;
+  align-items: stretch;
   gap: 0 !important;
+  column-gap: 0 !important;
+  height: 36px;
+  margin: 11px 0;
 }
-.search-box input[name="s"],
+p.search-box input[type="search"],
+p.search-box input[name="s"] {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  height: 36px !important;
+  min-height: 36px;
+  margin: 0 !important;
+  padding: 0 12px;
+  line-height: normal;
+  float: none;
+  border: 1px solid #d1d5db;
+  border-radius: 0 !important;
+  border-start-start-radius: 8px !important;
+  border-end-start-radius: 8px !important;
+  position: relative;
+}
+p.search-box input[type="search"]:focus {
+  z-index: 1;
+}
+p.search-box #search-submit,
+p.search-box .button {
+  box-sizing: border-box;
+  height: 36px !important;
+  min-height: 36px;
+  margin: 0 !important;
+  margin-inline-start: -1px !important;
+  padding: 0 16px;
+  line-height: 34px;
+  float: none;
+  border: 1px solid #d1d5db;
+  border-radius: 0 !important;
+  border-start-end-radius: 8px !important;
+  border-end-end-radius: 8px !important;
+  vertical-align: top;
+}
 .tablenav .search-plugins input[name="s"],
 .tagsdiv .newtag {
   margin: 0 !important;
-}
-.search-box input[type="search"] {
-  border-radius: 0 8px 8px 0 !important;
-  padding: 6px 10px;
-  height: 36px;
-  box-sizing: border-box;
-}
-
-.search-box #search-submit,
-.search-box .button {
-  border-radius: 8px 0 0 8px !important;
-  margin-inline-start: 0;
-  margin-inline-end: -1px;
-  height: 36px;
-  padding: 6px 14px;
-  box-sizing: border-box;
-  vertical-align: top;
 }
 
 
