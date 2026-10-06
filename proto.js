@@ -426,4 +426,104 @@
       }).join('');
     body.appendChild(nav);
   })();
+
+  // ── المجموعات 2: a second direction for the groups ─────────────
+  // Direction 1 (default): one الكتابات menu with المجموعات and its groups under it.
+  // Direction 2: no الكتابات parent; المقالات، الأبحاث، الخواطر are top-level menu items
+  // of their own, each with الكل / أضف, and Add/Edit needs no المجموعات box (the menu
+  // you came from is the group). Switch with the toggle on the prototype pages bar;
+  // the choice is kept per browser and can be forced with ?groups=1 or ?groups=2.
+  (function () {
+    var GROUPS = [
+      { slug: 'articles', name: 'المقالات', icon: 'dashicons-admin-post' },
+      { slug: 'research', name: 'الأبحاث', icon: 'dashicons-search' },
+      { slug: 'khawater', name: 'الخواطر', icon: 'dashicons-format-status' }
+    ];
+    var params = new URLSearchParams(location.search);
+    var mode = '1';
+    try { mode = localStorage.getItem('cms-groups') || '1'; } catch (e) {}
+    if (params.get('groups') === '1' || params.get('groups') === '2') {
+      mode = params.get('groups');
+      try { localStorage.setItem('cms-groups', mode); } catch (e) {}
+    }
+    var two = mode === '2';
+    var here = (location.pathname.split('/').pop() || 'index.html');
+
+    // Toggle on the prototype pages bar
+    var nav = document.getElementById('proto-pages');
+    if (nav) {
+      var sw = document.createElement('span');
+      sw.className = 'proto-groups-switch';
+      sw.innerHTML = '<a href="?groups=1"' + (two ? '' : ' class="is-current"') + '>المجموعات 1</a>' +
+                     '<a href="?groups=2"' + (two ? ' class="is-current"' : '') + '>المجموعات 2</a>';
+      nav.appendChild(sw);
+    }
+    if (!two) return;
+    document.body.classList.add('cms-groups-2');
+    var withMode = function (href) { return href + (href.indexOf('?') === -1 ? '?' : '&') + 'groups=2'; };
+    if (nav) $$('a', nav).forEach(function (a) { if (!a.closest('.proto-groups-switch')) a.href = withMode(a.getAttribute('href')); });
+
+    var isArticlePage = /^(edit__post_type-article|post-new__post_type-article|post__action-edit__lang-ar__post-272)\.html$/.test(here);
+    var current = GROUPS.filter(function (g) { return g.slug === params.get('group'); })[0] || (isArticlePage ? GROUPS[0] : null);
+
+    // Sidebar: the three groups replace الكتابات at the same level as the other items
+    var menu = document.getElementById('menu-posts-article');
+    if (menu) {
+      GROUPS.slice().reverse().forEach(function (g) {
+        var on = current && current.slug === g.slug;
+        var state = on ? 'wp-has-current-submenu wp-menu-open' : 'wp-not-current-submenu';
+        var list = withMode('edit__post_type-article.html?group=' + g.slug);
+        var add = withMode('post-new__post_type-article.html?group=' + g.slug);
+        var li = document.createElement('li');
+        li.className = 'wp-has-submenu ' + state + ' menu-top menu-icon-article';
+        li.id = 'menu-posts-article-' + g.slug;
+        li.innerHTML = '<a class="wp-has-submenu ' + state + ' menu-top menu-icon-article" href="' + list + '">' +
+          '<div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before ' + g.icon + '"><br></div>' +
+          '<div class="wp-menu-name">' + g.name + '</div></a>' +
+          '<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">' + g.name + '</li>' +
+          '<li class="wp-first-item' + (on && here === 'edit__post_type-article.html' ? ' current' : '') + '"><a class="wp-first-item" href="' + list + '">الكل</a></li>' +
+          '<li' + (on && here === 'post-new__post_type-article.html' ? ' class="current"' : '') + '><a href="' + add + '">أضف</a></li></ul>';
+        menu.parentNode.insertBefore(li, menu.nextSibling);
+      });
+      menu.remove();
+      // المجموعات (the list of groups) moves under التصنيفات
+      var cats = $('#toplevel_page_edit-tags-taxonomy-topic .wp-submenu');
+      if (cats) {
+        var g = document.createElement('li');
+        var onGroups = here === 'edit-tags__post_type-article__taxonomy-article-type.html';
+        if (onGroups) g.className = 'current';
+        g.innerHTML = '<a href="' + withMode('edit-tags__post_type-article__taxonomy-article-type.html') + '">المجموعات</a>';
+        cats.appendChild(g);
+        if (onGroups) {
+          var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
+          [top, $('a', top)].forEach(function (el) {
+            el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
+          });
+        }
+      }
+    }
+
+    // Titles name the group instead of الكتابات
+    if (current) {
+      $$('h1.wp-heading-inline').forEach(function (h) {
+        if (h.textContent.trim() === 'الكتابات') h.textContent = current.name;
+      });
+      document.title = document.title.replace('الكتابات', current.name);
+    }
+
+    // Home: one card per group instead of الكتابات
+    $$('#dashboard-widgets > a').forEach(function (card) {
+      var label = card.querySelector('span:last-child');
+      if (!label || label.textContent.trim() !== 'الكتابات') return;
+      GROUPS.forEach(function (g) {
+        var c = card.cloneNode(true);
+        c.querySelector('span:last-child').textContent = g.name;
+        var icon = c.querySelector('.dashicons'); if (icon) icon.className = 'dashicons ' + g.icon;
+        c.classList.remove('proto-dead'); c.removeAttribute('data-orig-href');
+        c.setAttribute('href', withMode('edit__post_type-article.html?group=' + g.slug));
+        card.parentNode.insertBefore(c, card);
+      });
+      card.remove();
+    });
+  })();
 })();

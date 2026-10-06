@@ -1859,3 +1859,16 @@ body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] .inside select {
 body.edit-tags-php #addtag > p.submit {
   margin-top: 0 !important; /* WordPress pulls it up 10px, over the last field */
 }
+
+/* Prototype bar: المجموعات 1 / المجموعات 2 switch */
+#proto-pages .proto-groups-switch {
+  display: inline-flex;
+  gap: 2px;
+  margin-inline-start: 6px;
+  padding-inline-start: 8px;
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.25);
+}
+/* المجموعات 2: the menu you came from is the group, so Add/Edit has no المجموعات box */
+body.cms-groups-2 #article-typediv {
+  display: none;
+}
