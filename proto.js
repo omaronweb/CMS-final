@@ -217,6 +217,10 @@
       btn.textContent = '\u0631\u0641\u0639';
     }
   });
+  // حقول إضافية: every add button (audio, video, PDF, clip, Word) just says أضف
+  $$('.acf-repeater-add-row').forEach(function (btn) {
+    if (!btn.closest('.acf-field-article-fields-images')) btn.textContent = 'أضف';
+  });
   // Hide "أضف صورة واحدة أو أكثر." description
   $$('.acf-field-repeater > .acf-input + .description, .acf-field-repeater .acf-input ~ p.description').forEach(function (p) {
     if (p.textContent.indexOf('\u0623\u0636\u0641 \u0635\u0648\u0631\u0629') !== -1) {

@@ -2002,3 +2002,54 @@ body.cms-groups-2 #article-typediv {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* حقول إضافية: رابط يوتيوب and رابط الفيديو sit beside their labels; the
+   رابط الفيديو help shows as text under the label, not behind the icon */
+body.post-type-article .acf-postbox .acf-field:is(.acf-field-article-fields-youtube-id, .acf-field-article-fields-video-url) {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+}
+body.post-type-article .acf-postbox .acf-field:is(.acf-field-article-fields-youtube-id, .acf-field-article-fields-video-url) > .acf-label {
+  display: contents;
+}
+body.post-type-article .acf-postbox .acf-field:is(.acf-field-article-fields-youtube-id, .acf-field-article-fields-video-url) > .acf-label > label {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+}
+body.post-type-article .acf-postbox .acf-field:is(.acf-field-article-fields-youtube-id, .acf-field-article-fields-video-url) > .acf-input {
+  grid-column: 2;
+  grid-row: 1;
+}
+body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-label > label::after {
+  content: none !important;
+}
+body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-label > p.description {
+  display: block !important;
+  grid-column: 1 / -1 !important;
+  grid-row: 2 !important;
+  position: static !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 6px 0 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: #646970 !important;
+  font-size: 12px !important;
+  animation: none !important;
+}
+/* links are typed left to right */
+#acf-field_article_fields_youtube_id,
+#acf-field_article_fields_video_url {
+  direction: ltr;
+  text-align: left;
+}
+/* التفريغ: a shorter text area */
+#acf-field_article_fields_transcript {
+  min-height: 0;
+  height: auto;
+  resize: vertical;
+}
