@@ -427,6 +427,41 @@
     body.appendChild(nav);
   })();
 
+  // ── Groups on the الكتابات list: ?group=articles|research|khawater shows only that
+  // group's rows and names the page after it (on the live CMS: the article-type filter).
+  // Which sample article belongs to which group is set here for the prototype.
+  (function () {
+    var GROUP_ROWS = {
+      articles: { name: 'المقالات', posts: ['272', '269', '728'] },
+      research: { name: 'الأبحاث', posts: ['731', '275', '265'] },
+      khawater: { name: 'الخواطر', posts: ['278', '1100'] }
+    };
+    var slug = new URLSearchParams(location.search).get('group');
+    var g = GROUP_ROWS[slug];
+    if (!g) return;
+    var here = (location.pathname.split('/').pop() || 'index.html');
+    // Sidebar (direction 1): the chosen group is the current item, not الكل
+    if (here === 'edit__post_type-article.html') {
+      $$('#menu-posts-article .wp-submenu li.current').forEach(function (li) {
+        li.classList.remove('current'); $$('a', li).forEach(function (a) { a.classList.remove('current'); a.removeAttribute('aria-current'); });
+      });
+      $$('#menu-posts-article .cms-submenu-child a').forEach(function (a) {
+        if ((a.getAttribute('href') || '').indexOf('group=' + slug) !== -1) { a.parentNode.classList.add('current'); a.classList.add('current'); a.setAttribute('aria-current', 'page'); }
+      });
+    }
+    var list = document.getElementById('the-list');
+    if (!list || here !== 'edit__post_type-article.html') return;
+    var shown = 0;
+    $$(':scope > tr[id^="post-"]', list).forEach(function (tr) {
+      var keep = g.posts.indexOf(tr.id.replace('post-', '')) !== -1;
+      tr.style.display = keep ? '' : 'none';
+      if (keep) shown++;
+    });
+    $$('.displaying-num').forEach(function (n) { n.textContent = shown === 2 ? 'عنصران' : shown + ' عناصر'; });
+    $$('h1.wp-heading-inline').forEach(function (h) { h.textContent = g.name; });
+    document.title = document.title.replace('الكتابات', g.name);
+  })();
+
   // ── المجموعات 2: a second direction for the groups ─────────────
   // Direction 1 (default): one الكتابات menu with المجموعات and its groups under it.
   // Direction 2: no الكتابات parent; المقالات، الأبحاث، الخواطر are top-level menu items
