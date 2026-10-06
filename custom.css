@@ -1816,20 +1816,21 @@ body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_
    many compact cards per row as fit (was 4 fixed columns in 1200px)
    ------------------------------------------------------------------ */
 body.index-php #dashboard-widgets {
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
-  gap: 12px !important;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  gap: 16px !important;
   max-width: none !important;
   padding: 16px 0 96px !important; /* room below for the prototype pages bar */
 }
 body.index-php #dashboard-widgets > a {
   min-height: 0 !important;
-  padding: 18px 12px !important;
+  padding: 32px 16px !important;
+  font-size: 15px !important;
 }
 body.index-php #dashboard-widgets > a .dashicons {
-  font-size: 28px !important;
-  width: 28px !important;
-  height: 28px !important;
-  margin-bottom: 8px !important;
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin-bottom: 12px !important;
 }
 
 /* Add-term form: the WPML لغة field reads as one more field of the card —
