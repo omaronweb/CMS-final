@@ -1956,3 +1956,9 @@ body.cms-groups-2 #article-typediv {
   font-weight: 400;
 }
 .cms-bulk-actions { display: flex; gap: 8px; }
+
+/* Old bulk actions (تنفيذ الأمر + تطبيق) are gone from every list page:
+   bulk edit now lives in the bar under the table header */
+.tablenav .actions.bulkactions {
+  display: none !important;
+}
