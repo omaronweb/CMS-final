@@ -1459,6 +1459,13 @@ body.edit-tags-php .wp-list-table .row-title,
 body.edit-tags-php .wp-list-table .column-name strong {
   font-weight: 400 !important;
 }
+/* parents on white, children on gray (instead of the parent rows being gray) */
+body.edit-tags-php .wp-list-table #the-list > tr.level-0 {
+  background-color: #fff !important;
+}
+body.edit-tags-php .wp-list-table #the-list > tr:not(.level-0) {
+  background-color: #eef1f6 !important;
+}
 /* the line sits just before the indented name, so it steps in with each level */
 body.edit-tags-php .wp-list-table tr:not(.level-0) > td.column-name {
   background-image: linear-gradient(#c3c8d1, #c3c8d1);
