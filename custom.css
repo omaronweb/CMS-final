@@ -1479,84 +1479,10 @@ body.edit-tags-php .wp-list-table tr.level-4 > td.column-name { background-posit
 
 
 /* ------------------------------------------------------------------
-   Help icons on Add / Edit article (as on General settings)
-   Every section title gets an info icon; its help text shows on hover.
-   The text lives here as --cms-help per box, so the HTML is unchanged.
-   Field help (p.description under an ACF label) moves behind the same
+   Help icons on Add / Edit article: section titles have none (removed);
+   field help (p.description under an ACF label) sits behind an info
    icon, using the zad-common-wp rule written for public-config.
    ------------------------------------------------------------------ */
-body.post-type-article #icl_div { --cms-help: "لغة المقالة، ومنها تربطها بترجمتها أو تنشئ ترجمة لها بلغة أخرى."; }
-body.post-type-article #topicdiv { --cms-help: "اختر التصنيف أو التصنيفات التي تنتمي إليها المقالة، فتظهر ضمنها في الموقع."; }
-body.post-type-article #fiqhi-topicdiv { --cms-help: "اختر الباب الفقهي الذي تتناوله المقالة إن كانت في مسألة فقهية."; }
-body.post-type-article #tagsdiv-public-tag { --cms-help: "كلمات قصيرة تصف موضوع المقالة وتربطها بمقالات مشابهة. افصل بين الوسوم بفاصلة."; }
-body.post-type-article #article-typediv { --cms-help: "ضع المقالة في مجموعة لتُعرض مع بقية مقالات المجموعة."; }
-body.post-type-article #tagsdiv-keyword { --cms-help: "كلمات يبحث بها القرّاء، تساعد على ظهور المقالة في نتائج البحث داخل الموقع."; }
-body.post-type-article #pageparentdiv { --cms-help: "خيارات إضافية للمقالة، مثل ترتيبها بين المقالات."; }
-body.post-type-article #submitdiv { --cms-help: "حالة المقالة وظهورها وموعد نشرها. احفظها مسودة أو انشرها من هنا."; }
-body.post-type-article #postexcerpt { --cms-help: "ملخص قصير يظهر في قوائم المقالات ونتائج البحث بدلًا من بداية النص."; }
-body.post-type-article #acf-group_article_fields { --cms-help: "مرفقات المقالة من صور وصوت وفيديو وملفات، وحقول إضافية مثل تاريخ الإلقاء والتفريغ."; }
-body.post-type-article #acf-group_views_fields { --cms-help: "عدد مشاهدات المقالة كما يظهر في الموقع."; }
-body.post-type-article #revisionsdiv { --cms-help: "النسخ السابقة من المقالة، ويمكنك مقارنتها واسترجاع أيٍّ منها."; }
-body.post-type-article #slugdiv { --cms-help: "الجزء الأخير من رابط المقالة، يُنشأ تلقائيًا من العنوان ويمكن تعديله."; }
-body.post-type-article #authordiv { --cms-help: "المستخدم الذي تُنسب إليه المقالة."; }
-body.post-type-article #rank_math_metabox { --cms-help: "عنوان المقالة ووصفها كما يظهران في محركات البحث وعند مشاركتها على مواقع التواصل."; }
-body.post-type-article .acf-field[data-name="article_fields_additional_fields"] { --cms-help: "حقول اختيارية: تاريخ الإلقاء، والتفريغ، والمقاطع المميزة، وعدد المشاهدات، وملفات Word."; }
-
-/* The icon */
-body.post-type-article .postbox .postbox-header .hndle::after,
-body.post-type-article .acf-field-accordion[data-name="article_fields_additional_fields"] > .acf-accordion-title label::after {
-  content: "\f14c";
-  display: inline-block; /* a box, so the icon doesn't join a Latin run like "PDF" */
-  margin-inline-start: 4px;
-  font-family: dashicons;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
-  vertical-align: text-bottom;
-  color: #8c8f94;
-  cursor: help;
-}
-body.post-type-article .postbox .postbox-header .hndle:hover::after,
-body.post-type-article .acf-field-accordion[data-name="article_fields_additional_fields"] > .acf-accordion-title label:hover::after {
-  color: var(--zad-admin-primary, #2271b1);
-}
-
-/* The help text, below the title */
-body.post-type-article .postbox .postbox-header,
-body.post-type-article .acf-field-accordion[data-name="article_fields_additional_fields"] > .acf-accordion-title {
-  position: relative;
-}
-body.post-type-article .postbox .postbox-header::after,
-body.post-type-article .acf-field-accordion[data-name="article_fields_additional_fields"] > .acf-accordion-title::after {
-  content: var(--cms-help);
-  display: none;
-  position: absolute;
-  top: 100%;
-  inset-inline: 12px; /* stays inside the box, so narrow side boxes don't push it off screen */
-  z-index: 1002;
-  width: auto;
-  margin-top: -4px;
-  padding: 8px 10px;
-  border-radius: 4px;
-  background: #1d2327;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #fff;
-  white-space: normal;
-  pointer-events: none;
-}
-body.post-type-article .postbox .postbox-header:has(.hndle:hover)::after,
-body.post-type-article .acf-field-accordion[data-name="article_fields_additional_fields"] > .acf-accordion-title:has(label:hover)::after {
-  display: block;
-}
-/* Boxes clip to their rounded corners; let the help text out while it shows */
-body.post-type-article .postbox:has(.postbox-header .hndle:hover),
-body.post-type-article .postbox:has(.acf-field-accordion[data-name="article_fields_additional_fields"] > .acf-accordion-title label:hover) {
-  overflow: visible;
-  z-index: 10;
-}
 body.post-type-article .postbox .postbox-header {
   border-start-start-radius: 7px;
   border-start-end-radius: 7px;
