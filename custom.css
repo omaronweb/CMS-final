@@ -1459,6 +1459,11 @@ body.edit-tags-php .wp-list-table .row-title,
 body.edit-tags-php .wp-list-table .column-name strong {
   font-weight: 400 !important;
 }
+/* top-level parents in medium weight; children stay regular */
+body.edit-tags-php .wp-list-table #the-list > tr.level-0 .row-title,
+body.edit-tags-php .wp-list-table #the-list > tr.level-0 .column-name strong {
+  font-weight: 500 !important;
+}
 /* parents on white, children on gray (instead of the parent rows being gray) */
 body.edit-tags-php .wp-list-table #the-list > tr.level-0 {
   background-color: #fff !important;
