@@ -681,4 +681,30 @@
     });
     refresh();
   })();
+  // ── Above list tables: التنسيق الشرطي and إعادة تعيين الترتيب sit behind a text link
+  // («عرض خيارات إضافية» / «إخفاء الخيارات الإضافية»), next to the filters, so the
+  // item count stays at the end of the bar, in line with the count under the table.
+  (function () {
+    var ac = document.getElementById('ac-table-actions');
+    var nav = ac && ac.closest('.tablenav');
+    if (!nav) return;
+    var box = document.createElement('div');
+    box.className = 'alignleft actions cms-more';
+    var link = document.createElement('a');
+    link.href = '#';
+    link.className = 'cms-more-toggle';
+    link.setAttribute('aria-expanded', 'false');
+    link.textContent = 'عرض خيارات إضافية';
+    box.appendChild(link);
+    box.appendChild(ac);
+    var filters = $$('.alignleft.actions:not(.bulkactions)', nav).pop();
+    if (filters) filters.parentNode.insertBefore(box, filters.nextSibling);
+    else nav.insertBefore(box, nav.firstChild);
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var open = box.classList.toggle('is-open');
+      link.setAttribute('aria-expanded', String(open));
+      link.textContent = open ? 'إخفاء الخيارات الإضافية' : 'عرض خيارات إضافية';
+    });
+  })();
 })();

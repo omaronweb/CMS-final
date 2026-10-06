@@ -1962,3 +1962,31 @@ body.cms-groups-2 #article-typediv {
 .tablenav .actions.bulkactions {
   display: none !important;
 }
+
+/* Above list tables: التنسيق الشرطي + إعادة تعيين الترتيب behind «عرض خيارات إضافية»;
+   the item count keeps the end of the bar, like the one under the table */
+.tablenav .cms-more {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+}
+.tablenav .cms-more-toggle {
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.tablenav .cms-more #ac-table-actions {
+  display: none;
+  float: none !important;
+  margin: 0 !important;
+}
+.tablenav .cms-more.is-open #ac-table-actions {
+  display: block;
+  animation: cms-fade-in var(--cms-duration) ease;
+}
+.tablenav .cms-more-toggle:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
