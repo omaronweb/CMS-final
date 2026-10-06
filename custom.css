@@ -1818,9 +1818,12 @@ body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_
 }
 
 
-/* Home: card grid and card size as on CMS-improvements (inline 4 × 1fr,
-   max 1200px); only room below for the prototype pages bar */
+/* Home: cards keep their CMS-improvements size (about 260px wide) but wrap to
+   as many as fit the screen width, instead of 4 fixed columns in 1200px;
+   room below for the prototype pages bar */
 body.index-php #dashboard-widgets {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+  max-width: none !important;
   padding-bottom: 96px !important;
 }
 
