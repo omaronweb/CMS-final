@@ -430,7 +430,8 @@
   // Add / Edit: the content editor is required — a label with the red required mark
   // above it (the title shows its mark after the "إضافة عنوان" placeholder, الصور in its ACF label)
   (function () {
-    var ed = document.getElementById('postdivrich');
+    // below the أضف ملفات وسائط button, right above the editor itself
+    var ed = document.getElementById('wp-content-editor-container') || document.getElementById('postdivrich');
     if (!ed || ed.previousElementSibling && ed.previousElementSibling.classList.contains('cms-field-label')) return;
     var l = document.createElement('div');
     l.className = 'cms-field-label';
