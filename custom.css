@@ -1809,3 +1809,25 @@ body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_
   margin-inline-start: 4px;
   color: #d63638;
 }
+
+
+/* ------------------------------------------------------------------
+   Home: the card grid fills the content width on any screen, with as
+   many compact cards per row as fit (was 4 fixed columns in 1200px)
+   ------------------------------------------------------------------ */
+#dashboard-widgets {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+  gap: 12px !important;
+  max-width: none !important;
+  padding: 16px 0 96px !important; /* room below for the prototype pages bar */
+}
+#dashboard-widgets > a {
+  min-height: 0 !important;
+  padding: 18px 12px !important;
+}
+#dashboard-widgets > a .dashicons {
+  font-size: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  margin-bottom: 8px !important;
+}
