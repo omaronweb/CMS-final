@@ -573,4 +573,112 @@
       card.remove();
     });
   })();
+  // ── Bulk edit on the الكتابات list: with 2+ rows checked, a bar under the header
+  // offers «تعديل … لـN عناصر» under each column that can be changed for many rows
+  // at once (title, status, taxonomies); other columns get nothing.
+  (function () {
+    var table = $('table.wp-list-table.posts');
+    var head = table && $('thead tr', table);
+    if (!head || !$('#the-list')) return;
+    var TERMS = {
+      'taxonomy-topic': ['آداب الإسلام', 'آداب وأخلاق', 'أصول الفقه', 'الأخلاق'],
+      'taxonomy-fiqhi-topic': ['الطهارة', 'الصلاة', 'الصيام', 'الزكاة'],
+      'taxonomy-keyword': ['القرآن', 'التربية', 'الأسرة', 'الرقائق'],
+      'taxonomy-article-type': ['المقالات', 'الأبحاث', 'الخواطر']
+    };
+    var STATUSES = ['منشور', 'مسودة', 'بانتظار المراجعة', 'خاص'];
+    function kindOf(th) {
+      if (th.classList.contains('column-title')) return 'title';
+      if (th.classList.contains('column-49bb31f5e353f8')) return 'status';
+      var tax = Array.prototype.filter.call(th.classList, function (c) { return /^column-taxonomy-/.test(c); })[0];
+      return tax ? tax.replace('column-', '') : null;
+    }
+    var bar = document.createElement('tr');
+    bar.className = 'cms-bulk-bar';
+    bar.hidden = true;
+    $$('th, td', head).forEach(function (th) {
+      var cell = document.createElement('td');
+      cell.className = Array.prototype.filter.call(th.classList, function (c) {
+        return /^column-/.test(c) || c === 'hidden' || c === 'check-column';
+      }).join(' ');
+      var kind = kindOf(th);
+      if (kind) {
+        var name = th.textContent.replace(/Sort (ascending|descending)\.?/g, '').trim();
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'button cms-bulk-btn';
+        b.dataset.kind = kind;
+        b.dataset.name = name;
+        b.dataset.col = (Array.prototype.filter.call(th.classList, function (c) { return /^column-(?!primary)/.test(c) && c !== 'column-cb'; })[0] || '');
+        cell.appendChild(b);
+      }
+      bar.appendChild(cell);
+    });
+    head.parentNode.appendChild(bar);
+
+    function checkedRows() {
+      return $$('#the-list > tr').filter(function (tr) {
+        var c = $('.check-column input[type=checkbox]', tr);
+        return c && c.checked && !tr.hidden && tr.offsetParent !== null;
+      });
+    }
+    function countLabel(n) { return n === 2 ? 'لعنصرين' : 'لـ' + n + (n <= 10 ? ' عناصر' : ' عنصرًا'); }
+    function refresh() {
+      var n = checkedRows().length;
+      bar.hidden = n < 2;
+      $$('.cms-bulk-btn', bar).forEach(function (b) { b.textContent = 'تعديل ' + b.dataset.name + ' ' + countLabel(n); });
+    }
+    table.addEventListener('change', function () { setTimeout(refresh, 0); });
+
+    // The dialog: one control per kind of column
+    var dlg = document.createElement('div');
+    dlg.className = 'cms-bulk-dialog';
+    dlg.hidden = true;
+    body.appendChild(dlg);
+    function close() { dlg.hidden = true; }
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.closest('[data-close]')) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+    bar.addEventListener('click', function (e) {
+      var b = e.target.closest('.cms-bulk-btn');
+      if (!b) return;
+      var rows = checkedRows(), kind = b.dataset.kind, field;
+      if (kind === 'title') {
+        field = '<label>ابحث عن<input type="text" data-f="find"></label><label>استبدل بـ<input type="text" data-f="repl"></label>';
+      } else if (kind === 'status') {
+        field = '<label>الحالة الجديدة<select data-f="val">' + STATUSES.map(function (v) { return '<option>' + v + '</option>'; }).join('') + '</select></label>';
+      } else {
+        field = '<label>الإجراء<select data-f="op"><option value="add">إضافة</option><option value="remove">إزالة</option></select></label>' +
+          '<label>' + b.dataset.name + '<select data-f="val">' + (TERMS[kind] || []).map(function (v) { return '<option>' + v + '</option>'; }).join('') + '</select></label>';
+      }
+      dlg.innerHTML = '<div class="cms-bulk-panel" role="dialog" aria-modal="true">' +
+        '<h2>تعديل ' + b.dataset.name + ' ' + countLabel(rows.length) + '</h2>' +
+        '<ul class="cms-bulk-list">' + rows.map(function (tr) { var t = $('.row-title', tr); return '<li>' + (t ? t.textContent : '') + '</li>'; }).join('') + '</ul>' +
+        field +
+        '<div class="cms-bulk-actions"><button type="button" class="button button-primary" data-apply>تطبيق</button><button type="button" class="button" data-close>إلغاء</button></div></div>';
+      dlg.hidden = false;
+      var first = $('input, select', dlg); if (first) first.focus();
+      $('[data-apply]', dlg).addEventListener('click', function () {
+        var get = function (f) { var el = $('[data-f="' + f + '"]', dlg); return el ? el.value : ''; };
+        rows.forEach(function (tr) {
+          var cell = b.dataset.col && $('td.' + b.dataset.col, tr);
+          if (kind === 'title') {
+            var t = $('.row-title', tr);
+            if (t && get('find')) t.textContent = t.textContent.split(get('find')).join(get('repl'));
+          } else if (kind === 'status') {
+            if (cell) cell.textContent = get('val');
+          } else if (cell) {
+            var terms = $$('a', cell).map(function (a) { return a.textContent.trim(); });
+            var v = get('val');
+            if (get('op') === 'add' && terms.indexOf(v) === -1) terms.push(v);
+            if (get('op') === 'remove') terms = terms.filter(function (x) { return x !== v; });
+            cell.innerHTML = terms.length ? terms.map(function (x) { return '<a href="#">' + x + '</a>'; }).join('، ') : '<span aria-hidden="true">—</span>';
+          }
+        });
+        close();
+        say('تم تعديل ' + b.dataset.name + ' ' + countLabel(rows.length) + ' (في النموذج فقط)');
+      });
+    });
+    refresh();
+  })();
 })();
