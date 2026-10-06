@@ -1872,3 +1872,15 @@ body.edit-tags-php #addtag > p.submit {
 body.cms-groups-2 #article-typediv {
   display: none;
 }
+
+/* Required fields (المحتوى label, الصور): red asterisk as on the title */
+.cms-field-label {
+  margin: 16px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2327;
+}
+.cms-field-label .cms-required-mark,
+.acf-field .acf-label label .acf-required {
+  color: #d63638;
+}

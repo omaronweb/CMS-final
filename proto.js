@@ -427,6 +427,17 @@
     body.appendChild(nav);
   })();
 
+  // Add / Edit: the content editor is required — a label with the red required mark
+  // above it (the title shows its mark after the "إضافة عنوان" placeholder, الصور in its ACF label)
+  (function () {
+    var ed = document.getElementById('postdivrich');
+    if (!ed || ed.previousElementSibling && ed.previousElementSibling.classList.contains('cms-field-label')) return;
+    var l = document.createElement('div');
+    l.className = 'cms-field-label';
+    l.innerHTML = 'المحتوى <span class="cms-required-mark" aria-hidden="true">*</span>';
+    ed.parentNode.insertBefore(l, ed);
+  })();
+
   // ── Groups on the الكتابات list: ?group=articles|research|khawater shows only that
   // group's rows and names the page after it (on the live CMS: the article-type filter).
   // Which sample article belongs to which group is set here for the prototype.
