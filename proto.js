@@ -405,7 +405,7 @@
     // Prototype pages — the only pages included in CMS-final, one click away
     var protoPages = [
       ['index.html', 'الرئيسية'],                          // الرئيسية
-      ['edit__post_type-article.html', 'قائمة الكتابات'], // قائمة الكتابات
+      ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
       ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'], // تحرير مقالة
       ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
@@ -439,7 +439,7 @@
     ed.parentNode.insertBefore(l, ed);
   })();
 
-  // ── Groups on the الكتابات list: ?group=articles|research|khawater shows only that
+  // ── Groups on the list page: ?group=articles|research|khawater shows only that
   // group's rows and names the page after it (on the live CMS: the article-type filter).
   // Which sample article belongs to which group is set here for the prototype.
   (function () {
@@ -448,19 +448,11 @@
       research: { name: 'الأبحاث', posts: ['731', '275', '265'] },
       khawater: { name: 'الخواطر', posts: ['278', '1100'] }
     };
-    var slug = new URLSearchParams(location.search).get('group');
+    // with no group in the link the list opens on the first group, المقالات
+    var slug = new URLSearchParams(location.search).get('group') || 'articles';
     var g = GROUP_ROWS[slug];
     if (!g) return;
     var here = (location.pathname.split('/').pop() || 'index.html');
-    // Sidebar (direction 1): the chosen group is the current item, not الكل
-    if (here === 'edit__post_type-article.html') {
-      $$('#menu-posts-article .wp-submenu li.current').forEach(function (li) {
-        li.classList.remove('current'); $$('a', li).forEach(function (a) { a.classList.remove('current'); a.removeAttribute('aria-current'); });
-      });
-      $$('#menu-posts-article .cms-submenu-child a').forEach(function (a) {
-        if ((a.getAttribute('href') || '').indexOf('group=' + slug) !== -1) { a.parentNode.classList.add('current'); a.classList.add('current'); a.setAttribute('aria-current', 'page'); }
-      });
-    }
     var list = document.getElementById('the-list');
     if (!list || here !== 'edit__post_type-article.html') return;
     var shown = 0;
@@ -474,12 +466,9 @@
     document.title = document.title.replace('الكتابات', g.name);
   })();
 
-  // ── المجموعات 2: a second direction for the groups ─────────────
-  // Direction 1 (default): one الكتابات menu with المجموعات and its groups under it.
-  // Direction 2: no الكتابات parent; المقالات، الأبحاث، الخواطر are top-level menu items
-  // of their own, each with الكل / أضف, and Add/Edit needs no المجموعات box (the menu
-  // you came from is the group). Switch with the toggle on the prototype pages bar;
-  // the choice is kept per browser and can be forced with ?groups=1 or ?groups=2.
+  // ── المجموعات (the agreed direction): no الكتابات parent in the sidebar;
+  // المقالات، الأبحاث، الخواطر are top-level menu items of their own, each with الكل / أضف,
+  // and Add/Edit needs no المجموعات box (the menu you came from is the group).
   (function () {
     var GROUPS = [
       { slug: 'articles', name: 'المقالات', icon: 'dashicons-admin-post' },
@@ -487,28 +476,9 @@
       { slug: 'khawater', name: 'الخواطر', icon: 'dashicons-format-status' }
     ];
     var params = new URLSearchParams(location.search);
-    var mode = '1';
-    try { mode = localStorage.getItem('cms-groups') || '1'; } catch (e) {}
-    if (params.get('groups') === '1' || params.get('groups') === '2') {
-      mode = params.get('groups');
-      try { localStorage.setItem('cms-groups', mode); } catch (e) {}
-    }
-    var two = mode === '2';
     var here = (location.pathname.split('/').pop() || 'index.html');
-
-    // Toggle on the prototype pages bar
-    var nav = document.getElementById('proto-pages');
-    if (nav) {
-      var sw = document.createElement('span');
-      sw.className = 'proto-groups-switch';
-      sw.innerHTML = '<a href="?groups=1"' + (two ? '' : ' class="is-current"') + '>المجموعات 1</a>' +
-                     '<a href="?groups=2"' + (two ? ' class="is-current"' : '') + '>المجموعات 2</a>';
-      nav.appendChild(sw);
-    }
-    if (!two) return;
+    try { localStorage.removeItem('cms-groups'); } catch (e) {}
     document.body.classList.add('cms-groups-2');
-    var withMode = function (href) { return href + (href.indexOf('?') === -1 ? '?' : '&') + 'groups=2'; };
-    if (nav) $$('a', nav).forEach(function (a) { if (!a.closest('.proto-groups-switch')) a.href = withMode(a.getAttribute('href')); });
 
     var isArticlePage = /^(edit__post_type-article|post-new__post_type-article|post__action-edit__lang-ar__post-272)\.html$/.test(here);
     var current = GROUPS.filter(function (g) { return g.slug === params.get('group'); })[0] || (isArticlePage ? GROUPS[0] : null);
@@ -519,8 +489,8 @@
       GROUPS.slice().reverse().forEach(function (g) {
         var on = current && current.slug === g.slug;
         var state = on ? 'wp-has-current-submenu wp-menu-open' : 'wp-not-current-submenu';
-        var list = withMode('edit__post_type-article.html?group=' + g.slug);
-        var add = withMode('post-new__post_type-article.html?group=' + g.slug);
+        var list = 'edit__post_type-article.html?group=' + g.slug;
+        var add = 'post-new__post_type-article.html?group=' + g.slug;
         var li = document.createElement('li');
         li.className = 'wp-has-submenu ' + state + ' menu-top menu-icon-article';
         li.id = 'menu-posts-article-' + g.slug;
@@ -539,7 +509,7 @@
         var g = document.createElement('li');
         var onGroups = here === 'edit-tags__post_type-article__taxonomy-article-type.html';
         if (onGroups) g.className = 'current';
-        g.innerHTML = '<a href="' + withMode('edit-tags__post_type-article__taxonomy-article-type.html') + '">المجموعات</a>';
+        g.innerHTML = '<a href="' + 'edit-tags__post_type-article__taxonomy-article-type.html' + '">المجموعات</a>';
         cats.appendChild(g);
         if (onGroups) {
           var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
@@ -567,7 +537,7 @@
         c.querySelector('span:last-child').textContent = g.name;
         var icon = c.querySelector('.dashicons'); if (icon) icon.className = 'dashicons ' + g.icon;
         c.classList.remove('proto-dead'); c.removeAttribute('data-orig-href');
-        c.setAttribute('href', withMode('edit__post_type-article.html?group=' + g.slug));
+        c.setAttribute('href', 'edit__post_type-article.html?group=' + g.slug);
         card.parentNode.insertBefore(c, card);
       });
       card.remove();
