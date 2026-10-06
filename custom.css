@@ -1815,19 +1815,47 @@ body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_
    Home: the card grid fills the content width on any screen, with as
    many compact cards per row as fit (was 4 fixed columns in 1200px)
    ------------------------------------------------------------------ */
-#dashboard-widgets {
+body.index-php #dashboard-widgets {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
   gap: 12px !important;
   max-width: none !important;
   padding: 16px 0 96px !important; /* room below for the prototype pages bar */
 }
-#dashboard-widgets > a {
+body.index-php #dashboard-widgets > a {
   min-height: 0 !important;
   padding: 18px 12px !important;
 }
-#dashboard-widgets > a .dashicons {
+body.index-php #dashboard-widgets > a .dashicons {
   font-size: 28px !important;
   width: 28px !important;
   height: 28px !important;
   margin-bottom: 8px !important;
+}
+
+/* Add-term form: the WPML لغة field reads as one more field of the card —
+   same white background, label and select as الاسم / أب / الوصف */
+body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] .hndle {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 2px 0 12px !important;
+  color: #1d2327 !important;
+}
+body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] .hndle span {
+  color: #1d2327 !important;
+}
+body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] .inside {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] .inside select {
+  width: 100%;
+  border-radius: 8px !important;
+}
+body.edit-tags-php #addtag > p.submit {
+  margin-top: 0 !important; /* WordPress pulls it up 10px, over the last field */
 }
