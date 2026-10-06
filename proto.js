@@ -657,7 +657,8 @@
   (function () {
     var ac = document.getElementById('ac-table-actions');
     var nav = ac && ac.closest('.tablenav');
-    if (!nav) return;
+    // only where there are options to show (the topics pages have none)
+    if (!nav || !$('.ac-table-actions-buttons > *', ac)) return;
     var box = document.createElement('div');
     box.className = 'alignleft actions cms-more';
     var link = document.createElement('a');
