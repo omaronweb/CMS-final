@@ -1982,3 +1982,23 @@ body.cms-groups-2 #article-typediv {
   outline: none;
   box-shadow: none;
 }
+
+/* شجرة التصنيفات on Add / Edit: three parents (الموضوعية، الفقهية، العقدية);
+   while filtering, matching terms show flat with their parent in parentheses */
+#topicchecklist > li.cms-tax-parent > label {
+  font-weight: 600;
+}
+#topicchecklist .cms-tax-parent-name {
+  display: none;
+  color: #646970;
+}
+#topicchecklist.is-filtering .cms-tax-parent-name {
+  display: inline;
+}
+#topicchecklist.is-filtering li:not(.cms-tax-hit) > label {
+  display: none;
+}
+#topicchecklist.is-filtering ul.children {
+  margin: 0 !important;
+  padding: 0 !important;
+}

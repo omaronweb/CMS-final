@@ -678,4 +678,70 @@
       link.textContent = open ? 'إخفاء الخيارات الإضافية' : 'عرض خيارات إضافية';
     });
   })();
+  // ── شجرة التصنيفات on Add / Edit: the terms sit under three parents (الموضوعية،
+  // الفقهية، العقدية); typing in «فلترة...» lists the matching terms, each with its
+  // parent's name in parentheses.
+  (function () {
+    var list = document.getElementById('topicchecklist');
+    if (!list) return;
+    var PARENTS = [
+      { name: 'التصنيفات الموضوعية', terms: null },
+      { name: 'التصنيفات الفقهية', terms: ['أصول الفقه', 'الفقه وأصوله', 'سنن وأحكام', 'حقوق وواجبات'] },
+      { name: 'التصنيفات العقدية', terms: ['عقائد ونبوات', 'دورة العقيدة الواسطية'] }
+    ];
+    var ownText = function (li) {
+      if (li.dataset.term) return li.dataset.term;
+      var l = $(':scope > label', li);
+      return (li.dataset.term = l ? l.textContent.replace(/\s+/g, ' ').trim() : '');
+    };
+    var roots = $$(':scope > li', list);
+    var uls = PARENTS.map(function (p) {
+      var li = document.createElement('li');
+      li.className = 'cms-tax-parent';
+      li.innerHTML = '<label class="selectit"><input type="checkbox"> ' + p.name + '</label><ul class="children"></ul>';
+      list.appendChild(li);
+      return $('ul', li);
+    });
+    roots.forEach(function (li) {
+      var t = ownText(li);
+      var i = PARENTS.findIndex(function (p) { return p.terms && p.terms.indexOf(t) !== -1; });
+      uls[i === -1 ? 0 : i].appendChild(li);
+    });
+
+    // every term carries its parent's name, shown only while filtering
+    $$('li', list).forEach(ownText); // names first, before the parent tags join the labels
+    $$('li', list).forEach(function (li) {
+      var parent = li.parentNode.closest('li');
+      var label = $(':scope > label', li);
+      if (parent && label) {
+        var tag = document.createElement('span');
+        tag.className = 'cms-tax-parent-name';
+        tag.textContent = ' (' + ownText(parent) + ')';
+        label.appendChild(tag);
+      }
+    });
+
+    var input = $('#taxonomy-topic .zad-tax-filter');
+    if (!input) return;
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      list.classList.toggle('is-filtering', !!q);
+      // show a term when it or one of its children matches; its own row only if it matches
+      (function walk(ul) {
+        var any = false;
+        $$(':scope > li', ul).forEach(function (li) {
+          var self = !!q && ownText(li).indexOf(q) !== -1;
+          var kids = $(':scope > ul.children', li);
+          var below = kids ? walk(kids) : false;
+          li.classList.toggle('cms-tax-hit', !q || self);
+          li.hidden = !!q && !self && !below;
+          if (self || below) any = true;
+        });
+        return any;
+      })(list);
+      // the «كل شجرة التصنيفات» tab holds the results
+      var all = document.getElementById('topic-all'); var pop = document.getElementById('topic-pop');
+      if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
+    });
+  })();
 })();
