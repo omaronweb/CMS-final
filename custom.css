@@ -1087,8 +1087,8 @@ body.post-type-book th.column-535f15c3bb22d0 {
    List pages — bars above the table (bulk actions, filters, item count)
    are shown, as on the live CMS
    ------------------------------------------------------------------ */
-/* Category (taxonomy) pages keep the CMS-improvements look: no bars above the table */
-body.edit-tags-php .tablenav.top,
+/* Taxonomy pages: bulk actions and pagination above the table as in cms-testing;
+   the language links stay hidden there too */
 body.edit-tags-php .subsubsub,
 body.edit-tags-php .icl_subsubsub {
   display: none !important;
