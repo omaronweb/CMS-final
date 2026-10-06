@@ -404,7 +404,6 @@
 
     // Prototype pages — the only pages included in CMS-final, one click away
     var protoPages = [
-      ['search.html', 'بحث'],                              // بحث في كل المحتوى
       ['index.html', 'الرئيسية'],                          // الرئيسية
       ['edit__post_type-article.html', 'قائمة الكتابات'], // قائمة الكتابات
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
@@ -572,91 +571,5 @@
       });
       card.remove();
     });
-  })();
-  // ── بحث: one search across the whole CMS, first in the sidebar (above الرئيسية).
-  // The results page (search.html) holds sample results; type chips and the
-  // filters (type, date, status, order) narrow them here as the live search would.
-  (function () {
-    var here = location.pathname.split('/').pop() || 'index.html';
-    var onSearch = here === 'search.html';
-    var dash = document.getElementById('menu-dashboard');
-    if (dash && !document.getElementById('menu-cms-search')) {
-      var href = 'search.html' + (document.body.classList.contains('cms-groups-2') ? '?groups=2' : '');
-      var state = onSearch ? 'current' : 'wp-not-current-submenu';
-      var li = document.createElement('li');
-      li.id = 'menu-cms-search';
-      li.className = 'wp-first-item ' + state + ' menu-top menu-top-first menu-icon-search';
-      li.innerHTML = '<a class="wp-first-item ' + state + ' menu-top menu-top-first" href="' + href + '"' + (onSearch ? ' aria-current="page"' : '') + '>' +
-        '<div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-search"><br></div>' +
-        '<div class="wp-menu-name">بحث</div></a>';
-      dash.parentNode.insertBefore(li, dash);
-      if (onSearch) {
-        [dash, $('a', dash)].forEach(function (el) {
-          el.classList.remove('current'); el.classList.add('wp-not-current-submenu'); el.removeAttribute('aria-current');
-        });
-      }
-    }
-    if (!onSearch) return;
-
-    var params = new URLSearchParams(location.search);
-    var input = document.getElementById('cms-search-input');
-    if (params.has('q')) input.value = params.get('q');
-    var tbody = document.getElementById('the-list');
-    var rows = $$('tr', tbody);
-    rows.forEach(function (tr, i) { tr.dataset.rank = i; });
-    var titles = rows.map(function (tr) { return $('.column-title strong > a', tr); });
-    var original = titles.map(function (a) { return a.textContent; });
-    var typeSel = document.getElementById('cms-filter-type');
-    var dateSel = document.getElementById('cms-filter-date');
-    var statusSel = document.getElementById('cms-filter-status');
-    var sortSel = document.getElementById('cms-filter-sort');
-    var chips = $$('.cms-search-types a');
-    var today = new Date('2026-10-06');
-    var esc = function (t) { return t.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); };
-
-    function dateOk(d) {
-      var v = dateSel.value;
-      if (!v) return true;
-      if (v.length === 4) return d.slice(0, 4) === v;
-      return (today - new Date(d)) / 864e5 <= +v;
-    }
-    function apply() {
-      var q = input.value.trim();
-      var shown = 0;
-      rows.forEach(function (tr, i) {
-        var ok = (!q || original[i].indexOf(q) !== -1 || tr.textContent.indexOf(q) !== -1) &&
-          (!typeSel.value || tr.dataset.type === typeSel.value) &&
-          (!statusSel.value || tr.dataset.status === statusSel.value) &&
-          dateOk(tr.dataset.date);
-        tr.hidden = !ok;
-        if (ok) shown++;
-        titles[i].innerHTML = q ? esc(original[i]).split(esc(q)).join('<mark>' + esc(q) + '</mark>') : esc(original[i]);
-      });
-      var order = rows.slice().sort(function (a, b) {
-        if (sortSel.value === 'new') return a.dataset.date < b.dataset.date ? 1 : -1;
-        if (sortSel.value === 'old') return a.dataset.date > b.dataset.date ? 1 : -1;
-        return a.dataset.rank - b.dataset.rank;
-      });
-      order.forEach(function (tr) { tbody.appendChild(tr); });
-      $$('.displaying-num').forEach(function (n) {
-        n.textContent = shown === 1 ? 'نتيجة واحدة' : shown === 2 ? 'نتيجتان' : shown + (shown >= 3 && shown <= 10 ? ' نتائج' : ' نتيجة');
-      });
-      $('.cms-search-empty').hidden = shown > 0;
-      chips.forEach(function (c) { c.classList.toggle('is-current', c.dataset.type === typeSel.value); });
-    }
-    document.getElementById('cms-search-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      var u = new URL(location.href); u.searchParams.set('q', input.value.trim());
-      history.replaceState(null, '', u);
-      apply();
-    });
-    chips.forEach(function (c) {
-      c.addEventListener('click', function (e) { e.preventDefault(); typeSel.value = c.dataset.type; apply(); });
-    });
-    [typeSel, dateSel, statusSel, sortSel].forEach(function (s) { s.addEventListener('change', apply); });
-    document.getElementById('cms-filter-reset').addEventListener('click', function () {
-      typeSel.value = dateSel.value = statusSel.value = ''; sortSel.value = 'relevance'; apply();
-    });
-    apply();
   })();
 })();

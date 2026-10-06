@@ -9,7 +9,6 @@ does on the live CMS.
 ## Pages
 | Page | File | HTML from |
 | --- | --- | --- |
-| Search (بحث) | `search.html` | New: one search across the CMS, first in the sidebar; sample results narrowed by type, date, status and order |
 | Home | `index.html` | CMS-improvements |
 | List page (articles) | `edit__post_type-article.html` | CMS-improvements |
 | Add post (article) | `post-new__post_type-article.html` | CMS-improvements, article fields in the live order with the "حقول إضافية" accordion (cms-testing) |
