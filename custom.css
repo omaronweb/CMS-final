@@ -1459,9 +1459,16 @@ body.edit-tags-php .wp-list-table .row-title,
 body.edit-tags-php .wp-list-table .column-name strong {
   font-weight: 400 !important;
 }
+/* the line sits just before the indented name, so it steps in with each level */
 body.edit-tags-php .wp-list-table tr:not(.level-0) > td.column-name {
-  border-inline-start: 2px solid #c3c8d1;
+  background-image: linear-gradient(#c3c8d1, #c3c8d1);
+  background-repeat: no-repeat;
+  background-size: 2px 100%;
+  background-position: right 12px top 0;
 }
+body.edit-tags-php .wp-list-table tr.level-2 > td.column-name { background-position: right 36px top 0; }
+body.edit-tags-php .wp-list-table tr.level-3 > td.column-name { background-position: right 60px top 0; }
+body.edit-tags-php .wp-list-table tr.level-4 > td.column-name { background-position: right 84px top 0; }
 
 
 /* ------------------------------------------------------------------
