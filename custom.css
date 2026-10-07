@@ -2054,12 +2054,12 @@ body.term-php #edittag tr.wpml-term-languages-wrap #dashboard-widgets {
 }
 
 /* ── ترتيب التصنيفات (zad-icmss-taxonomy-order): tabs, then the terms as
-   draggable rows (children indented under their parent), «حفظ الترتيب» above
+   draggable rows, as wide as the longest term (children indented under their parent), «حفظ الترتيب» above
    and below the list. The radio table and plugin promo are not in the page. */
 body.admin_page_zad-icmss-taxonomy-order #wpbody-content > .wrap + .wrap > h2 {
   font-size: 23px; font-weight: 400; margin: 8px 0 4px; padding: 0;
 }
-body.admin_page_zad-icmss-taxonomy-order #order-terms { max-width: 760px; }
+body.admin_page_zad-icmss-taxonomy-order #order-terms { width: fit-content; min-width: 280px; }
 body.admin_page_zad-icmss-taxonomy-order .subsubsub a:not(.current) { color: #50575e; font-weight: 400; }
 body.admin_page_zad-icmss-taxonomy-order .tto-top .submit { margin: 0; padding: 8px 0 12px; }
 body.admin_page_zad-icmss-taxonomy-order .tto-top + #order-terms { margin-top: 0; }
@@ -2067,7 +2067,7 @@ body.admin_page_zad-icmss-taxonomy-order .tto-top .submit,
 body.admin_page_zad-icmss-taxonomy-order #order-terms .submit { margin: 0; padding: 12px 0; }
 body.admin_page_zad-icmss-taxonomy-order #order-terms .alignleft { float: none; }
 #tto_sortable, #tto_sortable ul.children { list-style: none; margin: 0; padding: 0; }
-#order-terms #tto_sortable { margin: 0; }
+#order-terms #tto_sortable { margin: 0; width: auto; }
 #order-terms #tto_sortable ul.children { margin: 0 28px 0 0; }
 #order-terms #tto_sortable li span { padding: 0; color: #1d2327; font-size: 14px; }
 #tto_sortable li.term_type_li { margin: 0; }
@@ -2075,10 +2075,7 @@ body.admin_page_zad-icmss-taxonomy-order #order-terms .alignleft { float: none; 
   display: flex; align-items: center; gap: 10px;
   padding: 6px 12px; margin: 4px 0; line-height: 1.6;
   background: #fff; border: 1px solid #e0e0e3; border-radius: 6px;
-  cursor: grab; font-size: 14px; color: #1d2327;
-}
-#order-terms #tto_sortable li > .item::before {
-  content: "\f545"; font-family: dashicons; font-size: 18px; color: #8c8f94;
+  cursor: move; font-size: 14px; color: #1d2327;
 }
 #order-terms #tto_sortable > li:has(> ul) > .item { font-weight: 600; }
 #order-terms #tto_sortable li > .item:hover { border-color: #8c8f94; background: #f6f7f7; }
