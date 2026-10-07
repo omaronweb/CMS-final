@@ -1808,7 +1808,7 @@ body.cms-groups-2 #article-typediv {
    header with «تعديل … لـN عناصر» under each column that can be bulk-edited
    ------------------------------------------------------------------ */
 .wp-list-table thead tr.cms-bulk-bar > td {
-  background: #e8f0e0;
+  background: var(--zad-admin-primary-light, #eef1f6);
   padding: 10px 8px;
   border-bottom: 1px solid #d1d5db;
   vertical-align: middle;
@@ -1825,10 +1825,10 @@ body.cms-groups-2 #article-typediv {
   text-align: center;
   border-radius: 8px !important;
   background: #fff !important;
-  border-color: #5b7a3a !important;
-  color: #2f4a17 !important;
+  border-color: var(--zad-admin-primary, #1a2744) !important;
+  color: var(--zad-admin-primary, #1a2744) !important;
 }
-.cms-bulk-btn.button:hover { background: #f4f8ef !important; }
+.cms-bulk-btn.button:hover { background: var(--zad-admin-primary, #1a2744) !important; color: #fff !important; }
 .cms-bulk-dialog {
   position: fixed;
   inset: 0;

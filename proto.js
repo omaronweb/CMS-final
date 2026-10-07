@@ -583,11 +583,12 @@
         return c && c.checked && !tr.hidden && tr.offsetParent !== null;
       });
     }
+    function itemsLabel(n) { return n === 2 ? 'عنصرين' : n + (n <= 10 ? ' عناصر' : ' عنصرًا'); }
     function countLabel(n) { return n === 2 ? 'لعنصرين' : 'لـ' + n + (n <= 10 ? ' عناصر' : ' عنصرًا'); }
     function refresh() {
       var n = checkedRows().length;
       bar.hidden = n < 2;
-      $$('.cms-bulk-btn', bar).forEach(function (b) { b.textContent = 'تعديل ' + b.dataset.name + ' ' + countLabel(n); });
+      $$('.cms-bulk-btn', bar).forEach(function (b) { b.textContent = 'تعديل ' + itemsLabel(n); });
     }
     table.addEventListener('change', function () { setTimeout(refresh, 0); });
 
