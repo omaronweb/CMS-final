@@ -755,7 +755,6 @@
     var GROUPS = [
       ['menu-posts-book-series', 'menu-posts-book-lesson', ['كل شروح الكتب', 'أضف شرح كتاب', 'كل دروس الكتب المشروحة', 'أضف درس كتاب مشروح']],
       ['menu-posts-scientific-series', 'menu-posts-scientific-lesson', ['كل السلاسل العلمية', 'أضف سلسلة علمية', 'كل الدروس العلمية', 'أضف درس علمي']],
-      ['menu-posts-interpret-series', 'menu-posts-interpret-lesson', ['كل الدورات', 'أضف دورة', 'كل دروس التفسير', 'أضف درس تفسير']],
       ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson', ['كل البرامج الإذاعية', 'أضف برنامج إذاعي', 'كل الدروس الإذاعية', 'أضف درس إذاعي']],
       ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson', ['كل البرامج التلفزيونية', 'أضف برنامج تلفزيوني', 'كل الدروس التلفزيونية', 'أضف درس تلفزيوني']],
       ['menu-posts-book', 'menu-posts-book-page', ['كل الكتب', 'أضف كتاب', 'كل صفحات الكتب', 'أضف صفحة كتاب']],
@@ -775,6 +774,15 @@
         sub.appendChild(li);
       });
       b.remove();
+    });
+
+    // الدورات and دروس التفسير stay as two separate menu items
+    [['menu-posts-interpret-series', null, ['كل الدورات', 'أضف دورة']],
+     ['menu-posts-interpret-lesson', 'دروس التفسير', ['كل دروس التفسير', 'أضف درس تفسير']]].forEach(function (g) {
+      var li = byId(g[0]);
+      if (!li) return;
+      if (g[1]) rename(g[0], g[1]);
+      items(li).slice(0, 2).forEach(function (x, i) { $('a', x).textContent = g[2][i]; });
     });
 
     var tools = byId('menu-tools'), cats = byId('toplevel_page_edit-tags-taxonomy-topic');
