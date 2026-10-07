@@ -12,6 +12,12 @@ one edit page per taxonomy. شجرة التصنيفات and المجموعات k
 list pages and only get an edit page here; التصنيفات الفقهية is not built (it is
 a parent inside شجرة التصنيفات).
 
+ترتيب التصنيفات (zad-icmss-taxonomy-order): one page per tab, built on the
+المجموعات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
+.save-order button). Omar's decisions (2026-10-07): no taxonomy radio table, no
+«<type> — التصنيفات» heading, no plugin promo; the save button also sits above the
+list; the page opens on شجرة التصنيفات. Drag and drop is in proto.js.
+
 Run after build_content_pages.py:  python3 _tools/build_admin_pages.py
 """
 import argparse
@@ -24,6 +30,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from build_content_pages import (FINAL, add_class, classes, fix_links, remove_class, sidebar_template,  # noqa: E402
                                  soup, write)
 import copy  # noqa: E402
+from bs4 import BeautifulSoup  # noqa: E402
 
 # (source page in CMS-improvements, page the sidebar marks current)
 PAGES = [
@@ -60,6 +67,87 @@ ARABIC = {
 }
 # ترجمة الوسائط date filter: «كل التواريخ in أي لغة to أي لغة»
 FILTER_WORDS = {'in': 'من', 'to': 'إلى'}
+
+
+# ترتيب التصنيفات: (taxonomy, tab label, terms or the list page to read them from)
+ORDER = 'admin__page-zad-icmss-taxonomy-order'
+ORDER_TABS = [
+    ('topic', 'شجرة التصنيفات', [
+        ('التصنيفات الموضوعية', ['آداب الإسلام', 'آداب وأخلاق', 'الآداب والأخلاق والرقائق']),
+        ('التصنيفات الفقهية', ['أصول الفقه', 'الفقه وأصوله', 'حقوق وواجبات']),
+        ('التصنيفات العقدية', ['دورة العقيدة الواسطية', 'عقائد ونبوات']),
+        ('الفنون', ['التفسير', 'الحديث', 'النحو'])]),
+    ('article-type', 'المجموعات', 'edit-tags__post_type-article__taxonomy-article-type.html'),
+    ('index', 'فهارس', 'edit-tags__post_type-audio-book-lesson__taxonomy-index.html'),
+    ('course-index', 'فهارس الدورات', 'edit-tags__post_type-book-lesson__taxonomy-course-index.html'),
+    ('book-index', 'فهارس الكتب', 'edit-tags__post_type-book__taxonomy-book-index.html'),
+]
+
+
+def order_name(tax):
+    # the menu link (no taxonomy) opens the first tab
+    return ORDER + ('.html' if tax == ORDER_TABS[0][0] else '__taxonomy-%s.html' % tax)
+
+
+def order_terms(terms):
+    """[(name, children)] from the tab's own list, or from a taxonomy list page."""
+    if isinstance(terms, list):
+        return terms
+    page = soup(os.path.join(FINAL, terms))
+    # sample terms with no Arabic letters (test junk like «cxvxv») are left out
+    return [(t, []) for t in (a.get_text(strip=True) for a in page.select('#the-list .row-title'))
+            if re.search('[\u0621-\u064A]', t)]
+
+
+def build_order(shell, template):
+    built = []
+    n = [0]
+
+    def items(page, terms):
+        ul = page.new_tag('ul')
+        for name, kids in terms:
+            n[0] += 1
+            li = page.new_tag('li', id='item_%d' % n[0], attrs={'class': 'term_type_li'})
+            div = page.new_tag('div', attrs={'class': 'item'})
+            span = page.new_tag('span')
+            span.string = name
+            div.append(span)
+            li.append(div)
+            if kids:
+                sub = items(page, [(k, []) for k in kids])
+                sub['class'] = 'children sortable'
+                li.append(sub)
+            ul.append(li)
+        return ul
+
+    for tax, label, terms in ORDER_TABS:
+        page = soup(os.path.join(FINAL, shell))
+        menu = copy.copy(template)
+        mark(menu, ORDER + '.html')
+        page.find(id='adminmenumain').replace_with(menu)
+        page.title.string = 'ترتيب التصنيفات › موقع مشكاة — ووردبريس'
+        cls = [c for c in page.body['class'] if not c.startswith(('edit-tags', 'post-type-', 'taxonomy-', 'ac-wp-'))]
+        page.body['class'] = cls[:cls.index('auto-fold')] + ['admin_page_zad-icmss-taxonomy-order'] + \
+            cls[cls.index('auto-fold'):] + ['taxonomy-' + tax]
+        body = page.find(id='wpbody-content')
+        body.clear()
+        tabs = ''.join('<li>%s<a class="%s" href="%s">%s</a></li>' % (
+            ' | ' if i else '', 'current' if t == tax else '', order_name(t), lab)
+            for i, (t, lab, _) in enumerate(ORDER_TABS))
+        save = '<p class="submit"><a class="save-order button-primary" href="javascript:;">حفظ الترتيب</a></p>'
+        body.append(BeautifulSoup(
+            '<div class="wrap"><ul class="subsubsub">%s</ul><div class="clear"></div></div>'
+            '<div class="wrap"><h2>ترتيب التصنيفات</h2><div id="ajax-response"></div><div class="clear"></div>'
+            '<form id="to_form" method="get"><div class="tto-top actions">%s</div>'
+            '<div id="order-terms"><div id="post-body"><ul class="sortable" id="tto_sortable"></ul>'
+            '<div class="clear"></div></div><div class="alignleft actions">%s</div></div></form></div>'
+            '<div class="clear"></div>' % (tabs, save, save), 'html.parser'))
+        ul = items(page, order_terms(terms))
+        page.find(id='tto_sortable').extend(list(ul.children))
+        name = order_name(tax)
+        write(os.path.join(FINAL, name), page)
+        built.append(name)
+    return built
 
 
 def mark(menu, target):
@@ -113,6 +201,8 @@ def main():
         if lst:
             built.append(build(os.path.join(args.improvements, lst), lst, listed, template))
         built.append(build(os.path.join(args.improvements, term), term, listed, template))
+
+    built += build_order(LIST_OF['article-type'], template)
 
     existing = {os.path.basename(p) for p in glob.glob(os.path.join(FINAL, '*.html'))}
     changed = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(FINAL, '*.html'))) if fix_links(p, existing)]

@@ -41,7 +41,7 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <span class="k">PHP</span> إعداد ووردبريس أو ACF أو حفظ البيانات.
 التنسيقات كلها في <code>custom.css</code>، والسلوك المحاكى في <code>proto.js</code>، وبنية HTML هي نفسها في اللوحة.</p>
 <nav class="toc">
-<a href="#rules">ملاحظات للتطوير</a><a href="#general">عام</a><a href="#menu">القائمة الجانبية</a><a href="#home">الرئيسية</a><a href="#list">صفحات القوائم</a><a href="#edit">صفحات الإضافة والتحرير</a><a href="#types">أنواع المحتوى</a><a href="#topics">التصنيفات</a><a href="#groups">المجموعات</a><a href="#users">الأعضاء</a><a href="#media">مكتبة الوسائط</a><a href="#settings">الإعدادات العامة</a><a href="#site">واجهة الموقع</a>
+<a href="#rules">ملاحظات للتطوير</a><a href="#general">عام</a><a href="#menu">القائمة الجانبية</a><a href="#home">الرئيسية</a><a href="#list">صفحات القوائم</a><a href="#edit">صفحات الإضافة والتحرير</a><a href="#types">أنواع المحتوى</a><a href="#topics">التصنيفات</a><a href="#order">ترتيب التصنيفات</a><a href="#groups">المجموعات</a><a href="#users">الأعضاء</a><a href="#media">مكتبة الوسائط</a><a href="#settings">الإعدادات العامة</a><a href="#site">واجهة الموقع</a>
 </nav>
 
 <section id="rules">
@@ -174,6 +174,19 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <li>صفحة واحدة لكل تصنيف بدل نسخة تحت كل نوع محتوى: <a href="edit-tags__post_type-article__taxonomy-public-tag.html">الوسوم</a>، <a href="edit-tags__post_type-audio-book-lesson__taxonomy-index.html">فهارس</a>، <a href="edit-tags__post_type-article__taxonomy-keyword.html">الكلمات المفتاحية</a>، <a href="edit-tags__post_type-book-lesson__taxonomy-course-index.html">فهارس الدورات</a>، <a href="edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html">القراء</a>، <a href="edit-tags__post_type-book__taxonomy-book-index.html">فهارس الكتب</a>. لا تُبنى صفحة «التصنيفات الفقهية» لأنها أب داخل شجرة التصنيفات.<span class="k">PHP</span></li>
 <li>«فهارس الدورات»: حقل «الصور» مخفي في نموذج الإضافة، كما في شجرة التصنيفات.<span class="k">CSS</span></li>
 <li>صفحات التحرير (مثل <a href="term__post_type-book-lesson__tag_ID-92__taxonomy-course-index.html">تحرير فهرس الدورة</a>): قسم Rank Math مخفي، والحقول في بطاقات بيضاء والتسمية فوق الحقل كما في نموذج الإضافة، ومربع اللغة داخل البطاقة.<span class="k">CSS</span></li>
+</ul>
+</section>
+
+<section id="order">
+<h2>ترتيب التصنيفات <a href="admin__page-zad-icmss-taxonomy-order.html">افتح الصفحة</a></h2>
+<ul>
+<li>التبويبات تصنيفاتنا: شجرة التصنيفات، المجموعات، فهارس، فهارس الدورات، فهارس الكتب. الوسوم والكلمات المفتاحية والقراء ليست فيها لأنها قوائم بلا آباء مرتبة أبجديًا.<span class="k">PHP</span></li>
+<li>رابط «ترتيب التصنيفات» في القائمة يفتح تبويب «شجرة التصنيفات» مباشرة بدل صفحة «اختر تصنيفًا لإعادة ترتيب عناصره».<span class="k">PHP</span></li>
+<li>جدول اختيار التصنيف بأزرار الاختيار محذوف، ومعه العنوان «الدروس — التصنيفات»: شجرة التصنيفات واحدة لكل الأنواع، والخيار الآخر له تبويب باسمه.<span class="k">PHP</span></li>
+<li>صندوق إعلان الإضافة (nsp-code، التبرع، Post Types Order) مخفي.<span class="k">PHP</span></li>
+<li>الزر «تحديث» أصبح «حفظ الترتيب»، ويظهر أعلى القائمة وأسفلها.<span class="k">PHP</span></li>
+<li>العناصر صفوف بيضاء بمقبض سحب، والأبناء مزاحون تحت آبائهم، والآباء بخط أعرض.<span class="k">CSS</span></li>
+<li>للمطوّر: الأفضل حفظ الترتيب مباشرة بعد كل سحب وإفلات (طلب AJAX عند انتهاء السحب) بدل انتظار زر الحفظ.<span class="k">JS</span></li>
 </ul>
 </section>
 

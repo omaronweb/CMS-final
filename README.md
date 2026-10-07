@@ -35,7 +35,8 @@ type's pages (`DERIVED`), and renamed labels (التفسير → الدورات)
 both checked against production add pages on 2026-10-07.
 
 `python3 _tools/build_admin_pages.py` (run after it) builds the users (أعضاء، إضافة عضو، حسابك), media
-(المكتبة، إضافة ملف، ترجمة الوسائط) and التصنيفات pages: one list page and one edit page per taxonomy.
+(المكتبة، إضافة ملف، ترجمة الوسائط) and التصنيفات pages: one list page and one edit page per taxonomy,
+plus ترتيب التصنيفات (one page per tab; drag and drop in `proto.js`).
 
 ## Where the styles come from
 - `custom.css` — CMS-improvements skin (navy + gold), plus what was borrowed from cms-testing:

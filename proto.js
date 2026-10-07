@@ -684,6 +684,43 @@
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });
   })();
+  // ── ترتيب التصنيفات: drag a term up or down among its siblings (its children
+  // move with it); «حفظ الترتيب» (above and below the list) confirms. On the live
+  // CMS the order is better saved right after each drop.
+  (function () {
+    var list = document.getElementById('tto_sortable');
+    if (!list) return;
+    var dragged = null;
+    $$('li.term_type_li', list).forEach(function (li) {
+      li.draggable = true;
+      li.addEventListener('dragstart', function (e) {
+        e.stopPropagation();
+        dragged = li;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', li.id);
+        setTimeout(function () { li.classList.add('is-dragging'); }, 0);
+      });
+      li.addEventListener('dragend', function () {
+        li.classList.remove('is-dragging');
+        dragged = null;
+      });
+      li.addEventListener('dragover', function (e) {
+        // only among siblings: the term keeps its parent
+        if (!dragged || dragged === li || dragged.parentNode !== li.parentNode) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var box = $(':scope > .item', li).getBoundingClientRect();
+        var after = e.clientY > box.top + box.height / 2;
+        li.parentNode.insertBefore(dragged, after ? li.nextSibling : li);
+      });
+    });
+    $$('.save-order').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        say('\u062A\u0645 \u062A\u062D\u062F\u064A\u062B \u062A\u0631\u062A\u064A\u0628 \u0627\u0644\u0639\u0646\u0627\u0635\u0631');
+      });
+    });
+  })();
   // ── Sidebar order: each series and its lessons share one menu item, and
   // the items fall into bordered groups, each sorted alphabetically.
   (function () {
