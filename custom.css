@@ -1977,3 +1977,13 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
   height: auto;
   resize: vertical;
 }
+
+/* Sidebar: a series and its lessons read as one bordered pair; التصنيفات
+   opens the bottom (tools) section with a top border */
+#adminmenu > li.cms-pair-start,
+#adminmenu > li.cms-menu-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+#adminmenu > li.cms-pair-end {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}

@@ -733,4 +733,45 @@
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });
   })();
+  // ── Sidebar order: each series sits right above its lessons (a bordered pair),
+  // التصنيفات joins the tools at the bottom, Site Kit sits with خيارات الترجمة,
+  // and الإعدادات العامة closes the menu.
+  (function () {
+    var menu = document.getElementById('adminmenu');
+    if (!menu) return;
+    var byId = function (id) { return document.getElementById(id); };
+    var rename = function (id, name) {
+      var n = byId(id) && $('.wp-menu-name', byId(id));
+      if (n) n.firstChild ? (n.firstChild.nodeValue = name) : (n.textContent = name);
+      var head = byId(id) && $('.wp-submenu-head', byId(id));
+      if (head) head.textContent = name;
+    };
+    rename('menu-posts-scientific-lesson', 'دروس السلاسل العلمية');
+    rename('toplevel_page_tm-menu-main', 'خيارات الترجمة');
+    rename('menu-media', 'مكتبة الوسائط');
+
+    var PAIRS = [
+      ['menu-posts-book-series', 'menu-posts-book-lesson'],
+      ['menu-posts-scientific-series', 'menu-posts-scientific-lesson'],
+      ['menu-posts-interpret-series', 'menu-posts-interpret-lesson'],
+      ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson'],
+      ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson'],
+      ['menu-posts-book', 'menu-posts-book-page'],
+      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson']
+    ];
+    PAIRS.forEach(function (pair) {
+      var a = byId(pair[0]), b = byId(pair[1]);
+      if (!a || !b) return;
+      a.parentNode.insertBefore(b, a.nextSibling);
+      a.classList.add('cms-pair-start');
+      b.classList.add('cms-pair-end');
+    });
+
+    var tools = byId('menu-tools'), cats = byId('toplevel_page_edit-tags-taxonomy-topic');
+    if (tools && cats) { tools.parentNode.insertBefore(cats, tools); cats.classList.add('cms-menu-section'); }
+    var kit = byId('toplevel_page_googlesitekit-dashboard'), wpml = byId('toplevel_page_tm-menu-main');
+    if (kit && wpml) wpml.parentNode.insertBefore(kit, wpml);
+    var settings = byId('menu-posts-public-config'), collapse = byId('collapse-menu');
+    if (settings) menu.insertBefore(settings, collapse || null);
+  })();
 })();
