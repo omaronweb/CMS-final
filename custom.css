@@ -1710,8 +1710,14 @@ body.edit-tags-php .wp-list-table th.column-posts.sorted a {
 .postbox .postbox-header {
   border-bottom: 1px solid #d1d5db;
 }
+/* Closed: WordPress drops the box's bottom border (.postbox.closed), which
+   left the header looking open at the bottom; one border all around instead */
+.postbox.closed,
+.stuffbox.closed {
+  border-bottom: 1px solid #d1d5db;
+}
 .postbox.closed .postbox-header {
-  border-bottom-color: transparent;
+  border-bottom: 0;
 }
 
 /* Topics: no الصور (images) field in the add form */
