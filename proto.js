@@ -401,6 +401,7 @@
       ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
       ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'], // تحرير مقالة
+      ['content-types.html', 'أنواع المحتوى'], // قائمة وإضافة وتحرير لكل نوع محتوى
       ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
       ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
@@ -444,7 +445,7 @@
     }
   })();
 
-  // ── Bulk edit on the المقالات list: with 2+ rows checked, a bar under the header
+  // ── Bulk edit on the list pages: with 2+ rows checked, a bar under the header
   // offers «تعديل … لـN عناصر» under each column that can be changed for many rows
   // at once (title, status, taxonomies); other columns get nothing.
   (function () {
@@ -460,7 +461,7 @@
     var STATUSES = ['منشور', 'مسودة', 'بانتظار المراجعة', 'خاص'];
     function kindOf(th) {
       if (th.classList.contains('column-title')) return 'title';
-      if (th.classList.contains('column-49bb31f5e353f8')) return 'status';
+      if (th.textContent.replace(/Sort (ascending|descending)\.?/g, '').trim() === 'حالة النشر') return 'status';
       var tax = Array.prototype.filter.call(th.classList, function (c) { return /^column-taxonomy-/.test(c); })[0];
       return tax ? tax.replace('column-', '') : null;
     }
@@ -493,6 +494,15 @@
         return c && c.checked && !tr.hidden && tr.offsetParent !== null;
       });
     }
+    // terms of a taxonomy without a demo list: the ones already in that column
+    function termsIn(col) {
+      var seen = [];
+      $$('#the-list td.' + col + ' a').forEach(function (a) {
+        var t = a.textContent.trim();
+        if (t && seen.indexOf(t) === -1) seen.push(t);
+      });
+      return seen;
+    }
     function itemsLabel(n) { return n === 2 ? 'عنصرين' : n + (n <= 10 ? ' عناصر' : ' عنصرًا'); }
     function countLabel(n) { return n === 2 ? 'لعنصرين' : 'لـ' + n + (n <= 10 ? ' عناصر' : ' عنصرًا'); }
     function refresh() {
@@ -521,7 +531,7 @@
         field = '<label>الحالة الجديدة<select data-f="val">' + STATUSES.map(function (v) { return '<option>' + v + '</option>'; }).join('') + '</select></label>';
       } else {
         field = '<label>الإجراء<select data-f="op"><option value="add">إضافة</option><option value="remove">إزالة</option></select></label>' +
-          '<label>' + b.dataset.name + '<select data-f="val">' + (TERMS[kind] || []).map(function (v) { return '<option>' + v + '</option>'; }).join('') + '</select></label>';
+          '<label>' + b.dataset.name + '<select data-f="val">' + (TERMS[kind] || termsIn(b.dataset.col)).map(function (v) { return '<option>' + v + '</option>'; }).join('') + '</select></label>';
       }
       dlg.innerHTML = '<div class="cms-bulk-panel" role="dialog" aria-modal="true">' +
         '<h2>تعديل ' + b.dataset.name + ' ' + countLabel(rows.length) + '</h2>' +

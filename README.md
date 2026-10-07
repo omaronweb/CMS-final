@@ -18,8 +18,17 @@ does on the live CMS.
 | Site homepage (واجهة الموقع) | `homepage.html` | cms-testing (front end; plain المقالات menu item, تجريب removed) |
 | Improvements list (قائمة التحسينات) | `improvements.html` | Developer handoff: every change compared with cms-testing, plus the development rules |
 | General settings | `post__action-edit__post-702.html` | cms-testing (live), with the CMS-improvements sidebar and admin bar |
+| Every other content type (أنواع المحتوى) | `edit__post_type-*.html`, `post-new__post_type-*.html`, `post__action-edit__lang-ar__post-*.html`, index in `content-types.html` | CMS-improvements, built by `_tools/build_content_pages.py` |
 
 Open `index.html` in a browser. Links to pages that are not part of this set show a toast.
+
+## Content type pages
+`python3 _tools/build_content_pages.py` (with CMS-improvements and cms-testing checked out next to
+CMS-final) rebuilds the list, add and edit pages of every content type except المقالات and
+الإعدادات العامة, which are hand-tuned. It takes the sidebar from `edit__post_type-article.html`,
+the columns from `list-pages-columns.html` and the article add/edit rules, then makes links
+between pages that exist live and the rest `proto-dead`. Re-run it after changing the sidebar
+or the column picks.
 
 ## Where the styles come from
 - `custom.css` — CMS-improvements skin (navy + gold), plus what was borrowed from cms-testing:

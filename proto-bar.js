@@ -8,6 +8,7 @@
     ['edit__post_type-article.html', 'قائمة المقالات'],
     ['post-new__post_type-article.html', 'أضف مقالة'],
     ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'],
+    ['content-types.html', 'أنواع المحتوى'],
     ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'],
     ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'],
     ['post__action-edit__post-702.html', 'الإعدادات العامة'],

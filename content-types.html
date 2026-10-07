@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أنواع المحتوى</title>
+<style>
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/IBMPlexSansArabic-Regular.ttf) format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url(fonts/IBMPlexSansArabic-SemiBold.ttf) format("truetype");font-weight:600;font-display:swap}
+:root{--bg:#f1f5f9;--card:#fff;--ink:#1d2330;--muted:#5b6577;--line:#e3e6ec;--brand:#1a2744;--gold:#c49a2a;--chip:#eef1f6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1c2027;--ink:#e6e9ef;--muted:#9aa3b2;--line:#2d333d;--brand:#9fb3d9;--gold:#d9b45a;--chip:#262c36}}
+:root[data-theme="dark"]{--bg:#14171c;--card:#1c2027;--ink:#e6e9ef;--muted:#9aa3b2;--line:#2d333d;--brand:#9fb3d9;--gold:#d9b45a;--chip:#262c36}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 "IBM Plex Sans Arabic",-apple-system,"Segoe UI",Tahoma,sans-serif}
+main{max-width:1200px;margin:auto;padding:24px 16px 64px}
+h1{font-size:26px;margin:12px 0 4px}
+p{color:var(--muted);margin:0 0 12px}
+a{color:var(--brand)}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+thead th{font-weight:600;white-space:nowrap}
+tbody tr:last-child>*{border-bottom:0}
+tbody th{font-weight:600;white-space:nowrap}
+tbody th code{display:block;font:12px monospace;color:var(--muted);direction:ltr;text-align:right}
+td.links{white-space:nowrap}
+td.links a+a{margin-inline-start:10px}
+.f{font-size:13px;color:var(--muted)}
+.f b{color:var(--ink);font-weight:600}
+.live{font-size:12px;border-radius:999px;padding:0 8px;white-space:nowrap;background:var(--chip);color:var(--muted)}
+.live.yes{color:var(--brand);font-weight:600}
+</style>
+</head>
+<body>
+<main>
+<a href="index.html">→ العودة إلى النموذج</a>
+<h1>أنواع المحتوى</h1>
+<p>صفحة القائمة وصفحتا الإضافة والتحرير لكل نوع محتوى. بنية HTML من CMS-improvements، والتنسيق والقواعد نفسها المطبّقة على المقالات (انظر <a href="improvements.html">قائمة التحسينات</a>)، والأعمدة حسب <a href="list-pages-columns.html">أعمدة القوائم</a>.</p>
+<div class="wrap"><table>
+<thead><tr><th scope="col">نوع المحتوى</th><th scope="col">الصفحات</th><th scope="col">الحقول</th><th scope="col">مقارنة باللوحة الحالية</th></tr></thead>
+<tbody>
+<tr><th scope="row">أسئلة وأجوبة<code>fatwa</code></th><td class="links"><a href="edit__post_type-fatwa.html">القائمة</a><a href="post-new__post_type-fatwa.html">إضافة</a><a href="post__action-edit__lang-ar__post-438.html">تحرير</a></td><td><span class="f"><b>السؤال، الجواب، الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات، الفتاوى ذات الصلة</span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">الأدعية<code>supplication</code></th><td class="links"><a href="edit__post_type-supplication.html">القائمة</a><a href="post-new__post_type-supplication.html">إضافة</a><a href="post__action-edit__lang-ar__post-859.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">البرامج الإذاعية<code>radio-program-series</code></th><td class="links"><a href="edit__post_type-radio-program-series.html">القائمة</a><a href="post-new__post_type-radio-program-series.html">إضافة</a><a href="post__action-edit__lang-ar__post-338.html">تحرير</a></td><td><span class="f"><b>الصور، حالة السلسلة</b></span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">البرامج التلفزيونية<code>tv-program-series</code></th><td class="links"><a href="edit__post_type-tv-program-series.html">القائمة</a><a href="post-new__post_type-tv-program-series.html">إضافة</a><a href="post__action-edit__lang-ar__post-673.html">تحرير</a></td><td><span class="f"><b>الصور، حالة السلسلة</b></span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">التلاوات<code>tilawa</code></th><td class="links"><a href="edit__post_type-tilawa.html">القائمة</a><a href="post-new__post_type-tilawa.html">إضافة</a><a href="post__action-edit__lang-ar__post-807.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">الخطب<code>speech</code></th><td class="links"><a href="edit__post_type-speech.html">القائمة</a><a href="post-new__post_type-speech.html">إضافة</a><a href="post__action-edit__lang-ar__post-467.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">الدروس<code>lesson</code></th><td class="links"><a href="edit__post_type-lesson.html">القائمة</a><a href="post-new__post_type-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-566.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">الدروس العلمية<code>scientific-lesson</code></th><td class="links"><a href="edit__post_type-scientific-lesson.html">القائمة</a><a href="post-new__post_type-scientific-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-631.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، التفريغ، مقاطع مميزة، عدد المشاهدات، الدورة</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">الدورات<code>interpret-series</code></th><td class="links"><a href="edit__post_type-interpret-series.html">القائمة</a><a href="post-new__post_type-interpret-series.html">إضافة</a><a href="post__action-edit__lang-ar__post-1121.html">تحرير</a></td><td><span class="f"><b>الصور، حالة السلسلة</b></span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">السلاسل العلمية<code>scientific-series</code></th><td class="links"><a href="edit__post_type-scientific-series.html">القائمة</a><a href="post-new__post_type-scientific-series.html">إضافة</a><a href="post__action-edit__lang-ar__post-626.html">تحرير</a></td><td><span class="f"><b>الصور، حالة السلسلة</b></span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">الصفحات الثابتة<code>static-page</code></th><td class="links"><a href="edit__post_type-static-page.html">القائمة</a><a href="post-new__post_type-static-page.html">إضافة</a><a href="post__action-edit__lang-ar__post-5789.html">تحرير</a></td><td><span class="f"><b>الصور، تاريخ الإلقاء</b></span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">الفوائد<code>benefit</code></th><td class="links"><a href="edit__post_type-benefit.html">القائمة</a><a href="post-new__post_type-benefit.html">إضافة</a><a href="post__action-edit__lang-ar__post-6001.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">الكتب<code>book</code></th><td class="links"><a href="edit__post_type-book.html">القائمة</a><a href="post-new__post_type-book.html">إضافة</a><a href="post__action-edit__lang-ar__post-2324.html">تحرير</a></td><td><span class="f"><b>صور الغلاف</b> · حقول إضافية: ملفات PDF، تاريخ النشر، إجمالي المجلدات، الرقم المعياري الدولي للكتاب، معرّف الخاصية، قيمة المعرّف، رقم الطبعة، رابط الشراء، عدد الصفحات، الناشر، رابط المرجع، نموذج الوصول، السعر، رابط القراءة، عدد التحميلات، صفحة الكتاب</span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">الكتب الصوتية<code>audio-book-lesson</code></th><td class="links"><a href="edit__post_type-audio-book-lesson.html">القائمة</a><a href="post-new__post_type-audio-book-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-535.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: التفريغ، مقاطع مميزة، عدد المشاهدات، شرح المحتوى، معلومات القارئ</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">المحاضرات<code>lecture</code></th><td class="links"><a href="edit__post_type-lecture.html">القائمة</a><a href="post-new__post_type-lecture.html">إضافة</a><a href="post__action-edit__lang-ar__post-1537.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات، الدورة</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">المقالات<code>article</code></th><td class="links"><a href="edit__post_type-article.html">القائمة</a><a href="post-new__post_type-article.html">إضافة</a><a href="post__action-edit__lang-ar__post-272.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، ملفات PDF، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات، ملفات Word</span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">بودكاست<code>podcast</code></th><td class="links"><a href="edit__post_type-podcast.html">القائمة</a><a href="post-new__post_type-podcast.html">إضافة</a><a href="post__action-edit__lang-ar__post-383.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء، التفريغ، مقاطع مميزة، عدد المشاهدات، أنود الوصلة، الوصلة الضوئية، العقد</span></td><td><span class="live yes">نعم</span></td></tr>
+<tr><th scope="row">دروس البرنامج الإذاعي<code>radio-program-lesson</code></th><td class="links"><a href="edit__post_type-radio-program-lesson.html">القائمة</a><a href="post-new__post_type-radio-program-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-319.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">دروس البرنامج التلفزيوني<code>tv-program-lesson</code></th><td class="links"><a href="edit__post_type-tv-program-lesson.html">القائمة</a><a href="post-new__post_type-tv-program-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-684.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، التفريغ، مقاطع مميزة، عدد المشاهدات</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">دروس التفسير<code>interpret-lesson</code></th><td class="links"><a href="edit__post_type-interpret-lesson.html">القائمة</a><a href="post-new__post_type-interpret-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-1149.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، ملفات PDF، التفريغ، مقاطع مميزة، عدد المشاهدات، الدورة</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">دروس الكتب المشروحة<code>book-lesson</code></th><td class="links"><a href="edit__post_type-book-lesson.html">القائمة</a><a href="post-new__post_type-book-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-519.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، التفريغ، مقاطع مميزة، عدد المشاهدات، الدورة</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">دروس المتصفح<code>book-browser-lesson</code></th><td class="links"><a href="edit__post_type-book-browser-lesson.html">القائمة</a><a href="post-new__post_type-book-browser-lesson.html">إضافة</a><a href="post__action-edit__lang-ar__post-5619.html">تحرير</a></td><td><span class="f"><b>الصور، شرح المحتوى</b></span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">شروح الكتب<code>book-series</code></th><td class="links"><a href="edit__post_type-book-series.html">القائمة</a><a href="post-new__post_type-book-series.html">إضافة</a><a href="post__action-edit__lang-ar__post-512.html">تحرير</a></td><td><span class="f"><b>الصور، حالة السلسلة</b> · حقول إضافية: اسم المؤلف، نبذة عن المؤلف</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">صفحات الكتاب<code>book-page</code></th><td class="links"><a href="edit__post_type-book-page.html">القائمة</a><a href="post-new__post_type-book-page.html">إضافة</a> <span class="live">القائمة فارغة في المصدر</span></td><td><span class="f"><b>الصور</b> · حقول إضافية: ملفات PDF، رقم الصفحة، الكتاب</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">كتب المتصفح<code>book-browser-series</code></th><td class="links"><a href="edit__post_type-book-browser-series.html">القائمة</a><a href="post-new__post_type-book-browser-series.html">إضافة</a><a href="post__action-edit__lang-ar__post-5620.html">تحرير</a></td><td><span class="f"><b>الصور، حالة السلسلة</b></span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+<tr><th scope="row">مقاطع قصيرة<code>short</code></th><td class="links"><a href="edit__post_type-short.html">القائمة</a><a href="post-new__post_type-short.html">إضافة</a><a href="post__action-edit__lang-ar__post-1423.html">تحرير</a></td><td><span class="f"><b>الصور</b> · حقول إضافية: رابط يوتيوب، الملفات الصوتية، مقاطع الفيديو، رابط الفيديو، تاريخ الإلقاء</span></td><td><span class="live">لا، من CMS-improvements فقط</span></td></tr>
+</tbody>
+</table></div>
+</main>
+<script src="proto-bar.js"></script>
+</body>
+</html>
