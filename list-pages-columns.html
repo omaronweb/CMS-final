@@ -20,6 +20,7 @@ input[type=search]{font:inherit;padding:8px 12px;border:1px solid var(--line);bo
 .wrap{overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;max-height:80vh}
 table{border-collapse:separate;border-spacing:0;width:100%}
 .matrix th,.matrix td{border-bottom:1px solid var(--line);padding:6px 8px;white-space:nowrap}
+.matrix thead th+th,.matrix td{border-inline-start:1px solid var(--line)}
 .matrix thead th{position:sticky;top:0;background:var(--card);z-index:2;vertical-align:bottom;font-weight:600}
 .matrix thead th:first-child,.matrix tbody th{position:sticky;right:0;background:var(--card);z-index:1;text-align:right}
 .matrix thead th:first-child{z-index:3}
