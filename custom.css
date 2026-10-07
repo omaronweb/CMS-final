@@ -1729,33 +1729,6 @@ body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="topic_
 }
 
 
-/* ------------------------------------------------------------------
-   Sidebar: the groups (المقالات، الأبحاث، الخواطر) sit under
-   المجموعات in the الكتابات submenu, one step in
-   ------------------------------------------------------------------ */
-#adminmenu .wp-submenu li.cms-submenu-child a {
-  padding-inline-start: 34px !important;
-  font-size: 13px;
-  position: relative;
-}
-#adminmenu .wp-submenu li.cms-submenu-child a::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: 22px;
-  top: 50%;
-  width: 5px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
-}
-
-/* Required section (المجموعات when groups exist): red asterisk after the title */
-.postbox .hndle .cms-required-mark {
-  margin-inline-start: 4px;
-  color: #d63638;
-}
-
-
 /* Home: cards keep their CMS-improvements size (about 260px wide) but wrap to
    as many as fit the screen width, instead of 4 fixed columns in 1200px;
    room below for the prototype pages bar */
@@ -1793,18 +1766,13 @@ body.edit-tags-php #addtag > p.submit {
   margin-top: 0 !important; /* WordPress pulls it up 10px, over the last field */
 }
 
-/* المجموعات: the menu you came from is the group, so Add/Edit has no المجموعات box */
-body.cms-groups-2 #article-typediv {
-  display: none;
-}
-
 /* Required fields (الصور): red asterisk as on the title */
 .acf-field .acf-label label .acf-required {
   color: #d63638;
 }
 
 /* ------------------------------------------------------------------
-   Bulk edit on the الكتابات list: with 2+ rows checked, a bar under the
+   Bulk edit on the المقالات list: with 2+ rows checked, a bar under the
    header with «تعديل … لـN عناصر» under each column that can be bulk-edited
    ------------------------------------------------------------------ */
 .wp-list-table thead tr.cms-bulk-bar > td {

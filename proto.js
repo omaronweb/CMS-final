@@ -90,22 +90,6 @@
       var b = $('.handlediv', box); if (b) b.setAttribute('aria-expanded', 'false');
     });
   }
-  // المجموعات on Add / Edit: when the site has groups, choosing one is required, so the box
-  // opens by default with a required mark; with no groups the box stays collapsed
-  (function () {
-    var box = document.getElementById('article-typediv');
-    if (!box) return;
-    var hasGroups = !!box.querySelector('#article-typechecklist li');
-    box.classList.toggle('closed', !hasGroups);
-    box.classList.toggle('cms-required', hasGroups);
-    var b = $('.handlediv', box); if (b) b.setAttribute('aria-expanded', String(hasGroups));
-    var h = $('.hndle', box);
-    if (hasGroups && h && !h.querySelector('.cms-required-mark')) {
-      var m = document.createElement('span');
-      m.className = 'cms-required-mark'; m.setAttribute('aria-hidden', 'true'); m.textContent = '*';
-      h.insertBefore(m, h.firstChild.nextSibling);
-    }
-  })();
   $$('.postbox .handlediv, .postbox .hndle').forEach(function (h) {
     h.addEventListener('click', function (e) {
       if (e.target.closest('.handle-order-higher, .handle-order-lower, a')) return;
@@ -429,110 +413,31 @@
   })();
 
 
-  // ── Groups on the list page: ?group=articles|research|khawater shows only that
-  // group's rows and names the page after it (on the live CMS: the article-type filter).
-  // Which sample article belongs to which group is set here for the prototype.
+  // ── المجموعات (formerly الأنواع) is a taxonomy like the others: its page sits
+  // under التصنيفات, and Add / Edit has an المجموعات box to put the item in a group
   (function () {
-    var GROUP_ROWS = {
-      articles: { name: 'المقالات', posts: ['272', '269', '728'] },
-      research: { name: 'الأبحاث', posts: ['731', '275', '265'] },
-      khawater: { name: 'الخواطر', posts: ['278', '1100'] }
-    };
-    // with no group in the link the list opens on the first group, المقالات
-    var slug = new URLSearchParams(location.search).get('group') || 'articles';
-    var g = GROUP_ROWS[slug];
-    if (!g) return;
     var here = (location.pathname.split('/').pop() || 'index.html');
-    var list = document.getElementById('the-list');
-    if (!list || here !== 'edit__post_type-article.html') return;
-    var shown = 0;
-    $$(':scope > tr[id^="post-"]', list).forEach(function (tr) {
-      var keep = g.posts.indexOf(tr.id.replace('post-', '')) !== -1;
-      tr.style.display = keep ? '' : 'none';
-      if (keep) shown++;
-    });
-    $$('.displaying-num').forEach(function (n) { n.textContent = shown === 2 ? 'عنصران' : shown + ' عناصر'; });
-    $$('h1.wp-heading-inline').forEach(function (h) { h.textContent = g.name; });
-    document.title = document.title.replace('الكتابات', g.name);
+    var cats = $('#toplevel_page_edit-tags-taxonomy-topic .wp-submenu');
+    if (!cats) return;
+    var g = document.createElement('li');
+    var onGroups = here === 'edit-tags__post_type-article__taxonomy-article-type.html';
+    if (onGroups) g.className = 'current';
+    g.innerHTML = '<a href="edit-tags__post_type-article__taxonomy-article-type.html">المجموعات</a>';
+    cats.appendChild(g);
+    if (onGroups) {
+      var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
+      [top, $('a', top)].forEach(function (el) {
+        el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
+      });
+      // the page belongs to التصنيفات, not المقالات
+      var art = document.getElementById('menu-posts-article');
+      if (art) [art, $('a', art)].forEach(function (el) {
+        el.classList.remove('wp-has-current-submenu', 'wp-menu-open'); el.classList.add('wp-not-current-submenu');
+      });
+    }
   })();
 
-  // ── المجموعات (the agreed direction): no الكتابات parent in the sidebar;
-  // المقالات، الأبحاث، الخواطر are top-level menu items of their own, each with الكل / أضف,
-  // and Add/Edit needs no المجموعات box (the menu you came from is the group).
-  (function () {
-    var GROUPS = [
-      { slug: 'articles', name: 'المقالات', icon: 'dashicons-admin-post' }
-      // الأبحاث and الخواطر are not in the sidebar (removed 2026-10-07)
-    ];
-    var params = new URLSearchParams(location.search);
-    var here = (location.pathname.split('/').pop() || 'index.html');
-    try { localStorage.removeItem('cms-groups'); } catch (e) {}
-    document.body.classList.add('cms-groups-2');
-
-    var isArticlePage = /^(edit__post_type-article|post-new__post_type-article|post__action-edit__lang-ar__post-272)\.html$/.test(here);
-    var current = GROUPS.filter(function (g) { return g.slug === params.get('group'); })[0] || (isArticlePage ? GROUPS[0] : null);
-
-    // Sidebar: the three groups replace الكتابات at the same level as the other items
-    var menu = document.getElementById('menu-posts-article');
-    if (menu) {
-      GROUPS.slice().reverse().forEach(function (g) {
-        var on = current && current.slug === g.slug;
-        var state = on ? 'wp-has-current-submenu wp-menu-open' : 'wp-not-current-submenu';
-        var list = 'edit__post_type-article.html?group=' + g.slug;
-        var add = 'post-new__post_type-article.html?group=' + g.slug;
-        var li = document.createElement('li');
-        li.className = 'wp-has-submenu ' + state + ' menu-top menu-icon-article';
-        li.id = 'menu-posts-article-' + g.slug;
-        li.innerHTML = '<a class="wp-has-submenu ' + state + ' menu-top menu-icon-article" href="' + list + '">' +
-          '<div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before ' + g.icon + '"><br></div>' +
-          '<div class="wp-menu-name">' + g.name + '</div></a>' +
-          '<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">' + g.name + '</li>' +
-          '<li class="wp-first-item' + (on && here === 'edit__post_type-article.html' ? ' current' : '') + '"><a class="wp-first-item" href="' + list + '">الكل</a></li>' +
-          '<li' + (on && here === 'post-new__post_type-article.html' ? ' class="current"' : '') + '><a href="' + add + '">أضف</a></li></ul>';
-        menu.parentNode.insertBefore(li, menu.nextSibling);
-      });
-      menu.remove();
-      // المجموعات (the list of groups) moves under التصنيفات
-      var cats = $('#toplevel_page_edit-tags-taxonomy-topic .wp-submenu');
-      if (cats) {
-        var g = document.createElement('li');
-        var onGroups = here === 'edit-tags__post_type-article__taxonomy-article-type.html';
-        if (onGroups) g.className = 'current';
-        g.innerHTML = '<a href="' + 'edit-tags__post_type-article__taxonomy-article-type.html' + '">المجموعات</a>';
-        cats.appendChild(g);
-        if (onGroups) {
-          var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
-          [top, $('a', top)].forEach(function (el) {
-            el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
-          });
-        }
-      }
-    }
-
-    // Titles name the group instead of الكتابات
-    if (current) {
-      $$('h1.wp-heading-inline').forEach(function (h) {
-        if (h.textContent.trim() === 'الكتابات') h.textContent = current.name;
-      });
-      document.title = document.title.replace('الكتابات', current.name);
-    }
-
-    // Home: one card per group instead of الكتابات
-    $$('#dashboard-widgets > a').forEach(function (card) {
-      var label = card.querySelector('span:last-child');
-      if (!label || label.textContent.trim() !== 'الكتابات') return;
-      GROUPS.forEach(function (g) {
-        var c = card.cloneNode(true);
-        c.querySelector('span:last-child').textContent = g.name;
-        var icon = c.querySelector('.dashicons'); if (icon) icon.className = 'dashicons ' + g.icon;
-        c.classList.remove('proto-dead'); c.removeAttribute('data-orig-href');
-        c.setAttribute('href', 'edit__post_type-article.html?group=' + g.slug);
-        card.parentNode.insertBefore(c, card);
-      });
-      card.remove();
-    });
-  })();
-  // ── Bulk edit on the الكتابات list: with 2+ rows checked, a bar under the header
+  // ── Bulk edit on the المقالات list: with 2+ rows checked, a bar under the header
   // offers «تعديل … لـN عناصر» under each column that can be changed for many rows
   // at once (title, status, taxonomies); other columns get nothing.
   (function () {
@@ -790,7 +695,7 @@
     // Menu groups, each sorted alphabetically («ال» counted), with a border
     // between groups; الرئيسية stays on top
     var MENU = [
-      ['menu-posts-article-articles', 'menu-posts-fatwa', 'menu-posts-benefit', 'menu-posts-static-page'],
+      ['menu-posts-article', 'menu-posts-fatwa', 'menu-posts-benefit', 'menu-posts-static-page'],
       ['menu-posts-supplication', 'menu-posts-podcast', 'menu-posts-tilawa', 'menu-posts-speech', 'menu-posts-lesson',
        'menu-posts-interpret-lesson', 'menu-posts-lecture', 'menu-posts-short'],
       ['menu-posts-book', 'menu-posts-audio-book-lesson', 'menu-posts-book-browser-series', 'menu-posts-book-series'],
