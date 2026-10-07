@@ -1967,3 +1967,88 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
   border-start-start-radius: 0 !important;
   border-start-end-radius: 0 !important;
 }
+
+/* ------------------------------------------------------------------
+   Users, media and التصنيفات pages (2026-10-07)
+   ------------------------------------------------------------------ */
+/* فهارس الدورات: no الصور field in the add form, as on شجرة التصنيفات */
+body.edit-tags-php .acf-field[data-name="course_index_fields_images"],
+body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="course_index_fields_images"]))) {
+  display: none;
+}
+
+/* حسابك (and editing another member): sections Omar asked to hide.
+   His selectors first, then the ones that match this WordPress version's markup */
+:is(body.profile-php, body.user-edit-php) :is(.rank-math-person-social, .rank-math-user-wrap, [class*="rank-math"]),
+:is(body.profile-php, body.user-edit-php) #your-profile tr.user-url-wrap ~ tr {          /* Rank Math SEO: title, Twitter, Facebook, extra URLs */
+  display: none !important;
+}
+:is(body.profile-php, body.user-edit-php) :is(.wpml-section, tr.wpml-language-select),
+:is(body.profile-php, body.user-edit-php) #your-profile tr.user-language-wrap ~ tr.user-language-wrap { /* WPML language settings */
+  display: none !important;
+}
+:is(body.profile-php, body.user-edit-php) .user-rich-editing-wrap,        /* disable the visual editor */
+:is(body.profile-php, body.user-edit-php) .user-comment-shortcuts-wrap,   /* keyboard shortcuts */
+:is(body.profile-php, body.user-edit-php) :is(.user-admin-bar-front-wrap, .show-admin-bar) { /* toolbar */
+  display: none !important;
+}
+
+/* Term edit pages (تحرير …): no Rank Math section; the fields sit in white
+   cards with the label above the field, like the add form on the list page */
+body.term-php :is(.rank-math-metabox-wrap, #rank_math_metabox, [class*="rank-math-metabox"]) {
+  display: none !important;
+}
+body.term-php #edittag {
+  max-width: 760px;
+}
+body.term-php #edittag > table.form-table {
+  display: block;
+  box-sizing: border-box;
+  margin: 0 0 20px;
+  padding: 4px 24px 12px;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 8px;
+}
+body.term-php #edittag > table.form-table > tbody,
+body.term-php #edittag > table.form-table > tbody > tr,
+body.term-php #edittag > table.form-table > tbody > tr > :is(th, td) {
+  display: block;
+  width: auto;
+}
+body.term-php #edittag > table.form-table > tbody > tr {
+  padding: 16px 0;
+}
+body.term-php #edittag > table.form-table > tbody > tr + tr {
+  border-top: 1px solid #f0f0f1;
+}
+body.term-php #edittag > table.form-table > tbody > tr > th {
+  padding: 0 0 8px;
+  font-weight: 600;
+}
+body.term-php #edittag > table.form-table > tbody > tr > td {
+  padding: 0;
+}
+body.term-php #edittag > table.form-table tr:not(.wpml-term-languages-wrap) :is(input[type="text"], select, textarea) {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+body.term-php #edittag > table.form-table .description {
+  margin-top: 6px;
+  color: #6b7280;
+}
+body.term-php #edittag > h2 {
+  margin: 8px 0 12px;
+  font-size: 15px;
+}
+body.term-php .edit-tag-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+/* WPML language box on the term edit page: its floated column stays inside the card */
+body.term-php #edittag tr.wpml-term-languages-wrap #dashboard-widgets {
+  display: flow-root;
+  padding-top: 0;
+}

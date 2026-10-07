@@ -34,6 +34,9 @@ Types CMS-improvements doesn't have (الكتب الصوتية, `audio-book-seri
 type's pages (`DERIVED`), and renamed labels (التفسير → الدورات) are applied on every page (`RENAMES`),
 both checked against production add pages on 2026-10-07.
 
+`python3 _tools/build_admin_pages.py` (run after it) builds the users (أعضاء، إضافة عضو، حسابك), media
+(المكتبة، إضافة ملف، ترجمة الوسائط) and التصنيفات pages: one list page and one edit page per taxonomy.
+
 ## Where the styles come from
 - `custom.css` — CMS-improvements skin (navy + gold), plus what was borrowed from cms-testing:
   sidebar layout, page background, list table colouring, row actions on hover,

@@ -41,7 +41,7 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <span class="k">PHP</span> إعداد ووردبريس أو ACF أو حفظ البيانات.
 التنسيقات كلها في <code>custom.css</code>، والسلوك المحاكى في <code>proto.js</code>، وبنية HTML هي نفسها في اللوحة.</p>
 <nav class="toc">
-<a href="#rules">ملاحظات للتطوير</a><a href="#general">عام</a><a href="#menu">القائمة الجانبية</a><a href="#home">الرئيسية</a><a href="#list">صفحات القوائم</a><a href="#edit">صفحات الإضافة والتحرير</a><a href="#types">أنواع المحتوى</a><a href="#topics">التصنيفات</a><a href="#groups">المجموعات</a><a href="#settings">الإعدادات العامة</a><a href="#site">واجهة الموقع</a>
+<a href="#rules">ملاحظات للتطوير</a><a href="#general">عام</a><a href="#menu">القائمة الجانبية</a><a href="#home">الرئيسية</a><a href="#list">صفحات القوائم</a><a href="#edit">صفحات الإضافة والتحرير</a><a href="#types">أنواع المحتوى</a><a href="#topics">التصنيفات</a><a href="#groups">المجموعات</a><a href="#users">الأعضاء</a><a href="#media">مكتبة الوسائط</a><a href="#settings">الإعدادات العامة</a><a href="#site">واجهة الموقع</a>
 </nav>
 
 <section id="rules">
@@ -100,10 +100,11 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <li>البرامج التلفزيونية: كل البرامج التلفزيونية / أضف برنامج تلفزيوني / كل الدروس التلفزيونية / أضف درس تلفزيوني</li>
 <li>الكتب: كل الكتب / أضف كتاب / كل صفحات الكتب / أضف صفحة كتاب</li>
 <li>متصفح الكتب: كل كتب المتصفح / أضف كتاب للمتصفح / كل دروس المتصفح / أضف درس للمتصفح</li>
+<li>الكتب الصوتية: كل الكتب الصوتية / أضف كتاب صوتي / كل دروس الكتب الصوتية / أضف درس كتاب صوتي</li>
 </ul><span class="k">PHP</span></li>
 <li>الدورات ودروس الدورات عنصران منفصلان: «كل الدورات / أضف دورة» و«كل دروس الدورات / أضف درس دورة». في الصفحات: «سلاسل التفسير» ← «الدورات»، و«التفسير» في اسم الدرس ← «الدورة» (درس الدورة).<span class="k">PHP</span></li>
 <li>تغيير الأسماء: WPML ← خيارات الترجمة، وسائط ← مكتبة الوسائط، Site Kit ← أدوات جوجل للموقع، دورات ← الدورات.<span class="k">PHP</span></li>
-<li>«التصنيفات» عنصر واحد يجمع صفحات التصنيفات، و«المجموعات» تحته فقط. أُزيلت «التصنيفات الفقهية» من قائمته الفرعية، وأُزيل رابط «المجموعات» من القوائم الفرعية لأنواع المحتوى.<span class="k">PHP</span></li>
+<li>«التصنيفات» عنصر واحد يجمع صفحات التصنيفات، و«المجموعات» تحته فقط. أُزيلت «التصنيفات الفقهية» من قائمته الفرعية، وأُزيل رابط «المجموعات» من القوائم الفرعية لأنواع المحتوى. «القراء» انتقلت من عنصر الكتب الصوتية إلى «التصنيفات».<span class="k">PHP</span></li>
 <li>القائمة الفرعية بلون كحلي ثابت وتباعد مضغوط، دون السهم والخط الإضافي.<span class="k">CSS</span></li>
 </ul>
 </section>
@@ -170,6 +171,24 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <li>صفوف الآباء بخلفية بيضاء ووزن خط متوسط، وصفوف الأبناء بخلفية رمادية فاتحة.<span class="k">CSS</span></li>
 <li>عمود «العدد» محاذى لليمين.<span class="k">CSS</span></li>
 <li>نموذج إضافة تصنيف بطاقة واحدة متصلة، وحقل «لغة» بتنسيق بقية الحقول، وحقل «الصور» مخفي.<span class="k">CSS</span></li>
+<li>صفحة واحدة لكل تصنيف بدل نسخة تحت كل نوع محتوى: <a href="edit-tags__post_type-article__taxonomy-public-tag.html">الوسوم</a>، <a href="edit-tags__post_type-audio-book-lesson__taxonomy-index.html">فهارس</a>، <a href="edit-tags__post_type-article__taxonomy-keyword.html">الكلمات المفتاحية</a>، <a href="edit-tags__post_type-book-lesson__taxonomy-course-index.html">فهارس الدورات</a>، <a href="edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html">القراء</a>، <a href="edit-tags__post_type-book__taxonomy-book-index.html">فهارس الكتب</a>. لا تُبنى صفحة «التصنيفات الفقهية» لأنها أب داخل شجرة التصنيفات.<span class="k">PHP</span></li>
+<li>«فهارس الدورات»: حقل «الصور» مخفي في نموذج الإضافة، كما في شجرة التصنيفات.<span class="k">CSS</span></li>
+<li>صفحات التحرير (مثل <a href="term__post_type-book-lesson__tag_ID-92__taxonomy-course-index.html">تحرير فهرس الدورة</a>): قسم Rank Math مخفي، والحقول في بطاقات بيضاء والتسمية فوق الحقل كما في نموذج الإضافة، ومربع اللغة داخل البطاقة.<span class="k">CSS</span></li>
+</ul>
+</section>
+
+<section id="users">
+<h2>الأعضاء <a href="users.html">كافة الأعضاء</a> <a href="user-new.html">إضافة عضو</a> <a href="profile.html">حسابك</a></h2>
+<ul>
+<li>حسابك: أقسام مخفية: Rank Math SEO (تويتر، فيسبوك، الروابط الإضافية)، إعدادات WPML للغة ولمترجم WPML، تعطيل المحرر المرئي، اختصارات لوحة المفاتيح، شريط الأدوات.<span class="k">CSS</span></li>
+<li>إضافة عضو: «Send the new user an email about their account» ← «أرسل إلى العضو الجديد رسالة بريد إلكتروني بشأن حسابه».<span class="k">PHP</span></li>
+</ul>
+</section>
+
+<section id="media">
+<h2>مكتبة الوسائط <a href="upload.html">المكتبة</a> <a href="media-new.html">إضافة ملف</a> <a href="admin__page-wpml-media.html">ترجمة الوسائط</a></h2>
+<ul>
+<li>ترجمة الوسائط: كلمتا التصفية «in / to» ← «من / إلى».<span class="k">PHP</span></li>
 </ul>
 </section>
 

@@ -221,6 +221,8 @@
   (function () {
     var rows = $$('#the-list > tr.level-0');
     if (rows.length < 8) return;
+    // only taxonomies with parents (الوسوم، الكلمات المفتاحية، القراء have none)
+    if (!$('#addtag #parent, #edittag #parent')) return;
     // Check we're on a taxonomy page (edit-tags)
     var isTaxPage = document.body.className.indexOf('edit-tags') !== -1
       || window.location.href.indexOf('edit-tags') !== -1
@@ -421,28 +423,36 @@
   })();
 
 
-  // ── المجموعات (formerly الأنواع) is a taxonomy like the others: its page sits
-  // under التصنيفات, and Add / Edit has an المجموعات box to put the item in a group
+  // ── المجموعات (formerly الأنواع) and القراء are taxonomies like the others: their
+  // pages sit under التصنيفات (القراء used to sit under the audio books item), and
+  // Add / Edit has an المجموعات box to put the item in a group
   (function () {
     var here = (location.pathname.split('/').pop() || 'index.html');
     var cats = $('#toplevel_page_edit-tags-taxonomy-topic .wp-submenu');
     if (!cats) return;
-    var g = document.createElement('li');
-    var onGroups = here === 'edit-tags__post_type-article__taxonomy-article-type.html';
-    if (onGroups) g.className = 'current';
-    g.innerHTML = '<a href="edit-tags__post_type-article__taxonomy-article-type.html">المجموعات</a>';
-    cats.appendChild(g);
-    if (onGroups) {
+    [['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات', 'menu-posts-article', /taxonomy-article-type\.html$/],
+     ['edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html', 'القراء', 'menu-posts-audio-book-series', /taxonomy-reciter\.html$/]
+    ].forEach(function (t) {
+      // the old link elsewhere in the menu goes away
+      $$('#adminmenu .wp-submenu a[href="' + t[0] + '"], #adminmenu .wp-submenu a[data-orig-href="' + t[0] + '"]').forEach(function (a) {
+        if (!cats.contains(a)) a.parentNode.remove();
+      });
+      var on = t[3].test(here);
+      var g = document.createElement('li');
+      if (on) g.className = 'current';
+      g.innerHTML = '<a href="' + t[0] + '">' + t[1] + '</a>';
+      cats.appendChild(g);
+      if (!on) return;
       var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
       [top, $('a', top)].forEach(function (el) {
         el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
       });
-      // the page belongs to التصنيفات, not المقالات
-      var art = document.getElementById('menu-posts-article');
-      if (art) [art, $('a', art)].forEach(function (el) {
+      // the page belongs to التصنيفات, not to a content type
+      var other = document.getElementById(t[2]);
+      if (other) [other, $('a', other)].forEach(function (el) {
         el.classList.remove('wp-has-current-submenu', 'wp-menu-open'); el.classList.add('wp-not-current-submenu');
       });
-    }
+    });
   })();
 
   // ── Bulk edit on the list pages: with 2+ rows checked, a bar under the header
