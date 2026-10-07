@@ -404,6 +404,7 @@
 
 
     // Prototype pages — the only pages included in CMS-final, one click away
+    // (the doc pages build the same bar with proto-bar.js; keep both lists in sync)
     var protoPages = [
       ['index.html', 'الرئيسية'],                          // الرئيسية
       ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات

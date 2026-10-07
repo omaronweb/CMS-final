@@ -122,5 +122,6 @@ footer{color:var(--muted);font-size:13px;margin-top:32px}
 const q=document.getElementById('q'),rows=[...document.querySelectorAll('#rows tr')];
 q.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();rows.forEach(r=>r.hidden=v&&!r.dataset.q.toLowerCase().includes(v))});
 </script>
+<script src="proto-bar.js"></script>
 </body>
 </html>

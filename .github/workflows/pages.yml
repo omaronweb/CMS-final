@@ -32,7 +32,8 @@ jobs:
           v="${GITHUB_SHA::7}"
           find . -name '*.html' -not -path './.git/*' -print0 | xargs -0 sed -i \
             -e "s#href=\"custom\.css\"#href=\"custom.css?v=$v\"#g" \
-            -e "s#src=\"proto\.js\"#src=\"proto.js?v=$v\"#g"
+            -e "s#src=\"proto\.js\"#src=\"proto.js?v=$v\"#g" \
+            -e "s#proto-bar\.js\"#proto-bar.js?v=$v\"#g"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
