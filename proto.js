@@ -733,7 +733,7 @@
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });
   })();
-  // ── Sidebar order: each series sits right above its lessons (a bordered pair),
+  // ── Sidebar order: each series and its lessons share one menu item,
   // التصنيفات joins the tools at the bottom, Site Kit sits with خيارات الترجمة,
   // and الإعدادات العامة closes the menu.
   (function () {
@@ -750,21 +750,31 @@
     rename('toplevel_page_tm-menu-main', 'خيارات الترجمة');
     rename('menu-media', 'مكتبة الوسائط');
 
-    var PAIRS = [
-      ['menu-posts-book-series', 'menu-posts-book-lesson'],
-      ['menu-posts-scientific-series', 'menu-posts-scientific-lesson'],
-      ['menu-posts-interpret-series', 'menu-posts-interpret-lesson'],
-      ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson'],
-      ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson'],
-      ['menu-posts-book', 'menu-posts-book-page'],
-      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson']
+    // Related pages share one menu item, as on cms-testing: the series menu lists
+    // its own pages, then its lessons' pages; the lessons item itself goes away
+    var GROUPS = [
+      ['menu-posts-book-series', 'menu-posts-book-lesson', ['كل شروح الكتب', 'أضف شرح كتاب', 'كل دروس الكتب المشروحة', 'أضف درس كتاب مشروح']],
+      ['menu-posts-scientific-series', 'menu-posts-scientific-lesson', ['كل السلاسل العلمية', 'أضف السلسلة العلمية', 'كل دروس السلاسل العلمية', 'أضف الدرس العلمي']],
+      ['menu-posts-interpret-series', 'menu-posts-interpret-lesson', ['كل الدورات', 'أضف دورة', 'كل دروس التفسير', 'أضف درس تفسير']],
+      ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson', ['كل البرامج الإذاعية', 'أضف برنامجًا إذاعيًا', 'كل دروس البرنامج الإذاعي', 'أضف درس برنامج إذاعي']],
+      ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson', ['كل البرامج التلفزيونية', 'أضف برنامجًا تلفزيونيًا', 'كل دروس البرنامج التلفزيوني', 'أضف درس برنامج تلفزيوني']],
+      ['menu-posts-book', 'menu-posts-book-page', ['كل الكتب', 'أضف كتابًا', 'كل صفحات الكتب', 'أضف صفحة كتاب']],
+      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson', ['كل كتب المتصفح', 'أضف كتابًا للمتصفح', 'كل دروس متصفح الكتب', 'أضف درسًا للمتصفح']]
     ];
-    PAIRS.forEach(function (pair) {
-      var a = byId(pair[0]), b = byId(pair[1]);
-      if (!a || !b) return;
-      a.parentNode.insertBefore(b, a.nextSibling);
-      a.classList.add('cms-pair-start');
-      b.classList.add('cms-pair-end');
+    var items = function (li) { return $$('.wp-submenu > li:not(.wp-submenu-head)', li); };
+    GROUPS.forEach(function (g) {
+      var a = byId(g[0]), b = byId(g[1]);
+      var sub = a && $('.wp-submenu', a);
+      if (!sub || !b) return;
+      var own = items(a), theirs = items(b);
+      if (own[0]) $('a', own[0]).textContent = g[2][0];
+      if (own[1]) $('a', own[1]).textContent = g[2][1];
+      theirs.slice(0, 2).forEach(function (li, i) {
+        li.classList.remove('wp-first-item'); $$('a', li).forEach(function (x) { x.classList.remove('wp-first-item'); });
+        $('a', li).textContent = g[2][2 + i];
+        sub.appendChild(li);
+      });
+      b.remove();
     });
 
     var tools = byId('menu-tools'), cats = byId('toplevel_page_edit-tags-taxonomy-topic');
