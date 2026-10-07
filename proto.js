@@ -750,6 +750,7 @@
     rename('toplevel_page_tm-menu-main', 'خيارات الترجمة');
     rename('menu-media', 'مكتبة الوسائط');
     rename('toplevel_page_googlesitekit-dashboard', 'أدوات جوجل للموقع');
+    rename('menu-posts-interpret-series', 'الدورات');
 
     // Related pages share one menu item, as on cms-testing: the series menu lists
     // its own pages, then its lessons' pages; the lessons item itself goes away
