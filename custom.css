@@ -1952,7 +1952,7 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
   resize: vertical;
 }
 
-/* Sidebar: التصنيفات opens the bottom (tools) section with a top border */
+/* Sidebar: البيانات الوصفية opens the bottom (tools) section with a top border */
 #adminmenu > li.cms-menu-section {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
@@ -1969,7 +1969,7 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
 }
 
 /* ------------------------------------------------------------------
-   Users, media and التصنيفات pages (2026-10-07)
+   Users, media and البيانات الوصفية pages (2026-10-07)
    ------------------------------------------------------------------ */
 /* فهارس الدورات: no الصور field in the add form, as on شجرة التصنيفات */
 body.edit-tags-php .acf-field[data-name="course_index_fields_images"],
@@ -2053,7 +2053,7 @@ body.term-php #edittag tr.wpml-term-languages-wrap #dashboard-widgets {
   padding-top: 0;
 }
 
-/* ── ترتيب التصنيفات (zad-icmss-taxonomy-order): tabs, then the terms as
+/* ── ترتيب البيانات الوصفية (zad-icmss-taxonomy-order): tabs, then the terms as
    draggable rows, as wide as the longest term (children indented under their parent), «حفظ الترتيب» above
    and below the list. The radio table and plugin promo are not in the page. */
 body.admin_page_zad-icmss-taxonomy-order #wpbody-content > .wrap + .wrap > h2 {

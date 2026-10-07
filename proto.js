@@ -404,7 +404,7 @@
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
       ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'], // تحرير مقالة
       ['content-types.html', 'أنواع المحتوى'], // قائمة وإضافة وتحرير لكل نوع محتوى
-      ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
+      ['edit-tags__post_type-article__taxonomy-topic.html', 'البيانات الوصفية'], // البيانات الوصفية
       ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
       ['homepage.html', 'واجهة الموقع'], // الصفحة الرئيسية للموقع
@@ -424,7 +424,7 @@
 
 
   // ── المجموعات (formerly الأنواع) and القراء are taxonomies like the others: their
-  // pages sit under التصنيفات (القراء used to sit under the audio books item), and
+  // pages sit under البيانات الوصفية (القراء used to sit under the audio books item), and
   // Add / Edit has an المجموعات box to put the item in a group
   (function () {
     var here = (location.pathname.split('/').pop() || 'index.html');
@@ -447,7 +447,7 @@
       [top, $('a', top)].forEach(function (el) {
         el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
       });
-      // the page belongs to التصنيفات, not to a content type
+      // the page belongs to البيانات الوصفية, not to a content type
       var other = document.getElementById(t[2]);
       if (other) [other, $('a', other)].forEach(function (el) {
         el.classList.remove('wp-has-current-submenu', 'wp-menu-open'); el.classList.add('wp-not-current-submenu');
@@ -684,7 +684,7 @@
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });
   })();
-  // ── ترتيب التصنيفات: drag a term up or down among its siblings (its children
+  // ── ترتيب البيانات الوصفية: drag a term up or down among its siblings (its children
   // move with it); «حفظ الترتيب» (above and below the list) confirms. On the live
   // CMS the order is better saved right after each drop.
   (function () {

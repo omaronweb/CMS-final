@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the users, media and taxonomy (التصنيفات) pages of CMS-final.
+"""Build the users, media and taxonomy (البيانات الوصفية) pages of CMS-final.
 
 The HTML comes from CMS-improvements (checked against production on 2026-10-07).
 Each page gets the CMS-final sidebar (from edit__post_type-article.html) with its
@@ -7,12 +7,12 @@ own menu item marked current, a few English labels in Arabic, and the links fixe
 the same way as build_content_pages.py. The design and the hidden sections
 (Rank Math, WPML language settings, profile options) are in custom.css.
 
-التصنيفات: one list page per taxonomy (WordPress has a copy per content type) and
+البيانات الوصفية: one list page per taxonomy (WordPress has a copy per content type) and
 one edit page per taxonomy. شجرة التصنيفات and المجموعات keep their hand-tuned
 list pages and only get an edit page here; التصنيفات الفقهية is not built (it is
 a parent inside شجرة التصنيفات).
 
-ترتيب التصنيفات (zad-icmss-taxonomy-order): one page per tab, built on the
+ترتيب البيانات الوصفية (zad-icmss-taxonomy-order): one page per tab, built on the
 المجموعات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
 .save-order button). Omar's decisions (2026-10-07): no taxonomy radio table, no
 «<type> — التصنيفات» heading, no plugin promo; the save button also sits above the
@@ -27,7 +27,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from build_content_pages import (FINAL, add_class, classes, fix_links, remove_class, sidebar_template,  # noqa: E402
+from build_content_pages import (FINAL, RENAMES, add_class, classes, fix_links, remove_class, sidebar_template,  # noqa: E402
                                  soup, write)
 import copy  # noqa: E402
 from bs4 import BeautifulSoup  # noqa: E402
@@ -69,7 +69,7 @@ ARABIC = {
 FILTER_WORDS = {'in': 'من', 'to': 'إلى'}
 
 
-# ترتيب التصنيفات: (taxonomy, tab label, terms or the list page to read them from)
+# ترتيب البيانات الوصفية: (taxonomy, tab label, terms or the list page to read them from)
 ORDER = 'admin__page-zad-icmss-taxonomy-order'
 ORDER_TABS = [
     ('topic', 'شجرة التصنيفات', [
@@ -125,7 +125,7 @@ def build_order(shell, template):
         menu = copy.copy(template)
         mark(menu, ORDER + '.html')
         page.find(id='adminmenumain').replace_with(menu)
-        page.title.string = 'ترتيب التصنيفات › موقع مشكاة — ووردبريس'
+        page.title.string = 'ترتيب البيانات الوصفية › موقع مشكاة — ووردبريس'
         cls = [c for c in page.body['class'] if not c.startswith(('edit-tags', 'post-type-', 'taxonomy-', 'ac-wp-'))]
         page.body['class'] = cls[:cls.index('auto-fold')] + ['admin_page_zad-icmss-taxonomy-order'] + \
             cls[cls.index('auto-fold'):] + ['taxonomy-' + tax]
@@ -137,7 +137,7 @@ def build_order(shell, template):
         save = '<p class="submit"><a class="save-order button-primary" href="javascript:;">حفظ الترتيب</a></p>'
         body.append(BeautifulSoup(
             '<div class="wrap"><ul class="subsubsub">%s</ul><div class="clear"></div></div>'
-            '<div class="wrap"><h2>ترتيب التصنيفات</h2><div id="ajax-response"></div><div class="clear"></div>'
+            '<div class="wrap"><h2>ترتيب البيانات الوصفية</h2><div id="ajax-response"></div><div class="clear"></div>'
             '<form id="to_form" method="get"><div class="tto-top actions">%s</div>'
             '<div id="order-terms"><div id="post-body"><ul class="sortable" id="tto_sortable"></ul>'
             '<div class="clear"></div></div><div class="alignleft actions">%s</div></div></form></div>'
@@ -152,7 +152,7 @@ def build_order(shell, template):
 
 def mark(menu, target):
     """Open the menu item that links to `target` and mark that submenu entry current.
-    القراء and المجموعات are marked by proto.js (it moves them under التصنيفات)."""
+    القراء and المجموعات are marked by proto.js (it moves them under البيانات الوصفية)."""
     a = next((x for x in menu.select('.wp-submenu a')
               if target in (x.get('href'), x.get('data-orig-href'))), None)
     if a is None or 'reciter' in target:
@@ -171,7 +171,7 @@ def mark(menu, target):
 
 
 def build(src, name, current, template):
-    page = soup(src)
+    page = soup(src, RENAMES)
     menu = copy.copy(template)
     mark(menu, current)
     page.find(id='adminmenumain').replace_with(menu)
