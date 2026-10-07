@@ -16,7 +16,6 @@ does on the live CMS.
 | Categories | `edit-tags__post_type-article__taxonomy-topic.html` | CMS-improvements |
 | Groups (المجموعات) | `edit-tags__post_type-article__taxonomy-article-type.html` | CMS-improvements |
 | Site homepage (واجهة الموقع) | `homepage.html` | cms-testing (front end; الكتابات menu with its three groups, تجريب removed) |
-| Notes (ملاحظات) | `docs/notes.html` | Logic notes for the team (e.g. المجموعات required/open rule) |
 | General settings | `post__action-edit__post-702.html` | cms-testing (live), with the CMS-improvements sidebar and admin bar |
 
 Open `index.html` in a browser. Links to pages that are not part of this set show a toast.

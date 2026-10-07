@@ -92,7 +92,6 @@
   }
   // المجموعات on Add / Edit: when the site has groups, choosing one is required, so the box
   // opens by default with a required mark; with no groups the box stays collapsed
-  // (the rule is written up in docs/notes.html)
   (function () {
     var box = document.getElementById('article-typediv');
     if (!box) return;
@@ -414,9 +413,7 @@
       ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
       ['homepage.html', 'واجهة الموقع'], // الصفحة الرئيسية للموقع
-      ['docs/notes.html', 'ملاحظات'], // ملاحظات المنطق
-      ['list-pages-columns.html', 'أعمدة القوائم'], // أعمدة صفحات القوائم
-      ['team-questions.html', 'أسئلة للفريق'] // أسئلة للفريق
+      ['list-pages-columns.html', 'أعمدة القوائم'] // أعمدة صفحات القوائم
     ];
     var here = (location.pathname.split('/').pop() || 'index.html');
     var nav = document.createElement('nav');
