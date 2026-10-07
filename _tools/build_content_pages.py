@@ -87,8 +87,8 @@ LATIN = re.compile(r'[A-Za-z]{3,}')
 # «<type>_fields_»). Unlisted fields keep their source order after these.
 ORDER = ['question', 'answer', 'images', 'cover_images', 'status', 'youtube_id', 'audios', 'videos',
          'video_url', 'pdfs', 'release_date', 'transcript', 'clips', 'view_count', 'words']
-# Always outside «حقول إضافية» (with any required field)
-OUTSIDE = {'images', 'cover_images', 'status'}
+# Only required fields stay outside «حقول إضافية» (Omar, 2026-10-07)
+OUTSIDE = set()
 # Removed like on the article pages (حقول المحرر)
 DROP = {'editor_draft', 'workflow_stage'}
 
@@ -379,7 +379,10 @@ def arrange_group(group, ptype, live):
     for f in kept:
         f.extract()
     # whatever is left in the container (whitespace) stays before the fields
-    seq = outside + ([accordion(prefix)] if len(rest) >= 2 else []) + rest
+    # all optional: the fields show directly, no «حقول إضافية»
+    if not outside:
+        outside, rest = rest, []
+    seq = outside + ([accordion(prefix)] if rest else []) + rest
     for f in seq:
         inside.append(f)
         inside.append(NavigableString('\n'))
@@ -428,11 +431,15 @@ def form_rules(page, ptype, live, drop_boxes=()):
             a['href'] = EXCERPT_DOC
             a['target'] = '_blank'
 
-    # ACF boxes open; the content type's own group arranged
+    # ACF boxes: the content type's own group arranged; a box is open when it
+    # has a required field, closed otherwise (improvements.html, «صندوق الحقول»)
     for box in page.select('.postbox.acf-postbox'):
-        remove_class(box, 'closed')
         if box.get('id') not in ('acf-group_views_fields', 'acf-group_series_shared_fields'):
             arrange_group(box, ptype, live)
+        if box.select_one('.acf-field.is-required'):
+            remove_class(box, 'closed')
+        else:
+            add_class(box, 'closed')
 
     # ACF editors: «Visual» tab in Arabic, like the main editor's «مرئي»
     for b in page.select('button.switch-tmce'):
