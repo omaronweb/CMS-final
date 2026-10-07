@@ -413,7 +413,7 @@
     var nav = document.createElement('nav');
     nav.id = 'proto-pages';
     nav.setAttribute('aria-label', 'Prototype pages');
-    nav.innerHTML = '<span class="proto-pages-label">صفحات النموذج:</span>' +
+    nav.innerHTML = '<span class="proto-pages-label">صفحات مختارة:</span>' +
       protoPages.map(function (p) {
         return '<a href="' + p[0] + '"' + (p[0] === here ? ' class="is-current" aria-current="page"' : '') + '>' + p[1] + '</a>';
       }).join('');
