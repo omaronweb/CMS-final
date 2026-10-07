@@ -459,9 +459,8 @@
   // and Add/Edit needs no المجموعات box (the menu you came from is the group).
   (function () {
     var GROUPS = [
-      { slug: 'articles', name: 'المقالات', icon: 'dashicons-admin-post' },
-      { slug: 'research', name: 'الأبحاث', icon: 'dashicons-search' },
-      { slug: 'khawater', name: 'الخواطر', icon: 'dashicons-format-status' }
+      { slug: 'articles', name: 'المقالات', icon: 'dashicons-admin-post' }
+      // الأبحاث and الخواطر are not in the sidebar (removed 2026-10-07)
     ];
     var params = new URLSearchParams(location.search);
     var here = (location.pathname.split('/').pop() || 'index.html');
