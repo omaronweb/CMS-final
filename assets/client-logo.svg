@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
-  <!-- Placeholder for the client's logo: emblem + wordmark -->
+  <!-- Placeholder for the client's logo: emblem + wordmark, centred in the 320 wide box -->
+  <g transform="translate(35 0)">
   <g fill="none" stroke="#c49a2a" stroke-width="4">
     <circle cx="48" cy="48" r="34"/>
     <path d="M48 20 L72 62 H24 Z" stroke-linejoin="round"/>
@@ -7,4 +8,5 @@
   <circle cx="48" cy="52" r="7" fill="#c49a2a"/>
   <text x="100" y="50" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="2">CLIENT</text>
   <text x="102" y="76" fill="#ffffff" fill-opacity="0.6" font-family="Helvetica, Arial, sans-serif" font-size="15" letter-spacing="5">LOGO HERE</text>
+  </g>
 </svg>
