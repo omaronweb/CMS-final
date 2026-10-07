@@ -783,5 +783,20 @@
     if (kit && wpml) wpml.parentNode.insertBefore(kit, wpml);
     var settings = byId('menu-posts-public-config'), collapse = byId('collapse-menu');
     if (settings) menu.insertBefore(settings, collapse || null);
+
+    // Content items between الرئيسية and التصنيفات read in Arabic alphabetical
+    // order, ignoring the definite article (الكتب files under ك)
+    var dash = byId('menu-dashboard'), stop = byId('toplevel_page_edit-tags-taxonomy-topic');
+    if (dash && stop) {
+      var key = function (li) {
+        var n = $('.wp-menu-name', li);
+        return ((n && n.firstChild ? n.firstChild.nodeValue : '') || '').trim().replace(/^ال/, '');
+      };
+      var run = [];
+      for (var li = dash.nextElementSibling; li && li !== stop; li = li.nextElementSibling) run.push(li);
+      var coll = new Intl.Collator('ar');
+      run.sort(function (x, y) { return coll.compare(key(x), key(y)); })
+        .forEach(function (li) { menu.insertBefore(li, stop); });
+    }
   })();
 })();
