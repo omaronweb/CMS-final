@@ -790,13 +790,12 @@
     // Menu groups, each sorted alphabetically («ال» counted), with a border
     // between groups; الرئيسية stays on top
     var MENU = [
-      ['menu-posts-article-articles', 'menu-posts-fatwa', 'menu-posts-benefit'],
+      ['menu-posts-article-articles', 'menu-posts-fatwa', 'menu-posts-benefit', 'menu-posts-static-page'],
       ['menu-posts-supplication', 'menu-posts-podcast', 'menu-posts-tilawa', 'menu-posts-speech', 'menu-posts-lesson',
        'menu-posts-interpret-lesson', 'menu-posts-lecture', 'menu-posts-short'],
       ['menu-posts-book', 'menu-posts-audio-book-lesson', 'menu-posts-book-browser-series', 'menu-posts-book-series'],
       ['menu-posts-scientific-series', 'menu-posts-radio-program-series', 'menu-posts-tv-program-series',
        'menu-posts-interpret-series'],
-      ['menu-posts-static-page'],
       ['toplevel_page_edit-tags-taxonomy-topic', 'toplevel_page_tm-menu-main', 'menu-media', 'menu-posts-public-config',
        'menu-users', 'menu-comments'],
       ['menu-tools', 'toplevel_page_googlesitekit-dashboard']
