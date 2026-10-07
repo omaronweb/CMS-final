@@ -99,6 +99,13 @@
     });
   });
 
+  // Screen Options column checkboxes show / hide their column, as in WordPress
+  $$('.hide-column-tog').forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      $$('.column-' + cb.value).forEach(function (c) { c.classList.toggle('hidden', !cb.checked); });
+    });
+  });
+
   // Select-all checkboxes in list tables
   $$('#cb-select-all-1, #cb-select-all-2, .check-column input[id^=cb-select-all]').forEach(function (all) {
     all.addEventListener('change', function () {
