@@ -30,6 +30,10 @@ the columns from `list-pages-columns.html` and the article add/edit rules, then 
 between pages that exist live and the rest `proto-dead`. Re-run it after changing the sidebar
 or the column picks.
 
+Types CMS-improvements doesn't have (الكتب الصوتية, `audio-book-series`) are built from a look-alike
+type's pages (`DERIVED`), and renamed labels (التفسير → الدورات) are applied on every page (`RENAMES`),
+both checked against production add pages on 2026-10-07.
+
 ## Where the styles come from
 - `custom.css` — CMS-improvements skin (navy + gold), plus what was borrowed from cms-testing:
   sidebar layout, page background, list table colouring, row actions on hover,
