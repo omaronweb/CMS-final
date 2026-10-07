@@ -761,6 +761,7 @@
       theirs.slice(0, 2).forEach(function (li, i) {
         li.classList.remove('wp-first-item'); $$('a', li).forEach(function (x) { x.classList.remove('wp-first-item'); });
         $('a', li).textContent = g[2][2 + i];
+        li.dataset.cmsType = g[1]; // the lessons' pages, sorted apart from the series' own
         sub.appendChild(li);
       });
       b.remove();
@@ -806,7 +807,9 @@
 
     // Submenus sorted the same way. A list page and its «أضف/إضافة» page stay
     // together as a pair, list first, sorted by the list's name without «كل/كافة»
-    // («الكل» counts as the menu item's own name).
+    // («الكل» counts as the menu item's own name). A submenu that holds two content
+    // types (series and their lessons) keeps them apart: the series' pages first,
+    // then the lessons', each sorted on its own.
     $$('#adminmenu > li.menu-top').forEach(function (top) {
       var sub = $('.wp-submenu', top);
       if (!sub) return;
@@ -816,9 +819,12 @@
         var t = text(lis[i]), next = lis[i + 1] && text(lis[i + 1]);
         var pair = next && /^(أضف|إضافة)(\s|$)/.test(next) && !/^(أضف|إضافة)(\s|$)/.test(t);
         var k = t === 'الكل' ? key(top) : t.replace(/^(كل|كافة)\s+/, '');
-        units.push({ key: k, lis: pair ? [lis[i], lis[++i]] : [lis[i]] });
+        units.push({ key: k, type: lis[i].dataset.cmsType || '', lis: pair ? [lis[i], lis[++i]] : [lis[i]] });
       }
-      units.sort(function (x, y) { return coll.compare(x.key, y.key); })
+      var types = units.map(function (u) { return u.type; }).filter(function (t, j, all) { return all.indexOf(t) === j; });
+      units.sort(function (x, y) {
+        return (types.indexOf(x.type) - types.indexOf(y.type)) || coll.compare(x.key, y.key);
+      })
         .forEach(function (u) { u.lis.forEach(function (li) { sub.appendChild(li); }); });
     });
   })();
