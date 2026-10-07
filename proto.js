@@ -754,12 +754,12 @@
     // its own pages, then its lessons' pages; the lessons item itself goes away
     var GROUPS = [
       ['menu-posts-book-series', 'menu-posts-book-lesson', ['كل شروح الكتب', 'أضف شرح كتاب', 'كل دروس الكتب المشروحة', 'أضف درس كتاب مشروح']],
-      ['menu-posts-scientific-series', 'menu-posts-scientific-lesson', ['كل السلاسل العلمية', 'أضف السلسلة العلمية', 'كل دروس السلاسل العلمية', 'أضف الدرس العلمي']],
+      ['menu-posts-scientific-series', 'menu-posts-scientific-lesson', ['كل السلاسل العلمية', 'أضف سلسلة علمية', 'كل الدروس العلمية', 'أضف درس علمي']],
       ['menu-posts-interpret-series', 'menu-posts-interpret-lesson', ['كل الدورات', 'أضف دورة', 'كل دروس التفسير', 'أضف درس تفسير']],
-      ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson', ['كل البرامج الإذاعية', 'أضف برنامجًا إذاعيًا', 'كل دروس البرنامج الإذاعي', 'أضف درس برنامج إذاعي']],
-      ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson', ['كل البرامج التلفزيونية', 'أضف برنامجًا تلفزيونيًا', 'كل دروس البرنامج التلفزيوني', 'أضف درس برنامج تلفزيوني']],
-      ['menu-posts-book', 'menu-posts-book-page', ['كل الكتب', 'أضف كتابًا', 'كل صفحات الكتب', 'أضف صفحة كتاب']],
-      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson', ['كل كتب المتصفح', 'أضف كتابًا للمتصفح', 'كل دروس متصفح الكتب', 'أضف درسًا للمتصفح']]
+      ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson', ['كل البرامج الإذاعية', 'أضف برنامج إذاعي', 'كل الدروس الإذاعية', 'أضف درس إذاعي']],
+      ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson', ['كل البرامج التلفزيونية', 'أضف برنامج تلفزيوني', 'كل الدروس التلفزيونية', 'أضف درس تلفزيوني']],
+      ['menu-posts-book', 'menu-posts-book-page', ['كل الكتب', 'أضف كتاب', 'كل صفحات الكتب', 'أضف صفحة كتاب']],
+      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson', ['كل كتب المتصفح', 'أضف كتاب للمتصفح', 'كل دروس المتصفح', 'أضف درس للمتصفح']]
     ];
     var items = function (li) { return $$('.wp-submenu > li:not(.wp-submenu-head)', li); };
     GROUPS.forEach(function (g) {
