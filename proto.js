@@ -732,9 +732,8 @@
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });
   })();
-  // ── Sidebar order: each series and its lessons share one menu item,
-  // التصنيفات joins the tools at the bottom, Site Kit sits with خيارات الترجمة,
-  // and الإعدادات العامة closes the menu.
+  // ── Sidebar order: each series and its lessons share one menu item, and
+  // the items fall into bordered groups, each sorted alphabetically.
   (function () {
     var menu = document.getElementById('adminmenu');
     if (!menu) return;
@@ -785,26 +784,34 @@
       items(li).slice(0, 2).forEach(function (x, i) { $('a', x).textContent = g[2][i]; });
     });
 
-    var tools = byId('menu-tools'), cats = byId('toplevel_page_edit-tags-taxonomy-topic');
-    if (tools && cats) { tools.parentNode.insertBefore(cats, tools); cats.classList.add('cms-menu-section'); }
-    var kit = byId('toplevel_page_googlesitekit-dashboard'), wpml = byId('toplevel_page_tm-menu-main');
-    if (kit && wpml) wpml.parentNode.insertBefore(kit, wpml);
-    var settings = byId('menu-posts-public-config'), collapse = byId('collapse-menu');
-    if (settings) menu.insertBefore(settings, collapse || null);
-
-    // Content items between الرئيسية and التصنيفات read in Arabic alphabetical
-    // order, «ال» included (الكتب files under ا)
-    var dash = byId('menu-dashboard'), stop = byId('toplevel_page_edit-tags-taxonomy-topic');
-    if (dash && stop) {
-      var key = function (li) {
-        var n = $('.wp-menu-name', li);
-        return ((n && n.firstChild ? n.firstChild.nodeValue : '') || '').trim();
-      };
-      var run = [];
-      for (var li = dash.nextElementSibling; li && li !== stop; li = li.nextElementSibling) run.push(li);
-      var coll = new Intl.Collator('ar');
-      run.sort(function (x, y) { return coll.compare(key(x), key(y)); })
-        .forEach(function (li) { menu.insertBefore(li, stop); });
-    }
+    // Menu groups, each sorted alphabetically («ال» counted), with a border
+    // between groups; الرئيسية stays on top
+    var MENU = [
+      ['menu-posts-article-articles', 'menu-posts-fatwa', 'menu-posts-benefit'],
+      ['menu-posts-supplication', 'menu-posts-podcast', 'menu-posts-tilawa', 'menu-posts-speech', 'menu-posts-lesson',
+       'menu-posts-interpret-lesson', 'menu-posts-lecture', 'menu-posts-short'],
+      ['menu-posts-book', 'menu-posts-audio-book-lesson', 'menu-posts-book-browser-series'],
+      ['menu-posts-scientific-series', 'menu-posts-radio-program-series', 'menu-posts-tv-program-series',
+       'menu-posts-book-series', 'menu-posts-interpret-series'],
+      ['menu-posts-static-page'],
+      ['toplevel_page_edit-tags-taxonomy-topic', 'toplevel_page_tm-menu-main', 'menu-media', 'menu-posts-public-config',
+       'menu-users', 'menu-comments'],
+      ['menu-tools', 'toplevel_page_googlesitekit-dashboard']
+    ];
+    var coll = new Intl.Collator('ar');
+    var key = function (li) {
+      var n = $('.wp-menu-name', li);
+      return ((n && n.firstChild ? n.firstChild.nodeValue : '') || '').trim();
+    };
+    var collapse = byId('collapse-menu');
+    $$('#adminmenu > li.wp-menu-separator').forEach(function (x) { x.remove(); });
+    MENU.forEach(function (ids, gi) {
+      ids.map(byId).filter(Boolean)
+        .sort(function (x, y) { return coll.compare(key(x), key(y)); })
+        .forEach(function (li, i) {
+          li.classList.toggle('cms-menu-section', gi > 0 && i === 0);
+          menu.insertBefore(li, collapse || null);
+        });
+    });
   })();
 })();
