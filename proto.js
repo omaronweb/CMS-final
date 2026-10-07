@@ -805,27 +805,19 @@
         });
     });
 
-    // Submenus sorted the same way. A list page and its «أضف/إضافة» page stay
-    // together as a pair, list first, sorted by the list's name without «كل/كافة»
-    // («الكل» counts as the menu item's own name). A submenu that holds two content
-    // types (series and their lessons) keeps them apart: the series' pages first,
-    // then the lessons', each sorted on its own.
+    // Submenus sorted the same way, item by item («أضف …» before «كل …»). A submenu
+    // that holds two content types (series and their lessons) keeps them apart:
+    // the series' links first, then the lessons', each block sorted on its own.
     $$('#adminmenu > li.menu-top').forEach(function (top) {
       var sub = $('.wp-submenu', top);
       if (!sub) return;
-      var lis = items(top), units = [];
+      var lis = items(top);
+      var type = function (li) { return li.dataset.cmsType || ''; };
+      var types = lis.map(type).filter(function (t, j, all) { return all.indexOf(t) === j; });
       var text = function (li) { return $('a', li).textContent.trim(); };
-      for (var i = 0; i < lis.length; i++) {
-        var t = text(lis[i]), next = lis[i + 1] && text(lis[i + 1]);
-        var pair = next && /^(أضف|إضافة)(\s|$)/.test(next) && !/^(أضف|إضافة)(\s|$)/.test(t);
-        var k = t === 'الكل' ? key(top) : t.replace(/^(كل|كافة)\s+/, '');
-        units.push({ key: k, type: lis[i].dataset.cmsType || '', lis: pair ? [lis[i], lis[++i]] : [lis[i]] });
-      }
-      var types = units.map(function (u) { return u.type; }).filter(function (t, j, all) { return all.indexOf(t) === j; });
-      units.sort(function (x, y) {
-        return (types.indexOf(x.type) - types.indexOf(y.type)) || coll.compare(x.key, y.key);
-      })
-        .forEach(function (u) { u.lis.forEach(function (li) { sub.appendChild(li); }); });
+      lis.sort(function (x, y) {
+        return (types.indexOf(type(x)) - types.indexOf(type(y))) || coll.compare(text(x), text(y));
+      }).forEach(function (li) { sub.appendChild(li); });
     });
   })();
 })();
