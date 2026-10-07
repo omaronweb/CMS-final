@@ -793,12 +793,12 @@
     if (settings) menu.insertBefore(settings, collapse || null);
 
     // Content items between الرئيسية and التصنيفات read in Arabic alphabetical
-    // order, ignoring the definite article (الكتب files under ك)
+    // order, «ال» included (الكتب files under ا)
     var dash = byId('menu-dashboard'), stop = byId('toplevel_page_edit-tags-taxonomy-topic');
     if (dash && stop) {
       var key = function (li) {
         var n = $('.wp-menu-name', li);
-        return ((n && n.firstChild ? n.firstChild.nodeValue : '') || '').trim().replace(/^ال/, '');
+        return ((n && n.firstChild ? n.firstChild.nodeValue : '') || '').trim();
       };
       var run = [];
       for (var li = dash.nextElementSibling; li && li !== stop; li = li.nextElementSibling) run.push(li);

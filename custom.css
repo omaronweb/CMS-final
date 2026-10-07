@@ -1982,3 +1982,8 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
 #adminmenu > li.cms-menu-section {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
+
+/* Sidebar: الرئيسية sits apart from the content items with a bottom border */
+#adminmenu > li#menu-dashboard {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
