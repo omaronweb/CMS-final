@@ -590,8 +590,8 @@
       link.textContent = open ? 'إخفاء الخيارات الإضافية' : 'عرض خيارات إضافية';
     });
   })();
-  // ── شجرة التصنيفات on Add / Edit: the terms sit under three parents (الموضوعية،
-  // الفقهية، العقدية); typing in «فلترة...» lists the matching terms, each with its
+  // ── شجرة التصنيفات on Add / Edit: the terms sit under four parents (الموضوعية،
+  // الفقهية، العقدية، الفنون), at most three terms each; typing in «فلترة...» lists the matching terms, each with its
   // parent's name in parentheses.
   (function () {
     var list = document.getElementById('topicchecklist');
@@ -599,8 +599,12 @@
     var PARENTS = [
       { name: 'التصنيفات الموضوعية', terms: null },
       { name: 'التصنيفات الفقهية', terms: ['أصول الفقه', 'الفقه وأصوله', 'سنن وأحكام', 'حقوق وواجبات'] },
-      { name: 'التصنيفات العقدية', terms: ['عقائد ونبوات', 'دورة العقيدة الواسطية'] }
+      { name: 'التصنيفات العقدية', terms: ['عقائد ونبوات', 'دورة العقيدة الواسطية'] },
+      // الفنون has its own box on the live CMS (empty there); here it is a parent
+      // with sample terms
+      { name: 'الفنون', terms: [], add: ['التفسير', 'الحديث', 'النحو'] }
     ];
+    var MAX_CHILDREN = 3;
     var ownText = function (li) {
       if (li.dataset.term) return li.dataset.term;
       var l = $(':scope > label', li);
@@ -618,6 +622,20 @@
       var t = ownText(li);
       var i = PARENTS.findIndex(function (p) { return p.terms && p.terms.indexOf(t) !== -1; });
       uls[i === -1 ? 0 : i].appendChild(li);
+    });
+    PARENTS.forEach(function (p, i) {
+      (p.add || []).forEach(function (t) {
+        var li = document.createElement('li');
+        li.innerHTML = '<label class="selectit"><input type="checkbox" name="tax_input[topic][]"> ' + t + '</label>';
+        uls[i].appendChild(li);
+      });
+    });
+    // at most MAX_CHILDREN terms per parent, checked terms first
+    uls.forEach(function (ul) {
+      var kids = $$(':scope > li', ul);
+      var keep = kids.filter(function (li) { var c = $(':scope > label input', li); return c && c.checked; });
+      kids.forEach(function (li) { if (keep.length < MAX_CHILDREN && keep.indexOf(li) === -1) keep.push(li); });
+      kids.forEach(function (li) { if (keep.indexOf(li) === -1) li.remove(); });
     });
 
     // every term carries its parent's name, shown only while filtering
@@ -682,7 +700,8 @@
       ['menu-posts-radio-program-series', 'menu-posts-radio-program-lesson', ['كل البرامج الإذاعية', 'أضف برنامج إذاعي', 'كل الدروس الإذاعية', 'أضف درس إذاعي']],
       ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson', ['كل البرامج التلفزيونية', 'أضف برنامج تلفزيوني', 'كل الدروس التلفزيونية', 'أضف درس تلفزيوني']],
       ['menu-posts-book', 'menu-posts-book-page', ['كل الكتب', 'أضف كتاب', 'كل صفحات الكتب', 'أضف صفحة كتاب']],
-      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson', ['كل كتب المتصفح', 'أضف كتاب للمتصفح', 'كل دروس المتصفح', 'أضف درس للمتصفح']]
+      ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson', ['كل كتب المتصفح', 'أضف كتاب للمتصفح', 'كل دروس المتصفح', 'أضف درس للمتصفح']],
+      ['menu-posts-audio-book-series', 'menu-posts-audio-book-lesson', ['كل الكتب الصوتية', 'أضف كتاب صوتي', 'كل دروس الكتب الصوتية', 'أضف درس كتاب صوتي']]
     ];
     var items = function (li) { return $$('.wp-submenu > li:not(.wp-submenu-head)', li); };
     GROUPS.forEach(function (g) {
@@ -700,9 +719,9 @@
       b.remove();
     });
 
-    // الدورات and دروس التفسير stay as two separate menu items
+    // الدورات and دروس الدورات stay as two separate menu items
     [['menu-posts-interpret-series', null, ['كل الدورات', 'أضف دورة']],
-     ['menu-posts-interpret-lesson', 'دروس التفسير', ['كل دروس التفسير', 'أضف درس تفسير']]].forEach(function (g) {
+     ['menu-posts-interpret-lesson', 'دروس الدورات', ['كل دروس الدورات', 'أضف درس دورة']]].forEach(function (g) {
       var li = byId(g[0]);
       if (!li) return;
       if (g[1]) rename(g[0], g[1]);
@@ -715,7 +734,7 @@
       ['menu-posts-article', 'menu-posts-fatwa', 'menu-posts-benefit', 'menu-posts-static-page'],
       ['menu-posts-supplication', 'menu-posts-podcast', 'menu-posts-tilawa', 'menu-posts-speech', 'menu-posts-lesson',
        'menu-posts-interpret-lesson', 'menu-posts-lecture', 'menu-posts-short'],
-      ['menu-posts-book', 'menu-posts-audio-book-lesson', 'menu-posts-book-browser-series', 'menu-posts-book-series'],
+      ['menu-posts-book', 'menu-posts-audio-book-series', 'menu-posts-audio-book-lesson', 'menu-posts-book-browser-series', 'menu-posts-book-series'],
       ['menu-posts-scientific-series', 'menu-posts-radio-program-series', 'menu-posts-tv-program-series',
        'menu-posts-interpret-series'],
       ['toplevel_page_edit-tags-taxonomy-topic', 'toplevel_page_tm-menu-main', 'menu-media', 'menu-posts-public-config',
