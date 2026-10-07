@@ -803,5 +803,23 @@
           menu.insertBefore(li, collapse || null);
         });
     });
+
+    // Submenus sorted the same way. A list page and its «أضف/إضافة» page stay
+    // together as a pair, list first, sorted by the list's name without «كل/كافة»
+    // («الكل» counts as the menu item's own name).
+    $$('#adminmenu > li.menu-top').forEach(function (top) {
+      var sub = $('.wp-submenu', top);
+      if (!sub) return;
+      var lis = items(top), units = [];
+      var text = function (li) { return $('a', li).textContent.trim(); };
+      for (var i = 0; i < lis.length; i++) {
+        var t = text(lis[i]), next = lis[i + 1] && text(lis[i + 1]);
+        var pair = next && /^(أضف|إضافة)(\s|$)/.test(next) && !/^(أضف|إضافة)(\s|$)/.test(t);
+        var k = t === 'الكل' ? key(top) : t.replace(/^(كل|كافة)\s+/, '');
+        units.push({ key: k, lis: pair ? [lis[i], lis[++i]] : [lis[i]] });
+      }
+      units.sort(function (x, y) { return coll.compare(x.key, y.key); })
+        .forEach(function (u) { u.lis.forEach(function (li) { sub.appendChild(li); }); });
+    });
   })();
 })();
