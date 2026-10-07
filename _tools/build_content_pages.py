@@ -47,7 +47,39 @@ SERIES_OF = {
     'tv-program-lesson': 'tv-program-series',
     'book-page': 'book',
     'book-browser-lesson': 'book-browser-series',
+    'audio-book-lesson': 'audio-book-series',
 }
+
+# Post types that CMS-improvements doesn't have, built from a look-alike type's
+# pages: {new type: (source type, fake post id for its edit page, text replacements)}.
+# audio-book-series has the same fields as book-browser-series on the live CMS
+# (حالة السلسلة، الصور، تاريخ الإلقاء) and no شجرة التصنيفات box.
+AR = r'(?<![\u0621-\u064A])%s(?![\u0621-\u064A])'  # whole words (Arabic letters, not \u00AB\u060C\u00BB)
+DERIVED = {
+    'audio-book-series': ('book-browser-series', ('5620', '95620'), [
+        ('book-browser-series', 'audio-book-series'),
+        ('book_browser_series', 'audio_book_series'),
+        (AR % 'حقول سلاسل متصفح الكتب', 'حقول سلاسل الكتب الصوتية'),
+        (AR % 'لغة هذا متصفح الكتاب', 'لغة هذا الكتاب الصوتي'),
+        (AR % 'متصفح متصفح كتاب', 'كتاب'),
+        (AR % 'متصفح كتاب', 'كتاب'),
+        (AR % 'سلسلة متصفح كتب', 'سلسلة كتب صوتية'),
+        (AR % 'متصفح الكتب', 'الكتب الصوتية'),
+        (AR % 'متصفح الكتاب', 'الكتاب الصوتي'),
+    ], ['topicdiv']),
+}
+
+# Names changed on the pages themselves (Omar, 2026-10-07): التفسير → الدورات
+RENAMES = [
+    (AR % 'حقول سلاسل التفسير', 'حقول الدورات'),
+    (AR % 'دروس التفسير', 'دروس الدورات'),
+    (AR % 'درس التفسير', 'درس الدورة'),
+    (AR % 'أضف درس تفسير', 'أضف درس دورة'),
+]
+RENAME_PAGES = {'interpret-series': [(AR % 'دورات', 'الدورات')], 'interpret-lesson': []}
+
+# Side boxes the live CMS doesn't show for a type
+DROP_BOXES = {'fatwa': ['tagsdiv-keyword']}
 
 LATIN = re.compile(r'[A-Za-z]{3,}')
 
@@ -66,9 +98,12 @@ EXCERPT_DOC = 'docs/excerpt.html'
 SEO_TITLE = 'تحسين الوصول لمحركات البحث (SEO)'
 
 
-def soup(path):
+def soup(path, subs=()):
     with open(path, encoding='utf-8') as f:
-        return BeautifulSoup(f.read(), 'html.parser')
+        src = f.read()
+    for a, b in subs:
+        src = re.sub(a, b, src)
+    return BeautifulSoup(src, 'html.parser')
 
 
 def write(path, s):
@@ -368,9 +403,9 @@ def arrange_group(group, ptype, live):
                 ta['rows'] = '3'
 
 
-def form_rules(page, ptype, live):
-    # boxes removed on the article pages
-    for box_id in ('fiqhi-topicdiv', 'acf-group_editor_fields'):
+def form_rules(page, ptype, live, drop_boxes=()):
+    # boxes removed on the article pages, and the type's own
+    for box_id in ('fiqhi-topicdiv', 'acf-group_editor_fields') + tuple(drop_boxes):
         box = page.find(id=box_id)
         if box:
             box.decompose()
@@ -431,7 +466,8 @@ LIVE_COPY = {'article': 'article-new', 'book': 'book-new', 'fatwa': 'fatwa-new',
              'static-page': 'static-page-new', 'benefit': 'quote-new'}
 
 # Names as the sidebar shows them (proto.js), where the page heading differs
-INDEX_NAMES = {'interpret-series': 'الدورات', 'audio-book-lesson': 'الكتب الصوتية',
+INDEX_NAMES = {'interpret-series': 'الدورات', 'interpret-lesson': 'دروس الدورات',
+               'audio-book-series': 'الكتب الصوتية', 'audio-book-lesson': 'دروس الكتب الصوتية',
                'book-browser-series': 'كتب المتصفح', 'book-browser-lesson': 'دروس المتصفح'}
 
 INDEX_HEAD = '''<!DOCTYPE html>
@@ -576,6 +612,17 @@ def main():
     ap.add_argument('--testing', default=os.path.join(os.path.dirname(FINAL), 'cms-testing'))
     args = ap.parse_args()
 
+    # the sidebar and the «جديد» menu on every page use the new names too
+    for p in sorted(glob.glob(os.path.join(FINAL, '*.html'))):
+        with open(p, encoding='utf-8') as f:
+            src = f.read()
+        out = src
+        for a, b in RENAMES:
+            out = re.sub(a, b, out)
+        if out != src:
+            with open(p, 'w', encoding='utf-8') as f:
+                f.write(out)
+
     template = sidebar_template()
     live = live_fields(args.testing)
     columns = picks()
@@ -583,27 +630,41 @@ def main():
     built = []
     index = []
 
+    sources = []  # (type, list page, add page, edit page, text replacements, extra boxes to drop, page names)
     for list_src in sorted(glob.glob(os.path.join(args.improvements, 'edit__post_type-*.html'))):
         ptype = re.search(r'edit__post_type-(.+)\.html$', list_src).group(1)
         if ptype in SKIP:
             continue
+        subs = RENAMES + RENAME_PAGES.get(ptype, [])
+        add = os.path.join(args.improvements, 'post-new__post_type-%s.html' % ptype)
+        edit = edits.get(ptype) and os.path.join(args.improvements, edits[ptype])
+        sources.append((ptype, list_src, add, edit, subs, DROP_BOXES.get(ptype, []), {}))
+    for ptype, (src, (old_id, new_id), subs, boxes) in DERIVED.items():
+        subs = RENAMES + subs + [(r'(?<!\d)%s(?!\d)' % old_id, new_id)]
+        edit = edits.get(src) and os.path.join(args.improvements, edits[src])
+        names = {'edit': edit and os.path.basename(edit).replace(old_id, new_id)}
+        sources.append((ptype, os.path.join(args.improvements, 'edit__post_type-%s.html' % src),
+                        os.path.join(args.improvements, 'post-new__post_type-%s.html' % src), edit, subs, boxes, names))
+
+    for ptype, list_src, add_src, edit_src, subs, boxes, names in sorted(sources):
         # list page
-        page = soup(list_src)
+        page = soup(list_src, subs)
         put_sidebar(page, template, ptype, 0)
         if ptype in columns:
             apply_columns(page, columns[ptype])
-        name = os.path.basename(list_src)
+        name = 'edit__post_type-%s.html' % ptype
         write(os.path.join(FINAL, name), page)
         built.append(name)
         row = {'type': ptype, 'name': page.select_one('.wp-heading-inline').get_text(strip=True),
                'list': name, 'rows': len(page.select('#the-list > tr:not(.no-items)'))}
         # add page, edit page
-        for name, sub in (('post-new__post_type-%s.html' % ptype, 1), (edits.get(ptype), 0)):
-            if not name or not os.path.exists(os.path.join(args.improvements, name)):
+        for src, name, sub in ((add_src, 'post-new__post_type-%s.html' % ptype, 1),
+                               (edit_src, names.get('edit') or (edit_src and os.path.basename(edit_src)), 0)):
+            if not src or not os.path.exists(src):
                 continue
-            page = soup(os.path.join(args.improvements, name))
+            page = soup(src, subs)
             put_sidebar(page, template, ptype, sub)
-            form_rules(page, ptype, live)
+            form_rules(page, ptype, live, boxes)
             write(os.path.join(FINAL, name), page)
             built.append(name)
             row['add' if sub else 'edit'] = name
