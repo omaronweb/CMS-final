@@ -471,6 +471,7 @@
     try { localStorage.removeItem('cms-groups'); } catch (e) {}
     document.body.classList.add('cms-groups-2');
 
+    var GROUPS_PAGE = 'edit-tags__post_type-article__taxonomy-article-type.html';
     var isArticlePage = /^(edit__post_type-article|post-new__post_type-article|post__action-edit__lang-ar__post-272)\.html$/.test(here);
     var current = GROUPS.filter(function (g) { return g.slug === params.get('group'); })[0] || (isArticlePage ? GROUPS[0] : null);
 
@@ -478,7 +479,8 @@
     var menu = document.getElementById('menu-posts-article');
     if (menu) {
       GROUPS.slice().reverse().forEach(function (g) {
-        var on = current && current.slug === g.slug;
+        var onGroups = here === GROUPS_PAGE && g === GROUPS[0];
+        var on = current && current.slug === g.slug || onGroups;
         var state = on ? 'wp-has-current-submenu wp-menu-open' : 'wp-not-current-submenu';
         var list = 'edit__post_type-article.html?group=' + g.slug;
         var add = 'post-new__post_type-article.html?group=' + g.slug;
@@ -490,26 +492,23 @@
           '<div class="wp-menu-name">' + g.name + '</div></a>' +
           '<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">' + g.name + '</li>' +
           '<li class="wp-first-item' + (on && here === 'edit__post_type-article.html' ? ' current' : '') + '"><a class="wp-first-item" href="' + list + '">الكل</a></li>' +
-          '<li' + (on && here === 'post-new__post_type-article.html' ? ' class="current"' : '') + '><a href="' + add + '">أضف</a></li></ul>';
+          '<li' + (on && here === 'post-new__post_type-article.html' ? ' class="current"' : '') + '><a href="' + add + '">أضف</a></li>' +
+          '<li' + (onGroups ? ' class="current"' : '') + '><a href="' + GROUPS_PAGE + '">المجموعات</a></li></ul>';
         menu.parentNode.insertBefore(li, menu.nextSibling);
       });
       menu.remove();
-      // المجموعات (the list of groups) moves under التصنيفات
-      var cats = $('#toplevel_page_edit-tags-taxonomy-topic .wp-submenu');
-      if (cats) {
-        var g = document.createElement('li');
-        var onGroups = here === 'edit-tags__post_type-article__taxonomy-article-type.html';
-        if (onGroups) g.className = 'current';
-        g.innerHTML = '<a href="' + 'edit-tags__post_type-article__taxonomy-article-type.html' + '">المجموعات</a>';
-        cats.appendChild(g);
-        if (onGroups) {
-          var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
-          [top, $('a', top)].forEach(function (el) {
-            el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
-          });
-        }
-      }
     }
+
+    // Groups belong to each content type: every type's menu lists المجموعات right
+    // after أضف (only the articles' groups page is in the prototype)
+    $$('#adminmenu > li.menu-top[id^="menu-posts-"] .wp-submenu').forEach(function (sub) {
+      if (sub.closest('[id^="menu-posts-article"]')) return;
+      var addItem = $$('li', sub).filter(function (li) { return li.textContent.trim() === 'أضف'; })[0];
+      if (!addItem) return;
+      var li = document.createElement('li');
+      li.innerHTML = '<a href="#" class="proto-dead">المجموعات</a>';
+      addItem.parentNode.insertBefore(li, addItem.nextSibling);
+    });
 
     // Titles name the group instead of الكتابات
     if (current) {
