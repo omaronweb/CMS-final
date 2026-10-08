@@ -82,8 +82,8 @@ RENAMES = [
 ]
 RENAME_PAGES = {'interpret-series': [(AR % 'دورات', 'الدورات')], 'interpret-lesson': []}
 
-# Side boxes the live CMS doesn't show for a type
-DROP_BOXES = {'fatwa': ['tagsdiv-keyword']}
+# Side boxes (and the content editor) the live CMS doesn't show for a type
+DROP_BOXES = {'fatwa': ['tagsdiv-keyword', 'postdivrich']}  # postdivrich: no المحتوى editor on the live fatwa page
 
 LATIN = re.compile(r'[A-Za-z]{3,}')
 
