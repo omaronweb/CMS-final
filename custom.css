@@ -1777,6 +1777,26 @@ body.edit-tags-php #addtag > p.submit {
   color: #d63638;
 }
 
+/* Alternative fields: a note above the group names the fields of which one is
+   «مطلوب» (required, labels marked **) or «موصى به» (recommended) */
+.acf-field.zad-alternatives {
+  padding-bottom: 0 !important;
+  border-top: 0 !important;
+}
+.acf-field.zad-alternatives .acf-input p {
+  margin: 0;
+  padding: 8px 12px;
+  border-inline-start: 3px solid #72aee6;
+  border-radius: 4px;
+  background: #f0f6fc;
+  color: #1d2327;
+  font-weight: 600;
+}
+.acf-field.zad-alternatives.-required .acf-input p {
+  border-inline-start-color: #d63638;
+  background: #fcf0f1;
+}
+
 /* ------------------------------------------------------------------
    Bulk edit on the المقالات list: with 2+ rows checked, a bar under the
    header with «تعديل … لـN عناصر» under each column that can be bulk-edited
