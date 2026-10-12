@@ -680,8 +680,8 @@
 <input id="menu_order" name="menu_order" size="4" type="text" value="0"/>
 </div>
 </div>
-<div class="postbox" id="radio-indexdiv">
-<div class="postbox-header"><h2 class="hndle ui-sortable-handle">فهارس <span class="zad-required">*</span></h2>
+<div class="postbox zad-required" id="radio-indexdiv">
+<div class="postbox-header"><h2 class="hndle ui-sortable-handle">فهارس</h2>
 <div class="handle-actions hide-if-no-js"><button aria-describedby="radio-indexdiv-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="radio-indexdiv-handle-order-higher-description">تحريك صندوق فهارس للأعلى</span><button aria-describedby="radio-indexdiv-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="radio-indexdiv-handle-order-lower-description">تحريك صندوق فهارس للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: فهارس</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside">
 <div class="radio-buttons-for-taxonomies categorydiv" id="taxonomy-index"><input class="zad-tax-filter" placeholder="فلترة..." value=""/>
 <ul class="category-tabs" id="index-tabs">
@@ -1052,17 +1052,15 @@
 </div>
 </div>
 </div>
-<div class="acf-field acf-field-message acf-field-scientific-lesson-fields-alternatives zad-alternatives -required" data-key="field_scientific_lesson_fields_alternatives" data-name="scientific_lesson_fields_alternatives" data-type="message">
-<div class="acf-input"><p>مطلوب تعبئة أحد هذه الحقول: المحتوى، رابط يوتيوب، الملفات الصوتية، رابط الفيديو، مقاطع الفيديو</p></div></div>
-<div class="acf-field acf-field-text acf-field-scientific-lesson-fields-youtube-id" data-key="field_scientific_lesson_fields_youtube_id" data-name="scientific_lesson_fields_youtube_id" data-type="text">
+<div class="acf-field acf-field-text zad-alt-required acf-field-scientific-lesson-fields-youtube-id" data-key="field_scientific_lesson_fields_youtube_id" data-name="scientific_lesson_fields_youtube_id" data-type="text">
 <div class="acf-label">
-<label for="acf-field_scientific_lesson_fields_youtube_id">رابط يوتيوب <span class="acf-required">**</span></label></div>
+<label for="acf-field_scientific_lesson_fields_youtube_id">رابط يوتيوب <span class="acf-required">*</span></label><p class="description">يجب تعبئة أحد هذه الحقول: المحتوى، رابط يوتيوب، الملفات الصوتية، رابط الفيديو، مقاطع الفيديو.</p></div>
 <div class="acf-input">
 <div class="acf-input-wrap"><input id="acf-field_scientific_lesson_fields_youtube_id" name="acf[field_scientific_lesson_fields_youtube_id]" placeholder="https://www.youtube.com/watch?v=..." type="text" value=""/></div></div>
 </div>
-<div class="acf-field acf-field-repeater acf-field-scientific-lesson-fields-audios" data-key="field_scientific_lesson_fields_audios" data-name="scientific_lesson_fields_audios" data-type="repeater">
+<div class="acf-field acf-field-repeater zad-alt-required acf-field-scientific-lesson-fields-audios" data-key="field_scientific_lesson_fields_audios" data-name="scientific_lesson_fields_audios" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_scientific_lesson_fields_audios">الملفات الصوتية <span class="acf-required">**</span></label></div>
+<label for="acf-field_scientific_lesson_fields_audios">الملفات الصوتية <span class="acf-required">*</span></label><p class="description">يجب تعبئة أحد هذه الحقول: المحتوى، رابط يوتيوب، الملفات الصوتية، رابط الفيديو، مقاطع الفيديو.</p></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_scientific_lesson_fields_audios]" type="hidden" value=""/> <table class="acf-table">
@@ -1076,15 +1074,15 @@
 </div>
 </div>
 </div>
-<div class="acf-field acf-field-url acf-field-scientific-lesson-fields-video-url" data-key="field_scientific_lesson_fields_video_url" data-name="scientific_lesson_fields_video_url" data-type="url">
+<div class="acf-field acf-field-url zad-alt-required acf-field-scientific-lesson-fields-video-url" data-key="field_scientific_lesson_fields_video_url" data-name="scientific_lesson_fields_video_url" data-type="url">
 <div class="acf-label">
-<label for="acf-field_scientific_lesson_fields_video_url">رابط الفيديو <span class="acf-required">**</span></label><p class="description">رابط مباشر لملف الفيديو ينتهي بامتداده، مثل: https://www.example.com/video.mp4</p></div>
+<label for="acf-field_scientific_lesson_fields_video_url">رابط الفيديو <span class="acf-required">*</span></label><p class="description">يجب تعبئة أحد هذه الحقول: المحتوى، رابط يوتيوب، الملفات الصوتية، رابط الفيديو، مقاطع الفيديو. رابط مباشر لملف الفيديو ينتهي بامتداده، مثل: https://www.example.com/video.mp4</p></div>
 <div class="acf-input">
 <div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_scientific_lesson_fields_video_url" name="acf[field_scientific_lesson_fields_video_url]" type="url" value=""/></div></div>
 </div>
-<div class="acf-field acf-field-repeater acf-field-scientific-lesson-fields-videos" data-key="field_scientific_lesson_fields_videos" data-name="scientific_lesson_fields_videos" data-type="repeater">
+<div class="acf-field acf-field-repeater zad-alt-required acf-field-scientific-lesson-fields-videos" data-key="field_scientific_lesson_fields_videos" data-name="scientific_lesson_fields_videos" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_scientific_lesson_fields_videos">مقاطع الفيديو <span class="acf-required">**</span></label></div>
+<label for="acf-field_scientific_lesson_fields_videos">مقاطع الفيديو <span class="acf-required">*</span></label><p class="description">يجب تعبئة أحد هذه الحقول: المحتوى، رابط يوتيوب، الملفات الصوتية، رابط الفيديو، مقاطع الفيديو.</p></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_scientific_lesson_fields_videos]" type="hidden" value=""/> <table class="acf-table">

@@ -8,12 +8,19 @@ twice changes nothing.
 
 In the content type's fields box («حقول …»):
   top   required and high-priority fields, shown directly
-  alt   alternatives: a note «مطلوب تعبئة أحد هذه الحقول» (labels marked **) or
-        «موصى بتعبئة أحد هذه الحقول», then the fields
+  alt   alternatives (one of them to fill): an orange * on the label and the help
+        icon «يجب تعبئة أحد هذه الحقول: …» when required, a green * and «يفضل
+        تعبئة أحد هذه الحقول: …» when recommended. On publish, proto.js shows
+        ACF's error message on them when none is filled (as ACF validation does)
   rest  low-priority, plain optional and unlisted fields, in the collapsed
         «حقول إضافية»
 Deleted fields leave the add/edit pages and the list columns. The المقتطف box
-moves after the fields box. Required side boxes (الفهارس، القراء) get a red *.
+moves after the fields box. Required side boxes (الفهارس، القراء) get a red *
+(CSS, class zad-required on the box).
+
+Only the CMS's own elements are used: ACF fields, labels, «acf-required» and
+the field help (p.description, an ACF field's instructions); classes on them
+are ACF «wrapper» classes.
 """
 import json
 import os
@@ -24,8 +31,7 @@ FINAL = os.path.dirname(HERE)
 
 IMAGES_DESC = 'الصورة الأولى هي الصورة البارزة، وتظهر الصور الأخرى بعدها.'
 COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.'
-REQUIRED_NOTE = 'مطلوب تعبئة أحد هذه الحقول'
-RECOMMENDED_NOTE = 'موصى بتعبئة أحد هذه الحقول'
+ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
 LABELS = {'content': 'المحتوى'}  # the WordPress editor, outside the fields box
 
 # Sheet sections; field names are the suffix after «<type>_fields_»
@@ -35,6 +41,7 @@ SERIES = dict(top=['images', 'status', 'author_name', 'author_about'], required=
               delete_boxes=['acf-group_series_shared_fields'], required_boxes=['radio-indexdiv'])
 SERIES_LESSONS = dict(LESSONS, rest=['pdfs', 'transcript', 'clips', 'view_count', 'course'],
                       delete_boxes=['acf-group_series_shared_fields'], required_boxes=['radio-indexdiv'])
+# اسم القارئ and المادة الصوتية are the «القارئ» and «الملف الصوتي» of each معلومات القارئ row
 AUDIO_BOOKS = dict(top=['images', 'reciter_info', 'transcript'], required=['images', 'reciter_info'],
                    rest=['content_explanation', 'clips', 'view_count'],
                    delete_boxes=['acf-group_series_shared_fields'],
@@ -44,16 +51,15 @@ TYPES = {
                     delete=['youtube_id', 'audios', 'videos', 'video_url', 'pdfs', 'release_date',
                             'transcript', 'clips', 'view_count', 'words'],
                     delete_columns=['الملفات الصوتية', 'ملفات PDF', 'ملفات Word']),
-    'fatwa': dict(top=['question', 'answer', 'images'],
+    'fatwa': dict(top=['question', 'answer', 'images'], required=['question', 'answer'],
                   alt=('recommended', ['youtube_id', 'video_url', 'videos']),
                   delete=['release_date'], rest=['audios', 'transcript', 'clips', 'view_count', 'fatwas']),
     'book': dict(top=['cover_images'], alt=('required', ['pdfs', 'buy_url']),
                  top_after=['total_volumes', 'isbn', 'edition_number']),
     'static-page': dict(top=['images'], required=['images'], delete=['release_date']),
     'book-page': dict(),
-    'short': dict(),
 }
-for t in ('lesson', 'speech', 'tilawa', 'podcast', 'lecture', 'supplication', 'benefit'):
+for t in ('lesson', 'speech', 'tilawa', 'podcast', 'lecture', 'supplication', 'benefit', 'short'):
     TYPES[t] = LESSONS
 for t in ('interpret-series', 'radio-program-series', 'tv-program-series', 'book-series',
           'scientific-series', 'audio-book-series', 'book-browser-series'):
@@ -100,13 +106,26 @@ def label_text(field):
     return re.sub(r'<[^>]+>', '', m.group(1)).replace('*', '').strip() if m else ''
 
 
-def mark_label(field, mark):
-    """Label marked «*» (required), «**» (required alternative) or nothing."""
+def mark_label(field, required, alt):
+    """«*» after the label: red when required, orange/green for a required/recommended alternative."""
     field = re.sub(r' ?<span class="acf-required">\*+</span>', '', field, count=1)
-    if mark:
-        field = re.sub(r'(<label for="[^"]*">.*?)(</label>)', r'\1 <span class="acf-required">%s</span>\2' % mark,
+    if required or alt:
+        field = re.sub(r'(<label for="[^"]*">.*?)(</label>)', r'\1 <span class="acf-required">*</span>\2',
                        field, count=1, flags=re.S)
-    return set_class(field, 'is-required', mark == '*')
+    field = set_class(field, 'is-required', required)
+    for kind in ALT_NOTE:
+        field = set_class(field, 'zad-alt-' + kind, alt == kind)
+    if 'data-required="' in field.split('>', 1)[0]:
+        field = re.sub(r'data-required="\d"', 'data-required="%d"' % required, field, count=1)
+    return field
+
+
+def help_text(field):
+    m = re.search(r'</label><p class="description">(.*?)</p>', field, re.S)
+    text = m.group(1) if m else ''
+    if text.startswith(tuple(ALT_NOTE.values())):
+        text = text.split('. ', 1)[1] if '. ' in text else ''  # the note added before
+    return text
 
 
 def describe(field, text):
@@ -124,12 +143,10 @@ def accordion(prefix):
             '\t\t<div class="acf-fields" data-endpoint="0" data-multi_expand="1" data-open="0"></div>\n\t\t\t</div>\n</div>\n')
 
 
-def note(prefix, kind, labels):
-    name = prefix + 'alternatives'
-    text = (REQUIRED_NOTE if kind == 'required' else RECOMMENDED_NOTE) + ': ' + '، '.join(labels)
-    return (f'<div class="acf-field acf-field-message acf-field-{name.replace("_", "-")} zad-alternatives -{kind}" '
-            f'data-key="field_{name}" data-name="{name}" data-type="message">\n'
-            f'<div class="acf-input"><p>{text}</p></div></div>\n')
+def describe_or_drop(field, text):
+    if text:
+        return describe(field, text)
+    return re.sub(r'(</label>)<p class="description">.*?</p>', r'\1', field, count=1, flags=re.S)
 
 
 def fields_box(s):
@@ -157,14 +174,11 @@ def arrange(s, cfg):
     if first is None:
         return s, None
     acc = own.pop('additional_fields', None) or accordion(prefix)
-    own.pop('alternatives', None)
+    own.pop('alternatives', None)  # the note field of an earlier version
     for x in cfg.get('delete', []):
         own.pop(x, None)
 
     required = set(cfg.get('required', []))
-    for x in list(own):
-        if x not in required and 'acf-required">*<' in own[x]:
-            required.add(x)  # required before the sheet (الصور in المقالات، صور الغلاف)
     kind, alts = cfg.get('alt', (None, []))
     alts = [x for x in alts if x in own or x in LABELS]
 
@@ -177,19 +191,22 @@ def arrange(s, cfg):
     if 'rest' not in cfg and 'top' not in cfg:
         top, rest = list(own), []  # not in the sheet: order unchanged
 
+    labels = [LABELS.get(x) or label_text(own[x]) for x in alts]
     for x in own:
-        mark = '*' if x in required else ('**' if kind == 'required' and x in alts else '')
-        own[x] = mark_label(own[x], mark)
+        own[x] = mark_label(own[x], x in required, kind if x in alts else None)
+        old = help_text(own[x])
+        if x in alts:
+            note = '%s: %s.' % (ALT_NOTE[kind], '، '.join(labels))
+            own[x] = describe(own[x], note + (' ' + old if old else ''))
+        else:
+            own[x] = describe_or_drop(own[x], old)
     if 'images' in own:
         own['images'] = describe(own['images'], IMAGES_DESC)
     if 'cover_images' in own:
         own['cover_images'] = describe(own['cover_images'], COVER_DESC)
 
     seq = [own[x] for x in top]
-    if alts:
-        labels = [LABELS.get(x) or label_text(own[x]) for x in alts]
-        seq.append(note(prefix, kind, labels))
-        seq += [own[x] for x in alts if x in own]
+    seq += [own[x] for x in alts if x in own]
     seq += [own[x] for x in after]
     shown = bool(seq)
     if rest and shown:
@@ -219,11 +236,12 @@ def add_page(path, cfg):
         s, ex = cut(s, *box_at(s, 'postexcerpt'))
         _, b = box_at(s, res[0])
         s = s[:b] + ex + s[b:]
+    s = s.replace(' <span class="zad-required">*</span>', '')  # earlier version
     for box_id in cfg.get('required_boxes', []):
-        s = re.sub(r'(id="%s"[^>]*>\s*<div class="postbox-header"><h2 class="hndle[^"]*">)([^<]*?)(</h2>)' % box_id,
-                   r'\1\2 <span class="zad-required">*</span>\3', s, count=1)
-        s = s.replace('<span class="zad-required">*</span> <span class="zad-required">*</span>',
-                      '<span class="zad-required">*</span>')
+        ab = box_at(s, box_id)
+        if ab:
+            tag = s[ab[0]:s.index('>', ab[0]) + 1]
+            s = s[:ab[0]] + set_class(tag, 'zad-required', True) + s[ab[0] + len(tag):]
     open(path, 'w', encoding='utf-8').write(s)
     return res and res[1]
 
@@ -244,7 +262,7 @@ def index_text(sm):
     out = '، '.join(sm['top'])
     if sm['alt']:
         kind, labels = sm['alt']
-        out += ('، ' if out else '') + ('مطلوب أحدها' if kind == 'required' else 'موصى بأحدها') + ' (' + '، '.join(labels) + ')'
+        out += ('، ' if out else '') + ('يجب تعبئة أحدها' if kind == 'required' else 'يفضل تعبئة أحدها') + ' (' + '، '.join(labels) + ')'
     if sm['after']:
         out += '، ' + '، '.join(sm['after'])
     out = '<b>%s</b>' % out
