@@ -38,6 +38,12 @@ both checked against production add pages on 2026-10-07.
 (المكتبة، إضافة ملف، ترجمة الوسائط) and البيانات الوصفية pages: one list page and one edit page per taxonomy,
 plus ترتيب البيانات الوصفية (one page per tab; drag and drop in `proto.js`).
 
+`python3 _tools/apply_field_priorities.py` (run after both) applies the fields sheet (cms pages and fields,
+2026-10-12) to every add, edit and list page. It removes the deleted fields, and puts required and
+high-priority fields at the top of the «حقول …» box with the rest in «حقول إضافية». It adds the «مطلوب / موصى
+بتعبئة أحد هذه الحقول» note above alternatives and moves المقتطف after the fields box. The rules per
+type are in its `TYPES` table. Running it twice changes nothing.
+
 ## Where the styles come from
 - `custom.css` — CMS-improvements skin (navy + gold), plus what was borrowed from cms-testing:
   sidebar layout, page background, list table colouring, row actions on hover,

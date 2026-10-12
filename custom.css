@@ -1164,6 +1164,10 @@ body.edit-tags-php .icl_subsubsub {
 .acf-field[data-key*="book_fields"] .acf-label p.description {
   display: none !important;
 }
+/* …but صور الغلاف keeps its help: the first image is the cover */
+.acf-field[data-key="field_book_fields_cover_images"] .acf-label p.description {
+  display: block !important;
+}
 
 
 /* ------------------------------------------------------------------
@@ -1795,6 +1799,11 @@ body.edit-tags-php #addtag > p.submit {
 .acf-field.zad-alternatives.-required .acf-input p {
   border-inline-start-color: #d63638;
   background: #fcf0f1;
+}
+/* Required side boxes (الفهارس، القراء): red asterisk after the title */
+.postbox-header .hndle .zad-required {
+  margin-inline-start: 2px;
+  color: #d63638;
 }
 
 /* ------------------------------------------------------------------

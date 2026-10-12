@@ -259,7 +259,7 @@
 <p>
 			يمكن إظهار بعض عناصر الشاشة أو إخفاؤها باستخدام مربعات الاختيار.			قم بتوسيع العناصر أو طيها عن طريق النقر فوق عناوينها، و ترتيبها عن طريق سحب عناوينها أو عن طريق النقر فوق السهمين لأعلى ولأسفل.		</p>
 <div class="metabox-prefs-container">
-<label for="icl_div-hide"><input checked="" class="hide-postbox-tog" id="icl_div-hide" name="icl_div-hide" type="checkbox" value="icl_div"/>لغة</label><label for="tagsdiv-public-tag-hide"><input checked="" class="hide-postbox-tog" id="tagsdiv-public-tag-hide" name="tagsdiv-public-tag-hide" type="checkbox" value="tagsdiv-public-tag"/>الوسوم</label><label for="pageparentdiv-hide"><input class="hide-postbox-tog" id="pageparentdiv-hide" name="pageparentdiv-hide" type="checkbox" value="pageparentdiv"/>خصائص المقالة</label><label for="radio-indexdiv-hide"><input checked="" class="hide-postbox-tog" id="radio-indexdiv-hide" name="radio-indexdiv-hide" type="checkbox" value="radio-indexdiv"/>فهارس</label><label for="postexcerpt-hide"><input checked="" class="hide-postbox-tog" id="postexcerpt-hide" name="postexcerpt-hide" type="checkbox" value="postexcerpt"/>المقتطف</label><label for="rank_math_metabox-hide"><input checked="" class="hide-postbox-tog" id="rank_math_metabox-hide" name="rank_math_metabox-hide" type="checkbox" value="rank_math_metabox"/>SEO</label><label for="acf-group_series_shared_fields-hide"><input checked="" class="hide-postbox-tog" id="acf-group_series_shared_fields-hide" name="acf-group_series_shared_fields-hide" type="checkbox" value="acf-group_series_shared_fields"/>حقول السلاسل المشتركة</label><label for="acf-group_interpret_lesson_fields-hide"><input checked="" class="hide-postbox-tog" id="acf-group_interpret_lesson_fields-hide" name="acf-group_interpret_lesson_fields-hide" type="checkbox" value="acf-group_interpret_lesson_fields"/>حقول دروس الدورات</label><label for="slugdiv-hide"><input class="hide-postbox-tog" id="slugdiv-hide" name="slugdiv-hide" type="checkbox" value="slugdiv"/>الاسم اللطيف</label><label for="authordiv-hide"><input class="hide-postbox-tog" id="authordiv-hide" name="authordiv-hide" type="checkbox" value="authordiv"/>كاتب</label> </div>
+<label for="icl_div-hide"><input checked="" class="hide-postbox-tog" id="icl_div-hide" name="icl_div-hide" type="checkbox" value="icl_div"/>لغة</label><label for="tagsdiv-public-tag-hide"><input checked="" class="hide-postbox-tog" id="tagsdiv-public-tag-hide" name="tagsdiv-public-tag-hide" type="checkbox" value="tagsdiv-public-tag"/>الوسوم</label><label for="pageparentdiv-hide"><input class="hide-postbox-tog" id="pageparentdiv-hide" name="pageparentdiv-hide" type="checkbox" value="pageparentdiv"/>خصائص المقالة</label><label for="radio-indexdiv-hide"><input checked="" class="hide-postbox-tog" id="radio-indexdiv-hide" name="radio-indexdiv-hide" type="checkbox" value="radio-indexdiv"/>فهارس</label><label for="postexcerpt-hide"><input checked="" class="hide-postbox-tog" id="postexcerpt-hide" name="postexcerpt-hide" type="checkbox" value="postexcerpt"/>المقتطف</label><label for="rank_math_metabox-hide"><input checked="" class="hide-postbox-tog" id="rank_math_metabox-hide" name="rank_math_metabox-hide" type="checkbox" value="rank_math_metabox"/>SEO</label><label for="acf-group_interpret_lesson_fields-hide"><input checked="" class="hide-postbox-tog" id="acf-group_interpret_lesson_fields-hide" name="acf-group_interpret_lesson_fields-hide" type="checkbox" value="acf-group_interpret_lesson_fields"/>حقول دروس الدورات</label><label for="slugdiv-hide"><input class="hide-postbox-tog" id="slugdiv-hide" name="slugdiv-hide" type="checkbox" value="slugdiv"/>الاسم اللطيف</label><label for="authordiv-hide"><input class="hide-postbox-tog" id="authordiv-hide" name="authordiv-hide" type="checkbox" value="authordiv"/>كاتب</label> </div>
 </fieldset>
 <fieldset class="columns-prefs">
 <legend class="screen-layout">التخطيط</legend>
@@ -416,7 +416,7 @@
 </div>
 </div>
 <div class="postbox" id="radio-indexdiv">
-<div class="postbox-header"><h2 class="hndle ui-sortable-handle">فهارس</h2>
+<div class="postbox-header"><h2 class="hndle ui-sortable-handle">فهارس <span class="zad-required">*</span></h2>
 <div class="handle-actions hide-if-no-js"><button aria-describedby="radio-indexdiv-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="radio-indexdiv-handle-order-higher-description">تحريك صندوق فهارس للأعلى</span><button aria-describedby="radio-indexdiv-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="radio-indexdiv-handle-order-lower-description">تحريك صندوق فهارس للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: فهارس</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside">
 <div class="radio-buttons-for-taxonomies categorydiv" id="taxonomy-index"><input class="zad-tax-filter" placeholder="فلترة..." value=""/>
 <ul class="category-tabs" id="index-tabs">
@@ -759,35 +759,7 @@
 </div>
 </div></div>
 <div class="postbox-container" id="postbox-container-2">
-<div class="meta-box-sortables ui-sortable" id="normal-sortables"><div class="postbox" id="postexcerpt">
-<div class="postbox-header"><h2 class="hndle ui-sortable-handle">المقتطف</h2>
-<div class="handle-actions hide-if-no-js"><button aria-describedby="postexcerpt-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-higher-description">تحريك صندوق المقتطف للأعلى</span><button aria-describedby="postexcerpt-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-lower-description">تحريك صندوق المقتطف للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: المقتطف</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside">
-<label class="screen-reader-text" for="excerpt">
-	المقتطف</label><textarea cols="40" id="excerpt" name="excerpt" rows="1"></textarea>
-<p>
-	المقتطف هو ملخّص يدوي اختياري للمحتوى يمكن أن يُستخدم في قالبك. <a data-orig-href="https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/" href="docs/excerpt.html" target="_blank">أعرف أكثر عن المقتطف</a>.</p>
-</div>
-</div>
-<div class="postbox acf-postbox closed" id="acf-group_series_shared_fields">
-<div class="postbox-header"><h2 class="hndle ui-sortable-handle">حقول السلاسل المشتركة</h2>
-<div class="handle-actions hide-if-no-js"><button aria-describedby="acf-group_series_shared_fields-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="acf-group_series_shared_fields-handle-order-higher-description">تحريك صندوق حقول السلاسل المشتركة للأعلى</span><button aria-describedby="acf-group_series_shared_fields-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="acf-group_series_shared_fields-handle-order-lower-description">تحريك صندوق حقول السلاسل المشتركة للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: حقول السلاسل المشتركة</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside acf-fields -top">
-<div class="acf-field acf-field-date-picker acf-field-series-shared-fields-release-date" data-key="field_series_shared_fields_release_date" data-name="series_shared_fields_release_date" data-type="date_picker">
-<div class="acf-label">
-<label for="acf-field_series_shared_fields_release_date">تاريخ الإلقاء</label></div>
-<div class="acf-input">
-<div class="acf-date-picker acf-input-wrap" data-date_format="yy-mm-dd" data-first_day="6">
-<input id="acf-field_series_shared_fields_release_date" name="acf[field_series_shared_fields_release_date]" type="hidden" value=""/> <input class="input hasDatepicker" placeholder="التاريخ الميلادي" type="text" value=""/>
-<div class="hijri-date-inputs-wrapper">
-<input class="input hijri-date-input hijri-day" data-type="day" max="30" maxlength="2" min="1" placeholder="اليوم الهجري" type="number" value=""/>
-<input class="input hijri-date-input hijri-month" data-type="month" max="12" maxlength="2" min="1" placeholder="الشهر الهجري" type="number" value=""/>
-<input class="input hijri-date-input hijri-year" data-type="year" max="9999" maxlength="4" min="1" placeholder="العام الهجري" type="number" value=""/>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="postbox acf-postbox closed" id="acf-group_interpret_lesson_fields">
+<div class="meta-box-sortables ui-sortable" id="normal-sortables"><div class="postbox acf-postbox" id="acf-group_interpret_lesson_fields">
 <div class="postbox-header"><h2 class="hndle ui-sortable-handle">حقول دروس الدورات</h2>
 <div class="handle-actions hide-if-no-js"><button aria-describedby="acf-group_interpret_lesson_fields-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="acf-group_interpret_lesson_fields-handle-order-higher-description">تحريك صندوق حقول دروس الدورات للأعلى</span><button aria-describedby="acf-group_interpret_lesson_fields-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="acf-group_interpret_lesson_fields-handle-order-lower-description">تحريك صندوق حقول دروس الدورات للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: حقول دروس الدورات</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside acf-fields -top">
 
@@ -802,7 +774,7 @@
 
 <div class="acf-field acf-field-repeater acf-field-interpret-lesson-fields-images" data-key="field_interpret_lesson_fields_images" data-name="interpret_lesson_fields_images" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_interpret_lesson_fields_images">الصور</label></div>
+<label for="acf-field_interpret_lesson_fields_images">الصور</label><p class="description">الصورة الأولى هي الصورة البارزة، وتظهر الصور الأخرى بعدها.</p></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_interpret_lesson_fields_images]" type="hidden" value=""/> <table class="acf-table">
@@ -816,15 +788,17 @@
 </div>
 </div>
 </div>
+<div class="acf-field acf-field-message acf-field-interpret-lesson-fields-alternatives zad-alternatives -required" data-key="field_interpret_lesson_fields_alternatives" data-name="interpret_lesson_fields_alternatives" data-type="message">
+<div class="acf-input"><p>مطلوب تعبئة أحد هذه الحقول: المحتوى، رابط يوتيوب، الملفات الصوتية، رابط الفيديو، مقاطع الفيديو</p></div></div>
 <div class="acf-field acf-field-text acf-field-interpret-lesson-fields-youtube-id" data-key="field_interpret_lesson_fields_youtube_id" data-name="interpret_lesson_fields_youtube_id" data-type="text">
 <div class="acf-label">
-<label for="acf-field_interpret_lesson_fields_youtube_id">رابط يوتيوب</label></div>
+<label for="acf-field_interpret_lesson_fields_youtube_id">رابط يوتيوب <span class="acf-required">**</span></label></div>
 <div class="acf-input">
 <div class="acf-input-wrap"><input id="acf-field_interpret_lesson_fields_youtube_id" name="acf[field_interpret_lesson_fields_youtube_id]" placeholder="https://www.youtube.com/watch?v=..." type="text" value=""/></div></div>
 </div>
 <div class="acf-field acf-field-repeater acf-field-interpret-lesson-fields-audios" data-key="field_interpret_lesson_fields_audios" data-name="interpret_lesson_fields_audios" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_interpret_lesson_fields_audios">الملفات الصوتية</label></div>
+<label for="acf-field_interpret_lesson_fields_audios">الملفات الصوتية <span class="acf-required">**</span></label></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_interpret_lesson_fields_audios]" type="hidden" value=""/> <table class="acf-table">
@@ -838,9 +812,15 @@
 </div>
 </div>
 </div>
+<div class="acf-field acf-field-url acf-field-interpret-lesson-fields-video-url" data-key="field_interpret_lesson_fields_video_url" data-name="interpret_lesson_fields_video_url" data-type="url">
+<div class="acf-label">
+<label for="acf-field_interpret_lesson_fields_video_url">رابط الفيديو <span class="acf-required">**</span></label><p class="description">رابط مباشر لملف الفيديو ينتهي بامتداده، مثل: https://www.example.com/video.mp4</p></div>
+<div class="acf-input">
+<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_interpret_lesson_fields_video_url" name="acf[field_interpret_lesson_fields_video_url]" type="url" value=""/></div></div>
+</div>
 <div class="acf-field acf-field-repeater acf-field-interpret-lesson-fields-videos" data-key="field_interpret_lesson_fields_videos" data-name="interpret_lesson_fields_videos" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_interpret_lesson_fields_videos">مقاطع الفيديو</label></div>
+<label for="acf-field_interpret_lesson_fields_videos">مقاطع الفيديو <span class="acf-required">**</span></label></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_interpret_lesson_fields_videos]" type="hidden" value=""/> <table class="acf-table">
@@ -854,11 +834,12 @@
 </div>
 </div>
 </div>
-<div class="acf-field acf-field-url acf-field-interpret-lesson-fields-video-url" data-key="field_interpret_lesson_fields_video_url" data-name="interpret_lesson_fields_video_url" data-type="url">
+<div class="acf-field acf-field-accordion acf-field-interpret-lesson-fields-additional-fields" data-key="field_interpret_lesson_fields_additional_fields" data-name="interpret_lesson_fields_additional_fields" data-type="accordion">
 <div class="acf-label">
-<label for="acf-field_interpret_lesson_fields_video_url">رابط الفيديو</label><p class="description">رابط مباشر لملف الفيديو ينتهي بامتداده، مثل: https://www.example.com/video.mp4</p></div>
+<label for="acf-field_interpret_lesson_fields_additional_fields">حقول إضافية</label></div>
 <div class="acf-input">
-<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_interpret_lesson_fields_video_url" name="acf[field_interpret_lesson_fields_video_url]" type="url" value=""/></div></div>
+		<div class="acf-fields" data-endpoint="0" data-multi_expand="1" data-open="0"></div>
+			</div>
 </div>
 <div class="acf-field acf-field-repeater acf-field-interpret-lesson-fields-pdfs" data-key="field_interpret_lesson_fields_pdfs" data-name="interpret_lesson_fields_pdfs" data-type="repeater">
 <div class="acf-label">
@@ -926,6 +907,15 @@
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="postbox" id="postexcerpt">
+<div class="postbox-header"><h2 class="hndle ui-sortable-handle">المقتطف</h2>
+<div class="handle-actions hide-if-no-js"><button aria-describedby="postexcerpt-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-higher-description">تحريك صندوق المقتطف للأعلى</span><button aria-describedby="postexcerpt-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-lower-description">تحريك صندوق المقتطف للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: المقتطف</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside">
+<label class="screen-reader-text" for="excerpt">
+	المقتطف</label><textarea cols="40" id="excerpt" name="excerpt" rows="1"></textarea>
+<p>
+	المقتطف هو ملخّص يدوي اختياري للمحتوى يمكن أن يُستخدم في قالبك. <a data-orig-href="https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/" href="docs/excerpt.html" target="_blank">أعرف أكثر عن المقتطف</a>.</p>
 </div>
 </div>
 <div class="postbox hide-if-js" id="slugdiv" style="">
