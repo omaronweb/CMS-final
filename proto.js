@@ -28,8 +28,49 @@
 
   document.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (checkAlternatives()) return;
     say('Prototype: form submission disabled');
   });
+
+  // Alternatives (one of them to fill, _tools/apply_field_priorities.py): on publish, what
+  // ACF validation does on the live CMS — when none is filled, each gets ACF's error
+  // message; «يجب» (orange) stops the save, «يفضل» (green) only tells
+  var ALT_MSG = { required: '(يجب تعبئة أحد هذه الحقول)', recommended: '(يفضل تعبئة أحد هذه الحقول)' };
+  function filled(field) {
+    if (field.dataset.type === 'repeater') return $$('.acf-row:not(.acf-clone)', field).length > 0;
+    return $$('input:not([type=hidden]), textarea', field).some(function (i) { return i.value.trim(); });
+  }
+  function contentFilled() {
+    var ifr = $('#content_ifr'), ta = $('textarea#content');
+    var doc = ifr && ifr.contentDocument;
+    return !!((ta && ta.value.trim()) || (doc && doc.body && doc.body.textContent.trim()));
+  }
+  function checkAlternatives() {
+    var blocked = false;
+    $$('.acf-error-message.zad-alt-message').forEach(function (n) { n.remove(); });
+    Object.keys(ALT_MSG).forEach(function (kind) {
+      var fields = $$('.acf-field.zad-alt-' + kind);
+      if (!fields.length) return;
+      // the WordPress editor (المحتوى) counts when the note names it
+      var withContent = /المحتوى/.test(($('.acf-label > p.description', fields[0]) || {}).textContent || '');
+      var ok = fields.some(filled) || (withContent && contentFilled());
+      fields.forEach(function (f) {
+        f.classList.toggle('acf-error', !ok);
+        if (ok) return;
+        var n = document.createElement('div');
+        n.className = 'acf-notice -' + (kind === 'required' ? 'warning' : 'success') + ' acf-error-message zad-alt-message';
+        n.innerHTML = '<p>' + ALT_MSG[kind] + '</p>';
+        $('.acf-input', f).prepend(n);
+      });
+      if (!ok && kind === 'required') blocked = true;
+    });
+    if (blocked) {
+      var first = $('.acf-field.acf-error');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      say('فشل التحقق: يجب تعبئة أحد الحقول المعلَّمة');
+    }
+    return blocked;
+  }
 
   // Admin menu flyouts
   $$('#adminmenu li.wp-has-submenu').forEach(function (li) {

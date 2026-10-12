@@ -790,16 +790,7 @@
 </div>
 </div></div>
 <div class="postbox-container" id="postbox-container-2">
-<div class="meta-box-sortables ui-sortable" id="normal-sortables"><div class="postbox" id="postexcerpt">
-<div class="postbox-header"><h2 class="hndle ui-sortable-handle">المقتطف</h2>
-<div class="handle-actions hide-if-no-js"><button aria-describedby="postexcerpt-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-higher-description">تحريك صندوق المقتطف للأعلى</span><button aria-describedby="postexcerpt-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-lower-description">تحريك صندوق المقتطف للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: المقتطف</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside">
-<label class="screen-reader-text" for="excerpt">
-	المقتطف</label><textarea cols="40" id="excerpt" name="excerpt" rows="1"></textarea>
-<p>
-	المقتطف هو ملخّص يدوي اختياري للمحتوى يمكن أن يُستخدم في قالبك. <a data-orig-href="https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/" href="docs/excerpt.html" target="_blank">أعرف أكثر عن المقتطف</a>.</p>
-</div>
-</div>
-<div class="postbox acf-postbox" id="acf-group_book_fields">
+<div class="meta-box-sortables ui-sortable" id="normal-sortables"><div class="postbox acf-postbox" id="acf-group_book_fields">
 <div class="postbox-header"><h2 class="hndle ui-sortable-handle">حقول الكتب</h2>
 <div class="handle-actions hide-if-no-js"><button aria-describedby="acf-group_book_fields-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="acf-group_book_fields-handle-order-higher-description">تحريك صندوق حقول الكتب للأعلى</span><button aria-describedby="acf-group_book_fields-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="acf-group_book_fields-handle-order-lower-description">تحريك صندوق حقول الكتب للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: حقول الكتب</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside acf-fields -top">
 
@@ -819,9 +810,9 @@
 
 
 
-<div class="acf-field acf-field-repeater acf-field-book-fields-cover-images is-required" data-key="field_book_fields_cover_images" data-name="book_fields_cover_images" data-required="1" data-type="repeater">
+<div class="acf-field acf-field-repeater acf-field-book-fields-cover-images" data-key="field_book_fields_cover_images" data-name="book_fields_cover_images" data-required="0" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_book_fields_cover_images">صور الغلاف <span class="acf-required">*</span></label><p class="description">أضف صورة غلاف واحدة أو أكثر.</p></div>
+<label for="acf-field_book_fields_cover_images">صور الغلاف</label><p class="description">الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.</p></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_book_fields_cover_images]" type="hidden" value=""/> <table class="acf-table">
@@ -835,16 +826,9 @@
 </div>
 </div>
 </div>
-<div class="acf-field acf-field-accordion acf-field-book-fields-additional-fields" data-key="field_book_fields_additional_fields" data-name="book_fields_additional_fields" data-type="accordion">
+<div class="acf-field acf-field-repeater zad-alt-required acf-field-book-fields-pdfs" data-key="field_book_fields_pdfs" data-name="book_fields_pdfs" data-type="repeater">
 <div class="acf-label">
-<label for="acf-field_book_fields_additional_fields">حقول إضافية</label></div>
-<div class="acf-input">
-<div class="acf-fields" data-endpoint="0" data-multi_expand="1" data-open="0"></div>
-</div>
-</div>
-<div class="acf-field acf-field-repeater acf-field-book-fields-pdfs" data-key="field_book_fields_pdfs" data-name="book_fields_pdfs" data-type="repeater">
-<div class="acf-label">
-<label for="acf-field_book_fields_pdfs">ملفات PDF</label><p class="description">أضف ملف PDF واحد أو أكثر للتحميل.</p></div>
+<label for="acf-field_book_fields_pdfs">ملفات PDF <span class="acf-required">*</span></label><p class="description">يجب تعبئة أحد هذه الحقول: ملفات PDF، رابط الشراء. أضف ملف PDF واحد أو أكثر للتحميل.</p></div>
 <div class="acf-input">
 <div class="acf-repeater -block -empty" data-max="0" data-min="0" data-pagination="0">
 <input class="acf-repeater-hidden-input" name="acf[field_book_fields_pdfs]" type="hidden" value=""/> <table class="acf-table">
@@ -856,6 +840,37 @@
 <div class="clear"></div>
 </div>
 </div>
+</div>
+</div>
+<div class="acf-field acf-field-url zad-alt-required acf-field-book-fields-buy-url -c0" data-key="field_book_fields_buy_url" data-name="book_fields_buy_url" data-type="url" data-width="100" style="width: 100%; min-height: 118px;">
+<div class="acf-label">
+<label for="acf-field_book_fields_buy_url">رابط الشراء <span class="acf-required">*</span></label><p class="description">يجب تعبئة أحد هذه الحقول: ملفات PDF، رابط الشراء. أدخل رابط شراء الكتاب.</p></div>
+<div class="acf-input">
+<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_book_fields_buy_url" name="acf[field_book_fields_buy_url]" placeholder="أدخل رابط الشراء" type="url" value=""/></div></div>
+</div>
+<div class="acf-field acf-field-number acf-field-book-fields-total-volumes" data-key="field_book_fields_total_volumes" data-name="book_fields_total_volumes" data-type="number">
+<div class="acf-label">
+<label for="acf-field_book_fields_total_volumes">إجمالي المجلدات</label><p class="description">أدخل العدد الإجمالي لمجلدات الكتاب.</p></div>
+<div class="acf-input">
+<div class="acf-input-wrap"><input id="acf-field_book_fields_total_volumes" min="1" name="acf[field_book_fields_total_volumes]" placeholder="مثل: 5" step="any" type="number" value=""/></div></div>
+</div>
+<div class="acf-field acf-field-text acf-field-book-fields-isbn -c0" data-key="field_book_fields_isbn" data-name="book_fields_isbn" data-type="text" data-width="100" style="width: 100%; min-height: 157px;">
+<div class="acf-label">
+<label for="acf-field_book_fields_isbn">الرقم المعياري الدولي للكتاب</label><p class="description">أدخل الرقم المعياري الدولي للكتاب (ISBN). تُحوَّل قيم ISBN-10 تلقائياً إلى ISBN-13 في البيانات المنظمة الناتجة. يعزّز رقم ISBN ظهور الكتاب في النتائج المنسّقة (Book rich result) ويساعد محركات البحث على مطابقة هذه الطبعة بعنوان معروف — فأدخله متى كان للكتاب رقم حقيقي. اتركه فارغاً إذا لم يكن للكتاب رقم ISBN (لا تخترع رقماً ولا تخمّنه أبداً)، واستخدم حقول المعرّف أدناه بدلاً منه.</p></div>
+<div class="acf-input">
+<div class="acf-input-wrap"><input id="acf-field_book_fields_isbn" name="acf[field_book_fields_isbn]" placeholder="أدخل الرقم المعياري الدولي للكتاب" type="text" value=""/></div></div>
+</div>
+<div class="acf-field acf-field-text acf-field-book-fields-edition-number" data-key="field_book_fields_edition_number" data-name="book_fields_edition_number" data-type="text" data-width="50" style="width: 50%; min-height: 138px;">
+<div class="acf-label">
+<label for="acf-field_book_fields_edition_number">رقم الطبعة</label><p class="description">أدخل رقم طبعة الكتاب.</p></div>
+<div class="acf-input">
+<div class="acf-input-wrap"><input id="acf-field_book_fields_edition_number" name="acf[field_book_fields_edition_number]" placeholder="أدخل رقم الطبعة" type="text" value=""/></div></div>
+</div>
+<div class="acf-field acf-field-accordion acf-field-book-fields-additional-fields" data-key="field_book_fields_additional_fields" data-name="book_fields_additional_fields" data-type="accordion">
+<div class="acf-label">
+<label for="acf-field_book_fields_additional_fields">حقول إضافية</label></div>
+<div class="acf-input">
+<div class="acf-fields" data-endpoint="0" data-multi_expand="1" data-open="0"></div>
 </div>
 </div>
 <div class="acf-field acf-field-date-picker acf-field-book-fields-release-date" data-key="field_book_fields_release_date" data-name="book_fields_release_date" data-type="date_picker">
@@ -872,18 +887,6 @@
 </div>
 </div>
 </div>
-<div class="acf-field acf-field-number acf-field-book-fields-total-volumes" data-key="field_book_fields_total_volumes" data-name="book_fields_total_volumes" data-type="number">
-<div class="acf-label">
-<label for="acf-field_book_fields_total_volumes">إجمالي المجلدات</label><p class="description">أدخل العدد الإجمالي لمجلدات الكتاب.</p></div>
-<div class="acf-input">
-<div class="acf-input-wrap"><input id="acf-field_book_fields_total_volumes" min="1" name="acf[field_book_fields_total_volumes]" placeholder="مثل: 5" step="any" type="number" value=""/></div></div>
-</div>
-<div class="acf-field acf-field-text acf-field-book-fields-isbn -c0" data-key="field_book_fields_isbn" data-name="book_fields_isbn" data-type="text" data-width="100" style="width: 100%; min-height: 157px;">
-<div class="acf-label">
-<label for="acf-field_book_fields_isbn">الرقم المعياري الدولي للكتاب</label><p class="description">أدخل الرقم المعياري الدولي للكتاب (ISBN). تُحوَّل قيم ISBN-10 تلقائياً إلى ISBN-13 في البيانات المنظمة الناتجة. يعزّز رقم ISBN ظهور الكتاب في النتائج المنسّقة (Book rich result) ويساعد محركات البحث على مطابقة هذه الطبعة بعنوان معروف — فأدخله متى كان للكتاب رقم حقيقي. اتركه فارغاً إذا لم يكن للكتاب رقم ISBN (لا تخترع رقماً ولا تخمّنه أبداً)، واستخدم حقول المعرّف أدناه بدلاً منه.</p></div>
-<div class="acf-input">
-<div class="acf-input-wrap"><input id="acf-field_book_fields_isbn" name="acf[field_book_fields_isbn]" placeholder="أدخل الرقم المعياري الدولي للكتاب" type="text" value=""/></div></div>
-</div>
 <div class="acf-field acf-field-select acf-field-book-fields-book-identifier-property-id" data-key="field_book_fields_book_identifier_property_id" data-name="book_fields_book_identifier_property_id" data-type="select">
 <div class="acf-label">
 <label for="acf-field_book_fields_book_identifier_property_id">معرّف الخاصية</label><p class="description">يُستخدم فقط عندما لا يكون للكتاب رقم ISBN. اختر نظام المعرّف، واقرنه بحقل "قيمة المعرّف" أدناه.</p></div>
@@ -895,18 +898,6 @@
 <label for="acf-field_book_fields_book_identifier_value">قيمة المعرّف</label><p class="description">رقم المعرّف المقترن بحقل "نظام المعرّف (Property ID)" أعلاه. اتركه فارغاً عند إدخال رقم ISBN.</p></div>
 <div class="acf-input">
 <div class="acf-input-wrap"><input id="acf-field_book_fields_book_identifier_value" name="acf[field_book_fields_book_identifier_value]" placeholder="أدخل قيمة المعرّف" type="text" value=""/></div></div>
-</div>
-<div class="acf-field acf-field-text acf-field-book-fields-edition-number" data-key="field_book_fields_edition_number" data-name="book_fields_edition_number" data-type="text" data-width="50" style="width: 50%; min-height: 138px;">
-<div class="acf-label">
-<label for="acf-field_book_fields_edition_number">رقم الطبعة</label><p class="description">أدخل رقم طبعة الكتاب.</p></div>
-<div class="acf-input">
-<div class="acf-input-wrap"><input id="acf-field_book_fields_edition_number" name="acf[field_book_fields_edition_number]" placeholder="أدخل رقم الطبعة" type="text" value=""/></div></div>
-</div>
-<div class="acf-field acf-field-url acf-field-book-fields-buy-url -c0" data-key="field_book_fields_buy_url" data-name="book_fields_buy_url" data-type="url" data-width="100" style="width: 100%; min-height: 118px;">
-<div class="acf-label">
-<label for="acf-field_book_fields_buy_url">رابط الشراء</label><p class="description">أدخل رابط شراء الكتاب.</p></div>
-<div class="acf-input">
-<div class="acf-input-wrap acf-url"><i class="acf-icon -globe -small"></i><input id="acf-field_book_fields_buy_url" name="acf[field_book_fields_buy_url]" placeholder="أدخل رابط الشراء" type="url" value=""/></div></div>
 </div>
 <div class="acf-field acf-field-number acf-field-book-fields-number-of-pages -c0" data-key="field_book_fields_number_of_pages" data-name="book_fields_number_of_pages" data-type="number" data-width="100" style="width: 100%; min-height: 88px;">
 <div class="acf-label">
@@ -972,6 +963,15 @@
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="postbox" id="postexcerpt">
+<div class="postbox-header"><h2 class="hndle ui-sortable-handle">المقتطف</h2>
+<div class="handle-actions hide-if-no-js"><button aria-describedby="postexcerpt-handle-order-higher-description" aria-disabled="false" class="handle-order-higher" type="button"><span class="screen-reader-text">تحريك للأعلى</span><span aria-hidden="true" class="order-higher-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-higher-description">تحريك صندوق المقتطف للأعلى</span><button aria-describedby="postexcerpt-handle-order-lower-description" aria-disabled="false" class="handle-order-lower" type="button"><span class="screen-reader-text">تحريك للأسفل</span><span aria-hidden="true" class="order-lower-indicator"></span></button><span class="hidden" id="postexcerpt-handle-order-lower-description">تحريك صندوق المقتطف للأسفل</span><button aria-expanded="true" class="handlediv" type="button"><span class="screen-reader-text">تبديل اللوحة: المقتطف</span><span aria-hidden="true" class="toggle-indicator"></span></button></div></div><div class="inside">
+<label class="screen-reader-text" for="excerpt">
+	المقتطف</label><textarea cols="40" id="excerpt" name="excerpt" rows="1"></textarea>
+<p>
+	المقتطف هو ملخّص يدوي اختياري للمحتوى يمكن أن يُستخدم في قالبك. <a data-orig-href="https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/" href="docs/excerpt.html" target="_blank">أعرف أكثر عن المقتطف</a>.</p>
 </div>
 </div>
 <div class="postbox hide-if-js acf-postbox closed" id="acf-group_views_fields" style="">
