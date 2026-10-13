@@ -35,7 +35,7 @@ VIDEO_URL_DESC = 'رابط مباشر لملف فيديو مرفوع على خا
 COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.'
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
 # Field labels renamed on every type (Omar, 2026-10-13)
-RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو'}
+RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو', 'audios': 'ملفات صوتية'}
 LABELS = {'content': 'المحتوى'}  # the WordPress editor, outside the fields box
 
 # Sheet sections; field names are the suffix after «<type>_fields_»
