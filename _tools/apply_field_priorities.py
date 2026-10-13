@@ -23,6 +23,7 @@ Only the CMS's own elements are used: ACF fields, labels, «acf-required» and
 the field help (p.description, an ACF field's instructions); classes on them
 are ACF «wrapper» classes.
 """
+import glob
 import json
 import os
 import re
@@ -36,6 +37,13 @@ COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر 
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
 # Field labels renamed on every type (Omar, 2026-10-13)
 RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو', 'audios': 'ملفات صوتية'}
+# Labels renamed on every add/edit page, wherever the field or box is (Omar, 2026-10-13)
+LABEL_RENAMES = {'الصور': 'صور', 'الصورة': 'صورة', 'الملف الصوتي': 'ملف صوتي', 'مقطع الفيديو': 'مقطع فيديو',
+                 'المادة الصوتية': 'مادة صوتية', 'الفتاوى ذات الصلة': 'فتاوى ذات صلة',
+                 'النص البديل للصورة': 'نص بديل للصورة', 'معرف يوتيوب': 'رابط يوتيوب'}
+BOX_RENAMES = {'خصائص المقالة': 'خصائص المحتوى', 'فهارس الدورات': 'فهارس', 'فهارس الكتب': 'فهارس'}
+# List page columns renamed like their fields
+COLUMN_RENAMES = {'الملفات الصوتية': 'ملفات صوتية'}
 LABELS = {'content': 'المحتوى'}  # the WordPress editor, outside the fields box
 
 # Sheet sections; field names are the suffix after «<type>_fields_»
@@ -153,6 +161,25 @@ def describe_or_drop(field, text):
     if text:
         return describe(field, text)
     return re.sub(r'(</label>)<p class="description">.*?</p>', r'\1', field, count=1, flags=re.S)
+
+
+def relabel(s):
+    """Field labels and box titles (and their «خيارات الشاشة» toggles) renamed."""
+    for old, new in LABEL_RENAMES.items():
+        s = re.sub(r'(<label\b[^>]*>)%s(?=\s*(?:<span|</label>))' % re.escape(old), lambda m: m.group(1) + new, s)
+    for old, new in BOX_RENAMES.items():
+        s = re.sub(r'(<h2 class="hndle[^"]*">)%s(?=</h2>)' % re.escape(old), lambda m: m.group(1) + new, s)
+        s = re.sub(r'(-hide"[^>]*>)%s(?=\s*</label>)' % re.escape(old), lambda m: m.group(1) + new, s)
+    return s
+
+
+def relabel_columns(s):
+    for old, new in COLUMN_RENAMES.items():
+        s = s.replace('data-colname="%s"' % old, 'data-colname="%s"' % new)
+        s = s.replace('title="%s"' % old, 'title="%s"' % new)
+        s = re.sub(r'>%s(?=</(?:th|a|span|label)>|<span class="sorting-indicators|<div class="acp-co-drag-handle)' % re.escape(old),
+                   '>' + new, s)
+    return s
 
 
 def fields_box(s):
@@ -286,6 +313,12 @@ def main():
         if m and i + 1 < len(pages) and pages[i + 1].startswith('post__action-edit'):
             edit_of[m.group(1)] = pages[i + 1]
     edit_of['article'] = 'post__action-edit__lang-ar__post-272.html'
+    for path in glob.glob(os.path.join(FINAL, 'post-new__*.html')) + glob.glob(os.path.join(FINAL, 'post__action-edit*.html')):
+        s = open(path, encoding='utf-8').read()
+        open(path, 'w', encoding='utf-8').write(relabel(s))
+    for path in glob.glob(os.path.join(FINAL, 'edit__post_type-*.html')) + [os.path.join(FINAL, 'list-pages-columns.html')]:
+        s = open(path, encoding='utf-8').read()
+        open(path, 'w', encoding='utf-8').write(relabel_columns(s))
     idx_path = os.path.join(FINAL, 'content-types.html')
     idx = open(idx_path, encoding='utf-8').read()
     for ptype, cfg in sorted(TYPES.items()):
