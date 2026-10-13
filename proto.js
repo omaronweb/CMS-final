@@ -52,7 +52,7 @@
       var fields = $$('.acf-field.zad-alt-' + kind);
       if (!fields.length) return;
       // the WordPress editor (المحتوى) counts when the note names it
-      var withContent = /المحتوى/.test(($('.acf-label > p.description', fields[0]) || {}).textContent || '');
+      var withContent = /المحتوى/.test(($('.acf-label > label', fields[0]) || {}).dataset.altNote || '');
       var ok = fields.some(filled) || (withContent && contentFilled());
       fields.forEach(function (f) {
         f.classList.toggle('acf-error', !ok);

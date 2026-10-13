@@ -8,10 +8,11 @@ twice changes nothing.
 
 In the content type's fields box («حقول …»):
   top   required and high-priority fields, shown directly
-  alt   alternatives (one of them to fill): an orange * on the label and the help
-        icon «يجب تعبئة أحد هذه الحقول: …» when required, a green * and «يفضل
-        تعبئة أحد هذه الحقول: …» when recommended. On publish, proto.js shows
-        ACF's error message on them when none is filled (as ACF validation does)
+  alt   alternatives (one of them to fill): a help icon after the label, orange
+        with «يجب تعبئة أحد هذه الحقول: …» when required, green with «يفضل تعبئة
+        أحد هذه الحقول: …» when recommended (the label's data-alt-note, shown by
+        CSS); the field's own help stays under the label. On publish, proto.js
+        shows ACF's error message on them when none is filled (as ACF validation does)
   rest  low-priority, plain optional and unlisted fields, in the collapsed
         «حقول إضافية»
 Deleted fields leave the add/edit pages and the list columns. The المقتطف box
@@ -30,6 +31,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 FINAL = os.path.dirname(HERE)
 
 IMAGES_DESC = 'الصورة الأولى هي الصورة البارزة، وتظهر الصور الأخرى بعدها.'
+VIDEO_URL_DESC = 'رابط مباشر لملف فيديو مرفوع على خادم (وليس رابط يوتيوب)، ينتهي بامتداد الملف، مثل: https://www.example.com/video.mp4'
 COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.'
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
 LABELS = {'content': 'المحتوى'}  # the WordPress editor, outside the fields box
@@ -106,10 +108,12 @@ def label_text(field):
     return re.sub(r'<[^>]+>', '', m.group(1)).replace('*', '').strip() if m else ''
 
 
-def mark_label(field, required, alt):
-    """«*» after the label: red when required, orange/green for a required/recommended alternative."""
+def mark_label(field, required, alt, note=''):
+    """Red «*» after the label when required; an alternative's note on the label (its help icon)."""
     field = re.sub(r' ?<span class="acf-required">\*+</span>', '', field, count=1)
-    if required or alt:
+    field = re.sub(r'(<label for="[^"]*")(?: data-alt-note="[^"]*")?>', r'\1%s>' % (
+        ' data-alt-note="%s"' % note if alt else ''), field, count=1)
+    if required:
         field = re.sub(r'(<label for="[^"]*">.*?)(</label>)', r'\1 <span class="acf-required">*</span>\2',
                        field, count=1, flags=re.S)
     field = set_class(field, 'is-required', required)
@@ -193,13 +197,11 @@ def arrange(s, cfg):
 
     labels = [LABELS.get(x) or label_text(own[x]) for x in alts]
     for x in own:
-        own[x] = mark_label(own[x], x in required, kind if x in alts else None)
-        old = help_text(own[x])
-        if x in alts:
-            note = '%s: %s.' % (ALT_NOTE[kind], '، '.join(labels))
-            own[x] = describe(own[x], note + (' ' + old if old else ''))
-        else:
-            own[x] = describe_or_drop(own[x], old)
+        note = '%s: %s.' % (ALT_NOTE[kind], '، '.join(labels)) if x in alts else ''
+        own[x] = mark_label(own[x], x in required, kind if x in alts else None, note)
+        own[x] = describe_or_drop(own[x], help_text(own[x]))
+    if 'video_url' in own:
+        own['video_url'] = describe(own['video_url'], VIDEO_URL_DESC)
     if 'images' in own:
         own['images'] = describe(own['images'], IMAGES_DESC)
     if 'cover_images' in own:

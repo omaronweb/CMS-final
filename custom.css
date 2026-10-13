@@ -1500,18 +1500,17 @@ body.post-type-article .postbox.closed .postbox-header {
   border-radius: 7px;
 }
 
-/* Field help behind the icon too (same rule as public-config in zad-common-wp),
-   and on the alternatives of every content type */
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description) {
+/* Field help behind the icon too (same rule as public-config in zad-common-wp) */
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description) {
   position: relative;
 }
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description):has(> label:hover) {
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description):has(> label:hover) {
   z-index: 1002;
 }
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description) > label {
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description) > label {
   display: inline-block;
 }
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description) > label::after {
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description) > label::after {
   content: "\f14c";
   display: inline-block; /* a box, so the icon doesn't join a Latin run like "PDF" */
   margin-inline-start: 4px;
@@ -1523,10 +1522,10 @@ body.post-type-article .postbox.closed .postbox-header {
   color: #8c8f94;
   cursor: help;
 }
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description) > label:hover::after {
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description) > label:hover::after {
   color: var(--zad-admin-primary, #2271b1);
 }
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description) > p.description {
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description) > p.description {
   display: none;
   position: absolute;
   top: 100%;
@@ -1542,10 +1541,10 @@ body.post-type-article .postbox.closed .postbox-header {
   line-height: 1.6;
   color: #fff;
 }
-:is(body.post-type-article .acf-postbox .acf-field, .acf-postbox .acf-field[class*="zad-alt-"]) > .acf-label:has(> p.description):has(> label:hover) > p.description {
+body.post-type-article .acf-postbox .acf-field > .acf-label:has(> p.description):has(> label:hover) > p.description {
   display: block;
 }
-:is(body.post-type-article .acf-postbox, .acf-postbox:has(> .inside > .acf-field[class*="zad-alt-"])):has(.acf-label:has(> p.description) > label:hover) {
+body.post-type-article .acf-postbox:has(.acf-label:has(> p.description) > label:hover) {
   overflow: visible;
   z-index: 10;
 }
@@ -1782,16 +1781,57 @@ body.edit-tags-php #addtag > p.submit {
   color: #d63638;
 }
 
-/* Alternatives (one of them to fill): «*» after the label in orange (required)
-   or green (recommended); the help icon in the same colour holds «يجب / يفضل
-   تعبئة أحد هذه الحقول: …» */
-.acf-field.zad-alt-required > .acf-label .acf-required,
-.acf-field.zad-alt-required > .acf-label > label::after {
-  color: #e26f00 !important;
+/* Alternatives (one of them to fill): a help icon after the label, orange
+   (one is required) or green (one is recommended); hovering it shows «يجب /
+   يفضل تعبئة أحد هذه الحقول: …» from the label's data-alt-note. The field's own
+   help (p.description) stays as text under the label. */
+.acf-field > .acf-label > label[data-alt-note] {
+  position: relative;
+  display: inline-block;
 }
-.acf-field.zad-alt-recommended > .acf-label .acf-required,
-.acf-field.zad-alt-recommended > .acf-label > label::after {
-  color: #008a20 !important;
+.acf-field > .acf-label > label[data-alt-note]::after {
+  content: "\f14c";
+  display: inline-block;
+  margin-inline-start: 4px;
+  font-family: dashicons;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  vertical-align: text-bottom;
+  cursor: help;
+}
+.acf-field.zad-alt-required > .acf-label > label[data-alt-note]::after {
+  color: #e26f00;
+}
+.acf-field.zad-alt-recommended > .acf-label > label[data-alt-note]::after {
+  color: #008a20;
+}
+.acf-field > .acf-label > label[data-alt-note]::before {
+  content: attr(data-alt-note);
+  display: none;
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  z-index: 1002;
+  width: max-content;
+  max-width: min(360px, 90vw);
+  margin-top: 4px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  background: #1d2327;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #fff;
+  white-space: normal;
+}
+.acf-field > .acf-label > label[data-alt-note]:hover::before {
+  display: block;
+}
+.acf-postbox:has(label[data-alt-note]:hover) {
+  overflow: visible;
+  z-index: 10;
 }
 /* Required side boxes (فهارس، القراء): red asterisk after the title */
 .postbox.zad-required > .postbox-header .hndle::after {
