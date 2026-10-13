@@ -2017,12 +2017,12 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
 
 /* Sidebar: البيانات الوصفية opens the bottom (tools) section with a top border */
 #adminmenu > li.cms-menu-section {
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid rgba(255, 255, 255, 0.32);
 }
 
 /* Sidebar: الرئيسية sits apart from the content items with a bottom border */
 #adminmenu > li#menu-dashboard {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.32);
 }
 
 /* خيارات الشاشة / مساعدة tabs hang from the admin bar: square top corners */
