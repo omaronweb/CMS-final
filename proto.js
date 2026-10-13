@@ -289,6 +289,20 @@
     if (inside && !inside.classList.contains('acf-fields')) inside.classList.add('acf-fields', '-top');
   });
 
+  // List pages: «تصفية» shows only when a filter next to it (التاريخ، …) has an option
+  // other than its first («كل …») selected
+  $$('#post-query-submit').forEach(function (btn) {
+    var bar = btn.closest('.actions');
+    var selects = $$('select', bar).filter(function (s) {
+      return !s.classList.contains('hidden') && getComputedStyle(s).display !== 'none';
+    });
+    function sync() {
+      btn.hidden = !selects.some(function (s) { return s.selectedIndex > 0; });
+    }
+    selects.forEach(function (s) { s.addEventListener('change', sync); });
+    sync();
+  });
+
   // ACF accordions — what ACF's JS does on the live CMS: the fields after an accordion
   // (up to the next accordion) move into it, behind a clickable title.
   // An accordion marked as an endpoint only closes the group and is removed.

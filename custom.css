@@ -2143,3 +2143,8 @@ body.admin_page_zad-icmss-taxonomy-order #order-terms .alignleft { float: none; 
 #order-terms #tto_sortable > li:has(> ul) > .item { font-weight: 600; }
 #order-terms #tto_sortable li > .item:hover { border-color: #8c8f94; background: #f6f7f7; }
 #order-terms #tto_sortable li.is-dragging > .item { opacity: .45; border-style: dashed; }
+
+/* List pages: «تصفية» hidden until a filter has a selection (proto.js) */
+#post-query-submit[hidden] {
+  display: none !important;
+}
