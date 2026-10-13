@@ -34,6 +34,8 @@ IMAGES_DESC = 'الصورة الأولى هي الصورة البارزة، وت
 VIDEO_URL_DESC = 'رابط مباشر لملف فيديو مرفوع على خادم (وليس رابط يوتيوب)، ينتهي بامتداد الملف، مثل: https://www.example.com/video.mp4'
 COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.'
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
+# Field labels renamed on every type (Omar, 2026-10-13)
+RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو'}
 LABELS = {'content': 'المحتوى'}  # the WordPress editor, outside the fields box
 
 # Sheet sections; field names are the suffix after «<type>_fields_»
@@ -195,6 +197,9 @@ def arrange(s, cfg):
     if 'rest' not in cfg and 'top' not in cfg:
         top, rest = list(own), []  # not in the sheet: order unchanged
 
+    for x, label in RENAME.items():
+        if x in own:
+            own[x] = re.sub(r'(<label for="[^"]*"[^>]*>)[^<]*', lambda m: m.group(1) + label, own[x], count=1)
     labels = [LABELS.get(x) or label_text(own[x]) for x in alts]
     for x in own:
         note = '%s: %s.' % (ALT_NOTE[kind], '، '.join(labels)) if x in alts else ''
