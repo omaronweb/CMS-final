@@ -35,8 +35,8 @@ type's pages (`DERIVED`), and renamed labels (التفسير → الدورات)
 both checked against production add pages on 2026-10-07.
 
 `python3 _tools/build_admin_pages.py` (run after it) builds the users (أعضاء، إضافة عضو، حسابك), media
-(المكتبة، إضافة ملف، ترجمة الوسائط) and البيانات الوصفية pages: one list page and one edit page per taxonomy,
-plus ترتيب البيانات الوصفية (one page per tab; drag and drop in `proto.js`).
+(المكتبة، إضافة ملف، ترجمة الوسائط) and التصنيفات pages: one list page and one edit page per taxonomy,
+plus ترتيب التصنيفات (one page per tab; drag and drop in `proto.js`).
 
 `python3 _tools/apply_field_priorities.py` (run after both) applies the fields sheet (cms pages and fields,
 2026-10-12) to every add, edit and list page. It removes the deleted fields, and puts required and

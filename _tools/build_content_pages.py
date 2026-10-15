@@ -48,6 +48,7 @@ SERIES_OF = {
     'book-page': 'book',
     'book-browser-lesson': 'book-browser-series',
     'audio-book-lesson': 'audio-book-series',
+    'interpret-lesson': 'interpret-series',
 }
 
 # Post types that CMS-improvements doesn't have, built from a look-alike type's
@@ -75,10 +76,8 @@ RENAMES = [
     (AR % 'دروس التفسير', 'دروس الدورات'),
     (AR % 'درس التفسير', 'درس الدورة'),
     (AR % 'أضف درس تفسير', 'أضف درس دورة'),
-    # the generic term (menu item, ترتيب page, field labels); names like شجرة التصنيفات
-    # and التصنيفات الفقهية stay, and so does the quoted plugin heading «الدروس — التصنيفات»
-    (r'(?<![\u0621-\u064A])(?<!شجرة )(?<!— )التصنيفات(?![\u0621-\u064A])(?! (?:الموضوعية|الفقهية|العقدية))',
-     'البيانات الوصفية'),
+    # «البيانات الوصفية» was the section's name for a week (2026-10-07); Omar renamed it back to التصنيفات
+    (AR % 'البيانات الوصفية', 'التصنيفات'),
 ]
 RENAME_PAGES = {'interpret-series': [(AR % 'دورات', 'الدورات')], 'interpret-lesson': []}
 
