@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the users, media and taxonomy (البيانات الوصفية) pages of CMS-final.
+"""Build the users, media and taxonomy (التصنيفات) pages of CMS-final.
 
 The HTML comes from CMS-improvements (checked against production on 2026-10-07).
 Each page gets the CMS-final sidebar (from edit__post_type-article.html) with its
@@ -7,12 +7,12 @@ own menu item marked current, a few English labels in Arabic, and the links fixe
 the same way as build_content_pages.py. The design and the hidden sections
 (Rank Math, WPML language settings, profile options) are in custom.css.
 
-البيانات الوصفية: one list page per taxonomy (WordPress has a copy per content type) and
+التصنيفات: one list page per taxonomy (WordPress has a copy per content type) and
 one edit page per taxonomy. شجرة التصنيفات and المجموعات keep their hand-tuned
 list pages and only get an edit page here; التصنيفات الفقهية is not built (it is
 a parent inside شجرة التصنيفات).
 
-ترتيب البيانات الوصفية (zad-icmss-taxonomy-order): one page per tab, built on the
+ترتيب التصنيفات (zad-icmss-taxonomy-order): one page per tab, built on the
 المجموعات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
 .save-order button). Omar's decisions (2026-10-07): no taxonomy radio table, no
 «<type> — التصنيفات» heading, no plugin promo; the save button also sits above the
@@ -22,6 +22,7 @@ Run after build_content_pages.py:  python3 _tools/build_admin_pages.py
 """
 import argparse
 import glob
+import json
 import os
 import re
 import sys
@@ -69,7 +70,7 @@ ARABIC = {
 FILTER_WORDS = {'in': 'من', 'to': 'إلى'}
 
 
-# ترتيب البيانات الوصفية: (taxonomy, tab label, terms or the list page to read them from)
+# ترتيب التصنيفات: (taxonomy, tab label, terms or the list page to read them from)
 ORDER = 'admin__page-zad-icmss-taxonomy-order'
 ORDER_TABS = [
     ('topic', 'شجرة التصنيفات', [
@@ -125,7 +126,7 @@ def build_order(shell, template):
         menu = copy.copy(template)
         mark(menu, ORDER + '.html')
         page.find(id='adminmenumain').replace_with(menu)
-        page.title.string = 'ترتيب البيانات الوصفية › موقع مشكاة — ووردبريس'
+        page.title.string = 'ترتيب التصنيفات › موقع مشكاة — ووردبريس'
         cls = [c for c in page.body['class'] if not c.startswith(('edit-tags', 'post-type-', 'taxonomy-', 'ac-wp-'))]
         page.body['class'] = cls[:cls.index('auto-fold')] + ['admin_page_zad-icmss-taxonomy-order'] + \
             cls[cls.index('auto-fold'):] + ['taxonomy-' + tax]
@@ -137,7 +138,7 @@ def build_order(shell, template):
         save = '<p class="submit"><a class="save-order button-primary" href="javascript:;">حفظ الترتيب</a></p>'
         body.append(BeautifulSoup(
             '<div class="wrap"><ul class="subsubsub">%s</ul><div class="clear"></div></div>'
-            '<div class="wrap"><h2>ترتيب البيانات الوصفية</h2><div id="ajax-response"></div><div class="clear"></div>'
+            '<div class="wrap"><h2>ترتيب التصنيفات</h2><div id="ajax-response"></div><div class="clear"></div>'
             '<form id="to_form" method="get"><div class="tto-top actions">%s</div>'
             '<div id="order-terms"><div id="post-body"><ul class="sortable" id="tto_sortable"></ul>'
             '<div class="clear"></div></div><div class="alignleft actions">%s</div></div></form></div>'
@@ -150,9 +151,209 @@ def build_order(shell, template):
     return built
 
 
+# الفهارس وقوائم المحتويات (Omar, 2026-10-15): a taxonomy under التصنيفات whose
+# terms each point at one item: pick the content type, then the item of that type.
+# Built on the فهارس الكتب pages as shells; the item list is filled by proto.js
+# from the JSON in the page (titles from the list pages).
+TOC_LIST, TOC_EDIT = 'edit-tags__taxonomy-toc.html', 'term__tag_ID-301__taxonomy-toc.html'
+TOC_SAMPLES = [  # (name, content type, item)
+    ('فهرس كتاب حصن المسلم', 'audio-book-series', 'كتاب حصن المسلم من أذكار الكتاب والسنة'),
+    ('قائمة محتويات شرح اقتضاء الصراط المستقيم', 'book-series', 'شرح كتاب اقتضاء الصراط المستقيم'),
+    ('فهرس شرح الأربعين النووية', 'scientific-series', 'سلسلة شرح الأربعون النووية'),
+    ('فهرس وصايا سورة الإسراء', 'interpret-series', 'وقفات مع وصايا سورة الإسراء'),
+]
+
+
+def toc_types():
+    """{type: {'label', 'posts'}} for every content type with items, from its list page."""
+    from build_content_pages import INDEX_NAMES
+    out = {}
+    for f in sorted(glob.glob(os.path.join(FINAL, 'edit__post_type-*.html'))):
+        ptype = os.path.basename(f)[len('edit__post_type-'):-len('.html')]
+        page = soup(f)
+        posts = [a.get_text(strip=True) for a in page.select('#the-list .row-title')]
+        posts = [t for t in posts if t and t != '(بدون عنوان)']
+        h = page.select_one('h1.wp-heading-inline')
+        if posts and h:
+            out[ptype] = {'label': INDEX_NAMES.get(ptype, h.get_text(strip=True)), 'posts': posts}
+    return out
+
+
+def toc_selects(page, types, selected=None):
+    """The «نوع المحتوى» and «المادة» selects (proto.js fills the second)."""
+    order = sorted(types, key=lambda t: types[t]['label'])
+    sel_type, sel_post = selected or ('', '')
+    type_sel = page.new_tag('select', id='toc-content-type', attrs={'name': 'toc_content_type', 'class': 'cms-toc-type',
+                                                                     'aria-required': 'true'})
+    o = page.new_tag('option', value='')
+    o.string = '— اختر نوع المحتوى —'
+    type_sel.append(o)
+    for t in order:
+        o = page.new_tag('option', value=t)
+        o.string = types[t]['label']
+        if t == sel_type:
+            o['selected'] = 'selected'
+        type_sel.append(o)
+    post_sel = page.new_tag('select', id='toc-post', attrs={'name': 'toc_post', 'class': 'cms-toc-post',
+                                                         'aria-required': 'true', 'data-selected': sel_post})
+    o = page.new_tag('option', value='')
+    o.string = '— اختر نوع المحتوى أولًا —'
+    post_sel.append(o)
+    return type_sel, post_sel
+
+
+def toc_data(page, types):
+    tag = page.new_tag('script', id='cms-toc-posts', type='application/json')
+    tag.string = json.dumps({t: v['posts'] for t, v in types.items()}, ensure_ascii=False)
+    return tag
+
+
+def toc_texts(page):
+    for t in page.select_one('#wpbody-content').find_all(string=True):
+        v = str(t)
+        for a, b in (('أضف فهرس الكتب جديد', 'أضف فهرسًا أو قائمة محتويات'), ('تحديث فهرس الكتب', 'تحديث'),
+                     ('تحرير فهرس الكتب', 'تحرير الفهرس أو قائمة المحتويات'), ('ترجمة فهرس الكتب', 'ترجمة الفهرس'),
+                     ('فهارس الكتب', 'الفهارس وقوائم المحتويات')):
+            v = v.replace(a, b)
+        if v != str(t):
+            t.replace_with(v)
+    page.title.string = page.title.string.replace('تحرير فهرس الكتب', 'تحرير الفهرس أو قائمة المحتويات') \
+        .replace('فهارس الكتب', 'الفهارس وقوائم المحتويات')
+    cls = [c for c in page.body['class'] if c not in ('post-type-book', 'taxonomy-book-index', 'ac-wp-taxonomy_book-index')]
+    page.body['class'] = cls + ['taxonomy-toc']
+
+
+def field_desc(page, text):
+    d = page.new_tag('p', attrs={'class': 'description'})
+    d.string = text
+    return d
+
+
+TYPE_HELP = 'نوع المحتوى الذي ينتمي إليه الفهرس.'
+POST_HELP = 'المادة التي يعرض الفهرس محتوياتها، من نوع المحتوى المختار.'
+
+
+def core_styles(page):
+    """The book-index list capture lost WordPress's core admin stylesheet; put it back."""
+    if page.find('link', href=lambda h: h and 'd214292bb0-load-styles' in h):
+        return
+    part = page.find('link', href=lambda h: h and 'c5e412a223-load-styles' in h)
+    if part:
+        part.insert_before(page.new_tag('link', href='assets/d214292bb0-load-styles.php.css',
+                                        media='all', rel='stylesheet'))
+
+
+def build_toc(template):
+    types = toc_types()
+    # list page
+    page = soup(os.path.join(FINAL, TAXONOMIES['book-index'][0]))
+    page.find(id='adminmenumain').replace_with(copy.copy(template))
+    toc_texts(page)
+    form = page.select_one('#addtag')
+    for sel in ('.term-parent-wrap', '#acf-term-fields', '#acf-form-data'):
+        for x in form.select(sel):
+            x.decompose()
+    type_sel, post_sel = toc_selects(page, types)
+    after = form.select_one('.term-name-wrap')
+    for cls, label, sel, helptext in (('term-post-wrap', 'المادة', post_sel, POST_HELP),
+                                      ('term-content-type-wrap', 'نوع المحتوى', type_sel, TYPE_HELP)):
+        div = page.new_tag('div', attrs={'class': 'form-field form-required ' + cls})
+        lab = page.new_tag('label', attrs={'for': sel['id']})
+        lab.string = label
+        div.extend([lab, sel, field_desc(page, helptext)])
+        after.insert_after(div)
+    # columns: الاسم، نوع المحتوى، المادة، الاسم اللطيف (no count)
+    for row in page.select('table.wp-list-table thead tr, table.wp-list-table tfoot tr'):
+        desc = row.find(['th'], class_='column-description')
+        slug = row.find(['th'], class_='column-slug')
+        posts = row.find(['th'], class_='column-posts')
+        new_post = copy.copy(desc)
+        for th, label, key in ((desc, 'نوع المحتوى', 'content-type'), (new_post, 'المادة', 'post')):
+            th['class'] = [c.replace('column-description', 'column-' + key) for c in th['class']]
+            if th.get('id'):
+                th['id'] = key
+            th['abbr'] = label
+            th.select_one('a > span').string = label
+        desc.insert_after(new_post)
+        if posts:
+            posts.decompose()
+    tmpl = page.select_one('#the-list tr')
+    body = tmpl.parent
+    for i, (name, ptype, post) in enumerate(TOC_SAMPLES):
+        tr = copy.copy(tmpl)
+        tid = 301 + i
+        tr['id'], tr['data-id'] = 'tag-%d' % tid, str(tid)
+        for a in tr.select('a.row-title, .row-actions .edit a'):
+            a['href'] = TOC_EDIT
+        tr.select_one('a.row-title').string = name
+        tr.select_one('.row-title')['aria-label'] = '“%s” (تحرير)' % name
+        for d in tr.select('#inline_116 .name'):
+            d.string = name
+        tr.select_one('.check-column input')['value'] = str(tid)
+        tr.select_one('.check-column input')['id'] = 'cb-select-%d' % tid
+        sr = tr.select_one('.check-column .screen-reader-text')
+        if sr:
+            sr.string = 'تحديد ' + name
+        desc = tr.select_one('td.column-description')
+        desc['class'] = ['content-type', 'column-content-type']
+        desc['data-colname'] = 'نوع المحتوى'
+        desc.clear()
+        desc.string = types[ptype]['label']
+        td = page.new_tag('td', attrs={'class': 'post column-post', 'data-colname': 'المادة'})
+        td.string = post
+        desc.insert_after(td)
+        slug = tr.select_one('td.column-slug')
+        slug.string = str(632 + i)
+        tr.select_one('td.column-posts').decompose()
+        body.append(tr)
+    tmpl.decompose()
+    for n in page.select('.displaying-num'):
+        n.string = '%d عناصر' % len(TOC_SAMPLES)
+    form.insert(0, toc_data(page, types))  # before proto.js runs
+    core_styles(page)
+    write(os.path.join(FINAL, TOC_LIST), page)
+    # the shell itself (فهارس الكتب) has the same gap
+    shell = soup(os.path.join(FINAL, TAXONOMIES['book-index'][0]))
+    core_styles(shell)
+    write(os.path.join(FINAL, TAXONOMIES['book-index'][0]), shell)
+
+    # edit page (the first sample)
+    name, ptype, post = TOC_SAMPLES[0]
+    page = soup(os.path.join(FINAL, TAXONOMIES['book-index'][1]))
+    page.find(id='adminmenumain').replace_with(copy.copy(template))
+    toc_texts(page)
+    form = page.select_one('#edittag')
+    for x in form.select('tr.term-parent-wrap, tr.acf-field'):
+        x.decompose()
+    for h in form.find_all('h2'):  # the empty book-index ACF group heading
+        if 'حقول' in h.get_text():
+            t = h.find_next_sibling('table')
+            if t and not t.get_text(strip=True):
+                t.decompose()
+            h.decompose()
+    form.select_one('#name')['value'] = name
+    form.select_one('#slug')['value'] = '632'
+    type_sel, post_sel = toc_selects(page, types, (ptype, post))
+    after = form.select_one('tr.term-name-wrap')
+    for cls, label, sel, helptext in (('term-post-wrap', 'المادة', post_sel, POST_HELP),
+                                      ('term-content-type-wrap', 'نوع المحتوى', type_sel, TYPE_HELP)):
+        tr = page.new_tag('tr', attrs={'class': 'form-field form-required ' + cls})
+        th = page.new_tag('th', scope='row')
+        lab = page.new_tag('label', attrs={'for': sel['id']})
+        lab.string = label
+        th.append(lab)
+        td = page.new_tag('td')
+        td.extend([sel, field_desc(page, helptext)])
+        tr.extend([th, td])
+        after.insert_after(tr)
+    form.insert(0, toc_data(page, types))
+    write(os.path.join(FINAL, TOC_EDIT), page)
+    return [TOC_LIST, TOC_EDIT]
+
+
 def mark(menu, target):
     """Open the menu item that links to `target` and mark that submenu entry current.
-    القراء and المجموعات are marked by proto.js (it moves them under البيانات الوصفية)."""
+    القراء and المجموعات are marked by proto.js (it moves them under التصنيفات)."""
     a = next((x for x in menu.select('.wp-submenu a')
               if target in (x.get('href'), x.get('data-orig-href'))), None)
     if a is None or 'reciter' in target:
@@ -203,6 +404,7 @@ def main():
         built.append(build(os.path.join(args.improvements, term), term, listed, template))
 
     built += build_order(LIST_OF['article-type'], template)
+    built += build_toc(template)
 
     existing = {os.path.basename(p) for p in glob.glob(os.path.join(FINAL, '*.html'))}
     changed = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(FINAL, '*.html'))) if fix_links(p, existing)]

@@ -458,9 +458,7 @@
       ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
       ['post__action-edit__lang-ar__post-272.html', 'تحرير مقالة'], // تحرير مقالة
-      ['content-types.html', 'أنواع المحتوى'], // قائمة وإضافة وتحرير لكل نوع محتوى
-      ['edit-tags__post_type-article__taxonomy-topic.html', 'البيانات الوصفية'], // البيانات الوصفية
-      ['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات'], // المجموعات
+      ['edit-tags__post_type-article__taxonomy-topic.html', 'التصنيفات'], // التصنيفات
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
       ['homepage.html', 'واجهة الموقع'], // الصفحة الرئيسية للموقع
       ['list-pages-columns.html', 'أعمدة القوائم'], // أعمدة صفحات القوائم
@@ -478,36 +476,92 @@
   })();
 
 
-  // ── المجموعات (formerly الأنواع) and القراء are taxonomies like the others: their
-  // pages sit under البيانات الوصفية (القراء used to sit under the audio books item), and
-  // Add / Edit has an المجموعات box to put the item in a group
+  // ── التصنيفات holds the taxonomy pages, without الكلمات المفتاحية، المجموعات and
+  // فهارس الدورات (Omar, 2026-10-15), plus «الفهارس وقوائم المحتويات». القراء sits
+  // with the audio books, next to their lessons (it is the lessons' taxonomy).
   (function () {
     var here = (location.pathname.split('/').pop() || 'index.html');
-    var cats = $('#toplevel_page_edit-tags-taxonomy-topic .wp-submenu');
+    var catsTop = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
+    var cats = catsTop && $('.wp-submenu', catsTop);
     if (!cats) return;
-    [['edit-tags__post_type-article__taxonomy-article-type.html', 'المجموعات', 'menu-posts-article', /taxonomy-article-type\.html$/],
-     ['edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html', 'القراء', 'menu-posts-audio-book-series', /taxonomy-reciter\.html$/]
-    ].forEach(function (t) {
-      // the old link elsewhere in the menu goes away
-      $$('#adminmenu .wp-submenu a[href="' + t[0] + '"], #adminmenu .wp-submenu a[data-orig-href="' + t[0] + '"]').forEach(function (a) {
-        if (!cats.contains(a)) a.parentNode.remove();
+    var linkTo = function (file) {
+      return $$('#adminmenu .wp-submenu a[href="' + file + '"], #adminmenu .wp-submenu a[data-orig-href="' + file + '"]');
+    };
+    ['edit-tags__post_type-article__taxonomy-keyword.html',
+     'edit-tags__post_type-article__taxonomy-article-type.html',
+     'edit-tags__post_type-book-lesson__taxonomy-course-index.html'
+    ].forEach(function (f) { linkTo(f).forEach(function (a) { a.parentNode.remove(); }); });
+    var open = function (top, on) {
+      if (!top || !on) return;
+      $$('#adminmenu > li.wp-has-current-submenu').forEach(function (li) {
+        if (li === top) return;
+        [li, $('a', li)].forEach(function (el) {
+          el.classList.remove('wp-has-current-submenu', 'wp-menu-open'); el.classList.add('wp-not-current-submenu');
+        });
       });
-      var on = t[3].test(here);
-      var g = document.createElement('li');
-      if (on) g.className = 'current';
-      g.innerHTML = '<a href="' + t[0] + '">' + t[1] + '</a>';
-      cats.appendChild(g);
-      if (!on) return;
-      var top = document.getElementById('toplevel_page_edit-tags-taxonomy-topic');
       [top, $('a', top)].forEach(function (el) {
         el.classList.remove('wp-not-current-submenu'); el.classList.add('wp-has-current-submenu', 'wp-menu-open');
       });
-      // the page belongs to البيانات الوصفية, not to a content type
-      var other = document.getElementById(t[2]);
-      if (other) [other, $('a', other)].forEach(function (el) {
-        el.classList.remove('wp-has-current-submenu', 'wp-menu-open'); el.classList.add('wp-not-current-submenu');
-      });
+    };
+    // [page, label, menu item it goes under, the page and its edit pages, sorted with (submenu block)]
+    [['edit-tags__taxonomy-toc.html', 'الفهارس وقوائم المحتويات', catsTop, /taxonomy-toc\.html$/, null],
+     ['edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html', 'القراء',
+      document.getElementById('menu-posts-audio-book-series'), /taxonomy-reciter\.html$/, 'menu-posts-audio-book-lesson']
+    ].forEach(function (t) {
+      var sub = t[2] && $('.wp-submenu', t[2]);
+      if (!sub) return;
+      linkTo(t[0]).forEach(function (a) { a.parentNode.remove(); });
+      var on = t[3].test(here);
+      var g = document.createElement('li');
+      if (on) g.className = 'current';
+      if (t[4]) g.dataset.cmsType = t[4];
+      g.innerHTML = '<a href="' + t[0] + '"' + (on ? ' class="current" aria-current="page"' : '') + '>' + t[1] + '</a>';
+      sub.appendChild(g);
+      open(t[2], on);
     });
+  })();
+
+  // ── شجرة التصنيفات and الوسوم on Add / Edit: a help icon after the box title
+  // says when to use each (hover shows the note)
+  (function () {
+    [['topicdiv', 'شجرة التصنيفات: تصنيف موضوعي ثابت ومتدرّج (أبواب وتحتها فروع)، تُختار منه الموضوعات التي تنتمي إليها المادة، ويتصفّح به الزائر المحتوى حسب الموضوع.'],
+     ['tagsdiv-public-tag', 'الوسوم: كلمات حرّة بلا ترتيب ولا أبواب، تُضاف عند الحاجة لأسماء أو موضوعات محددة تتناولها المادة (شخص، كتاب، مكان، حدث، مناسبة)، فتساعد في البحث وتربط المواد المتشابهة.']
+    ].forEach(function (b) {
+      var h = $('#' + b[0] + ' .postbox-header .hndle');
+      if (!h || $('.cms-box-help', h)) return;
+      var i = document.createElement('span');
+      i.className = 'cms-box-help dashicons dashicons-editor-help';
+      i.setAttribute('data-note', b[1]);
+      i.setAttribute('aria-label', b[1]);
+      i.addEventListener('click', function (e) { e.stopPropagation(); });
+      h.appendChild(i);
+    });
+  })();
+
+  // ── الفهارس وقوائم المحتويات: «المادة» lists the items of the content type
+  // chosen in «نوع المحتوى» (the titles come from the JSON in the page)
+  (function () {
+    var data = document.getElementById('cms-toc-posts');
+    var type = $('.cms-toc-type'), post = $('.cms-toc-post');
+    if (!data || !type || !post) return;
+    var posts = JSON.parse(data.textContent);
+    var fill = function (keep) {
+      var list = posts[type.value] || [];
+      post.innerHTML = '';
+      var first = document.createElement('option');
+      first.value = '';
+      first.textContent = type.value ? '— اختر المادة —' : '— اختر نوع المحتوى أولًا —';
+      post.appendChild(first);
+      list.forEach(function (t) {
+        var o = document.createElement('option');
+        o.value = o.textContent = t;
+        if (t === keep) o.selected = true;
+        post.appendChild(o);
+      });
+      post.disabled = !type.value;
+    };
+    type.addEventListener('change', function () { fill(''); });
+    fill(post.getAttribute('data-selected') || '');
   })();
 
   // ── Bulk edit on the list pages: with 2+ rows checked, a bar under the header
@@ -739,7 +793,7 @@
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });
   })();
-  // ── ترتيب البيانات الوصفية: drag a term up or down among its siblings (its children
+  // ── ترتيب التصنيفات: drag a term up or down among its siblings (its children
   // move with it); «حفظ الترتيب» (above and below the list) confirms. On the live
   // CMS the order is better saved right after each drop.
   (function () {
@@ -803,7 +857,8 @@
       ['menu-posts-tv-program-series', 'menu-posts-tv-program-lesson', ['كل البرامج التلفزيونية', 'أضف برنامج تلفزيوني', 'كل الدروس التلفزيونية', 'أضف درس تلفزيوني']],
       ['menu-posts-book', 'menu-posts-book-page', ['كل الكتب', 'أضف كتاب', 'كل صفحات الكتب', 'أضف صفحة كتاب']],
       ['menu-posts-book-browser-series', 'menu-posts-book-browser-lesson', ['كل كتب المتصفح', 'أضف كتاب للمتصفح', 'كل دروس المتصفح', 'أضف درس للمتصفح']],
-      ['menu-posts-audio-book-series', 'menu-posts-audio-book-lesson', ['كل الكتب الصوتية', 'أضف كتاب صوتي', 'كل دروس الكتب الصوتية', 'أضف درس كتاب صوتي']]
+      ['menu-posts-audio-book-series', 'menu-posts-audio-book-lesson', ['كل الكتب الصوتية', 'أضف كتاب صوتي', 'كل دروس الكتب الصوتية', 'أضف درس كتاب صوتي']],
+      ['menu-posts-interpret-series', 'menu-posts-interpret-lesson', ['كل الدورات', 'أضف دورة', 'كل دروس الدورات', 'أضف درس دورة']]
     ];
     var items = function (li) { return $$('.wp-submenu > li:not(.wp-submenu-head)', li); };
     GROUPS.forEach(function (g) {
@@ -822,21 +877,12 @@
       b.remove();
     });
 
-    // الدورات and دروس الدورات stay as two separate menu items
-    [['menu-posts-interpret-series', null, ['كل الدورات', 'أضف دورة']],
-     ['menu-posts-interpret-lesson', 'دروس الدورات', ['كل دروس الدورات', 'أضف درس دورة']]].forEach(function (g) {
-      var li = byId(g[0]);
-      if (!li) return;
-      if (g[1]) rename(g[0], g[1]);
-      items(li).slice(0, 2).forEach(function (x, i) { $('a', x).textContent = g[2][i]; });
-    });
-
     // Menu groups, each sorted alphabetically («ال» counted), with a border
     // between groups; الرئيسية stays on top
     var MENU = [
       ['menu-posts-article', 'menu-posts-fatwa', 'menu-posts-benefit', 'menu-posts-static-page'],
       ['menu-posts-supplication', 'menu-posts-podcast', 'menu-posts-tilawa', 'menu-posts-speech', 'menu-posts-lesson',
-       'menu-posts-interpret-lesson', 'menu-posts-lecture', 'menu-posts-short'],
+       'menu-posts-lecture', 'menu-posts-short'],
       ['menu-posts-book', 'menu-posts-audio-book-series', 'menu-posts-audio-book-lesson', 'menu-posts-book-browser-series', 'menu-posts-book-series'],
       ['menu-posts-scientific-series', 'menu-posts-radio-program-series', 'menu-posts-tv-program-series',
        'menu-posts-interpret-series'],
