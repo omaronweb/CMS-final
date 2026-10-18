@@ -8,12 +8,12 @@ the same way as build_content_pages.py. The design and the hidden sections
 (Rank Math, WPML language settings, profile options) are in custom.css.
 
 التصنيفات: one list page per taxonomy (WordPress has a copy per content type) and
-one edit page per taxonomy. شجرة التصنيفات and المجموعات keep their hand-tuned
-list pages and only get an edit page here; التصنيفات الفقهية is not built (it is
+one edit page per taxonomy. شجرة التصنيفات keeps its hand-tuned list page and
+only gets an edit page here; التصنيفات الفقهية is not built (it is
 a parent inside شجرة التصنيفات).
 
 ترتيب التصنيفات (zad-icmss-taxonomy-order): one page per tab, built on the
-المجموعات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
+شجرة التصنيفات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
 .save-order button). Omar's decisions (2026-10-07): no taxonomy radio table, no
 «<type> — التصنيفات» heading, no plugin promo; the save button also sits above the
 list; the page opens on شجرة التصنيفات. Drag and drop is in proto.js.
@@ -46,21 +46,14 @@ PAGES = [
 TAXONOMIES = {
     'public-tag': ('edit-tags__post_type-article__taxonomy-public-tag.html',
                    'term__post_type-article__tag_ID-226__taxonomy-public-tag.html'),
-    'keyword': ('edit-tags__post_type-article__taxonomy-keyword.html',
-                'term__post_type-article__tag_ID-16__taxonomy-keyword.html'),
-    'index': ('edit-tags__post_type-audio-book-lesson__taxonomy-index.html',
-              'term__post_type-audio-book-lesson__tag_ID-228__taxonomy-index.html'),
-    'course-index': ('edit-tags__post_type-book-lesson__taxonomy-course-index.html',
-                     'term__post_type-book-lesson__tag_ID-92__taxonomy-course-index.html'),
     'reciter': ('edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html',
                 'term__post_type-audio-book-lesson__tag_ID-212__taxonomy-reciter.html'),
     'book-index': ('edit-tags__post_type-book__taxonomy-book-index.html',
                    'term__post_type-book__tag_ID-116__taxonomy-book-index.html'),
     'topic': (None, 'term__post_type-article__tag_ID-38__taxonomy-topic.html'),
-    'article-type': (None, 'term__post_type-article__tag_ID-12__taxonomy-article-type.html'),
 }
-LIST_OF = {'topic': 'edit-tags__post_type-article__taxonomy-topic.html',
-           'article-type': 'edit-tags__post_type-article__taxonomy-article-type.html'}
+LIST_OF = {'topic': 'edit-tags__post_type-article__taxonomy-topic.html'}
+# الكلمات المفتاحية، المجموعات، فهارس الدورات and فهارس were deleted (Omar, 2026-10-15/18): no pages
 
 # English text left in the source pages
 ARABIC = {
@@ -78,9 +71,6 @@ ORDER_TABS = [
         ('التصنيفات الفقهية', ['أصول الفقه', 'الفقه وأصوله', 'حقوق وواجبات']),
         ('التصنيفات العقدية', ['دورة العقيدة الواسطية', 'عقائد ونبوات']),
         ('الفنون', ['التفسير', 'الحديث', 'النحو'])]),
-    ('article-type', 'المجموعات', 'edit-tags__post_type-article__taxonomy-article-type.html'),
-    ('index', 'فهارس', 'edit-tags__post_type-audio-book-lesson__taxonomy-index.html'),
-    ('course-index', 'فهارس الدورات', 'edit-tags__post_type-book-lesson__taxonomy-course-index.html'),
     ('book-index', 'فهارس الكتب', 'edit-tags__post_type-book__taxonomy-book-index.html'),
 ]
 
@@ -353,7 +343,7 @@ def build_toc(template):
 
 def mark(menu, target):
     """Open the menu item that links to `target` and mark that submenu entry current.
-    القراء and المجموعات are marked by proto.js (it moves them under التصنيفات)."""
+    القراء is marked by proto.js (it moves it under الكتب الصوتية)."""
     a = next((x for x in menu.select('.wp-submenu a')
               if target in (x.get('href'), x.get('data-orig-href'))), None)
     if a is None or 'reciter' in target:
@@ -403,7 +393,7 @@ def main():
             built.append(build(os.path.join(args.improvements, lst), lst, listed, template))
         built.append(build(os.path.join(args.improvements, term), term, listed, template))
 
-    built += build_order(LIST_OF['article-type'], template)
+    built += build_order(LIST_OF['topic'], template)
     built += build_toc(template)
 
     existing = {os.path.basename(p) for p in glob.glob(os.path.join(FINAL, '*.html'))}

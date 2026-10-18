@@ -476,8 +476,8 @@
   })();
 
 
-  // ── التصنيفات holds the taxonomy pages, without الكلمات المفتاحية، المجموعات and
-  // فهارس الدورات (Omar, 2026-10-15), plus «الفهارس وقوائم المحتويات». القراء sits
+  // ── التصنيفات holds the taxonomy pages, without الكلمات المفتاحية، المجموعات،
+  // فهارس الدورات and فهارس (Omar, 2026-10-15/18; deleted everywhere), plus «الفهارس وقوائم المحتويات». القراء sits
   // with the audio books, next to their lessons (it is the lessons' taxonomy).
   (function () {
     var here = (location.pathname.split('/').pop() || 'index.html');
@@ -489,7 +489,8 @@
     };
     ['edit-tags__post_type-article__taxonomy-keyword.html',
      'edit-tags__post_type-article__taxonomy-article-type.html',
-     'edit-tags__post_type-book-lesson__taxonomy-course-index.html'
+     'edit-tags__post_type-book-lesson__taxonomy-course-index.html',
+     'edit-tags__post_type-audio-book-lesson__taxonomy-index.html'
     ].forEach(function (f) { linkTo(f).forEach(function (a) { a.parentNode.remove(); }); });
     var open = function (top, on) {
       if (!top || !on) return;
@@ -573,9 +574,7 @@
     if (!head || !$('#the-list')) return;
     var TERMS = {
       'taxonomy-topic': ['آداب الإسلام', 'آداب وأخلاق', 'أصول الفقه', 'الأخلاق'],
-      'taxonomy-fiqhi-topic': ['الطهارة', 'الصلاة', 'الصيام', 'الزكاة'],
-      'taxonomy-keyword': ['القرآن', 'التربية', 'الأسرة', 'الرقائق'],
-      'taxonomy-article-type': ['المقالات', 'الأبحاث', 'الخواطر']
+      'taxonomy-fiqhi-topic': ['الطهارة', 'الصلاة', 'الصيام', 'الزكاة']
     };
     var STATUSES = ['منشور', 'مسودة', 'بانتظار المراجعة', 'خاص'];
     function kindOf(th) {
