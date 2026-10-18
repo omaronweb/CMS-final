@@ -1944,11 +1944,16 @@ body.edit-tags-php #addtag > p.submit {
   box-shadow: none;
 }
 
-/* شجرة التصنيفات on Add / Edit: three parents (الموضوعية، الفقهية، العقدية);
-   while filtering, matching terms show flat with their parent in parentheses */
-#topicchecklist > li.cms-tax-parent > label {
+/* شجرة التصنيفات on Add / Edit: the trees (الموضوعية، الفقهية، العقدية، الفنون) are
+   headings without a checkbox; while filtering, matching terms show flat with their
+   tree in parentheses */
+#topicchecklist > li.cms-tax-parent > .cms-tree-name {
+  display: block;
+  margin: 6px 0 2px;
   font-weight: 600;
+  color: #1d2327;
 }
+#topicchecklist.is-filtering li:not(.cms-tax-hit) > .cms-tree-name { display: none; }
 #topicchecklist .cms-tax-parent-name {
   display: none;
   color: #646970;

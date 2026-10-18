@@ -506,6 +506,7 @@
     };
     // [page, label, menu item it goes under, the page and its edit pages, sorted with (submenu block)]
     [['edit-tags__taxonomy-toc.html', 'الفهارس وقوائم المحتويات', catsTop, /taxonomy-toc\.html$/, null],
+     ['edit-tags__taxonomy-tree.html', 'شجرات التصنيف', catsTop, /taxonomy-tree\.html$/, null],
      ['edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html', 'القراء',
       document.getElementById('menu-posts-audio-book-series'), /taxonomy-reciter\.html$/, 'menu-posts-audio-book-lesson']
     ].forEach(function (t) {
@@ -708,16 +709,17 @@
       link.textContent = open ? 'إخفاء الخيارات الإضافية' : 'عرض خيارات إضافية';
     });
   })();
-  // ── شجرة التصنيفات on Add / Edit: the terms sit under four parents (الموضوعية،
-  // الفقهية، العقدية، الفنون), at most three terms each; typing in «فلترة...» lists the matching terms, each with its
+  // ── شجرة التصنيفات on Add / Edit: the top level is the trees of «شجرات التصنيف»
+  // (الموضوعية، الفقهية، العقدية، الفنون), shown as headings without a checkbox
+  // (Omar, 2026-10-18); the terms sit under them, at most three each; typing in «فلترة...» lists the matching terms, each with its
   // parent's name in parentheses.
   (function () {
     var list = document.getElementById('topicchecklist');
     if (!list) return;
     var PARENTS = [
-      { name: 'التصنيفات الموضوعية', terms: null },
-      { name: 'التصنيفات الفقهية', terms: ['أصول الفقه', 'الفقه وأصوله', 'سنن وأحكام', 'حقوق وواجبات'] },
-      { name: 'التصنيفات العقدية', terms: ['عقائد ونبوات', 'دورة العقيدة الواسطية'] },
+      { name: 'الموضوعية', terms: null },
+      { name: 'الفقهية', terms: ['أصول الفقه', 'الفقه وأصوله', 'سنن وأحكام', 'حقوق وواجبات'] },
+      { name: 'العقدية', terms: ['عقائد ونبوات', 'دورة العقيدة الواسطية'] },
       // الفنون has its own box on the live CMS (empty there); here it is a parent
       // with sample terms
       { name: 'الفنون', terms: [], add: ['التفسير', 'الحديث', 'النحو'] }
@@ -732,7 +734,8 @@
     var uls = PARENTS.map(function (p) {
       var li = document.createElement('li');
       li.className = 'cms-tax-parent';
-      li.innerHTML = '<label class="selectit"><input type="checkbox"> ' + p.name + '</label><ul class="children"></ul>';
+      li.dataset.term = p.name;
+      li.innerHTML = '<span class="cms-tree-name">' + p.name + '</span><ul class="children"></ul>';
       list.appendChild(li);
       return $('ul', li);
     });
