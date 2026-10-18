@@ -14,11 +14,10 @@ does on the live CMS.
 | Add post (article) | `post-new__post_type-article.html` | CMS-improvements, article fields in the live order with the "حقول إضافية" accordion (cms-testing) |
 | Edit article (top row of the list) | `post__action-edit__lang-ar__post-272.html` | CMS-improvements, same field order and accordion as Add post |
 | Categories | `edit-tags__post_type-article__taxonomy-topic.html` | CMS-improvements |
-| Groups (المجموعات) | `edit-tags__post_type-article__taxonomy-article-type.html` | CMS-improvements |
 | Site homepage (واجهة الموقع) | `homepage.html` | cms-testing (front end; plain المقالات menu item, تجريب removed) |
 | Improvements list (قائمة التحسينات) | `improvements.html` | Developer handoff: every change compared with cms-testing, plus the development rules |
 | General settings | `post__action-edit__post-702.html` | cms-testing (live), with the CMS-improvements sidebar and admin bar |
-| Every other content type (أنواع المحتوى) | `edit__post_type-*.html`, `post-new__post_type-*.html`, `post__action-edit__lang-ar__post-*.html`, index in `content-types.html` | CMS-improvements, built by `_tools/build_content_pages.py` |
+| Every other content type (أنواع المحتوى) | `edit__post_type-*.html`, `post-new__post_type-*.html`, `post__action-edit__lang-ar__post-*.html` | CMS-improvements, built by `_tools/build_content_pages.py` |
 
 Open `index.html` in a browser. Links to pages that are not part of this set show a toast.
 

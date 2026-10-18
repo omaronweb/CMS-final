@@ -16,7 +16,7 @@ In the content type's fields box («حقول …»):
   rest  low-priority, plain optional and unlisted fields, in the collapsed
         «حقول إضافية»
 Deleted fields leave the add/edit pages and the list columns. The المقتطف box
-moves after the fields box. Required side boxes (الفهارس، القراء) get a red *
+moves after the fields box. Required side boxes (القراء) get a red *
 (CSS, class zad-required on the box).
 
 Only the CMS's own elements are used: ACF fields, labels, «acf-required» and
@@ -50,14 +50,14 @@ LABELS = {'content': 'المحتوى'}  # the WordPress editor, outside the fiel
 LESSONS = dict(top=['images'], alt=('required', ['content', 'youtube_id', 'audios', 'video_url', 'videos']),
                delete=['release_date'], rest=['transcript', 'clips', 'view_count', 'course'])
 SERIES = dict(top=['images', 'status', 'author_name', 'author_about'], required=['images'],
-              delete_boxes=['acf-group_series_shared_fields'], required_boxes=['radio-indexdiv'])
+              delete_boxes=['acf-group_series_shared_fields'], required_boxes=[])
 SERIES_LESSONS = dict(LESSONS, rest=['pdfs', 'transcript', 'clips', 'view_count', 'course'],
-                      delete_boxes=['acf-group_series_shared_fields'], required_boxes=['radio-indexdiv'])
+                      delete_boxes=['acf-group_series_shared_fields'], required_boxes=[])
 # اسم القارئ and المادة الصوتية are the «القارئ» and «الملف الصوتي» of each معلومات القارئ row
 AUDIO_BOOKS = dict(top=['images', 'reciter_info', 'transcript'], required=['images', 'reciter_info'],
                    rest=['content_explanation', 'clips', 'view_count'],
                    delete_boxes=['acf-group_series_shared_fields'],
-                   required_boxes=['radio-indexdiv', 'tagsdiv-reciter'])
+                   required_boxes=['tagsdiv-reciter'])
 TYPES = {
     'article': dict(top=['images'],
                     delete=['youtube_id', 'audios', 'videos', 'video_url', 'pdfs', 'release_date',
@@ -292,17 +292,33 @@ def list_page(path, labels):
     open(path, 'w', encoding='utf-8').write(s)
 
 
-def index_text(sm):
-    out = '، '.join(sm['top'])
-    if sm['alt']:
-        kind, labels = sm['alt']
-        out += ('، ' if out else '') + ('يجب تعبئة أحدها' if kind == 'required' else 'يفضل تعبئة أحدها') + ' (' + '، '.join(labels) + ')'
-    if sm['after']:
-        out += '، ' + '، '.join(sm['after'])
-    out = '<b>%s</b>' % out
-    if sm['rest']:
-        out += ' · حقول إضافية: ' + '، '.join(sm['rest'])
-    return out
+# Taxonomies Omar deleted (2026-10-18): no box on the add/edit pages, no list column.
+# فهارس is covered by «الفهارس وقوائم المحتويات».
+REMOVED_BOXES = ['tagsdiv-keyword', 'article-typediv', 'course-indexdiv', 'radio-indexdiv']
+REMOVED_COLUMNS = ['taxonomy-keyword', 'taxonomy-article-type', 'taxonomy-course-index', 'taxonomy-index']
+
+
+def cut_div(s, div_id):
+    """Remove the <div id="div_id"> element (with its nested divs) from the text."""
+    m = re.search(r'<div\b[^>]*\bid="%s"[^>]*>' % re.escape(div_id), s)
+    if not m:
+        return s
+    depth, i = 1, m.end()
+    for t in re.finditer(r'<(/?)div\b[^>]*>', s[i:]):
+        depth += -1 if t.group(1) else 1
+        if depth == 0:
+            return s[:m.start()] + s[i + t.end():].lstrip('\n')
+    return s
+
+
+def drop_removed(s):
+    for box in REMOVED_BOXES:
+        s = cut_div(s, box)
+        s = re.sub(r'<label for="%s-hide">.*?</label>\s*' % box, '', s, flags=re.S)
+    for col in REMOVED_COLUMNS:
+        s = re.sub(r'<label><input[^>]*id="%s-hide"[^>]*/>[^<]*</label>\s*' % col, '', s)
+        s = re.sub(r'<(t[hd]) class="[^"]*\bcolumn-%s\b[^"]*"[^>]*>.*?</\1>' % col, '', s, flags=re.S)
+    return s
 
 
 def main():
@@ -315,22 +331,16 @@ def main():
     edit_of['article'] = 'post__action-edit__lang-ar__post-272.html'
     for path in glob.glob(os.path.join(FINAL, 'post-new__*.html')) + glob.glob(os.path.join(FINAL, 'post__action-edit*.html')):
         s = open(path, encoding='utf-8').read()
-        open(path, 'w', encoding='utf-8').write(relabel(s))
+        open(path, 'w', encoding='utf-8').write(relabel(drop_removed(s)))
     for path in glob.glob(os.path.join(FINAL, 'edit__post_type-*.html')) + [os.path.join(FINAL, 'list-pages-columns.html')]:
         s = open(path, encoding='utf-8').read()
-        open(path, 'w', encoding='utf-8').write(relabel_columns(s))
-    idx_path = os.path.join(FINAL, 'content-types.html')
-    idx = open(idx_path, encoding='utf-8').read()
+        open(path, 'w', encoding='utf-8').write(relabel_columns(drop_removed(s)))
     for ptype, cfg in sorted(TYPES.items()):
-        summary = add_page(os.path.join(FINAL, 'post-new__post_type-%s.html' % ptype), cfg)
+        add_page(os.path.join(FINAL, 'post-new__post_type-%s.html' % ptype), cfg)
         if ptype in edit_of:
             add_page(os.path.join(FINAL, edit_of[ptype]), cfg)
         if cfg.get('delete_columns'):
             list_page(os.path.join(FINAL, 'edit__post_type-%s.html' % ptype), cfg['delete_columns'])
-        if summary and cfg:
-            idx = re.sub(r'(<code>%s</code></th>.*?<span class="f">).*?(</span></td>)' % re.escape(ptype),
-                         lambda m: m.group(1) + index_text(summary) + m.group(2), idx, count=1)
-    open(idx_path, 'w', encoding='utf-8').write(idx)
 
 
 if __name__ == '__main__':

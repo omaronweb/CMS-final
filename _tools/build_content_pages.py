@@ -681,8 +681,7 @@ def main():
             if sub:
                 row['outside'], row['inside'] = field_split(page)
         index.append(row)
-    write_index(index)
-    built.append('content-types.html')
+    # no أنواع المحتوى index page any more (Omar, 2026-10-18)
 
     existing = {os.path.basename(p) for p in glob.glob(os.path.join(FINAL, '*.html'))}
     changed = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(FINAL, '*.html'))) if fix_links(p, existing)]
