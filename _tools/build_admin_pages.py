@@ -67,9 +67,9 @@ FILTER_WORDS = {'in': 'من', 'to': 'إلى'}
 ORDER = 'admin__page-zad-icmss-taxonomy-order'
 ORDER_TABS = [
     ('topic', 'شجرة التصنيفات', [
-        ('التصنيفات الموضوعية', ['آداب الإسلام', 'آداب وأخلاق', 'الآداب والأخلاق والرقائق']),
-        ('التصنيفات الفقهية', ['أصول الفقه', 'الفقه وأصوله', 'حقوق وواجبات']),
-        ('التصنيفات العقدية', ['دورة العقيدة الواسطية', 'عقائد ونبوات']),
+        ('الموضوعية', ['آداب الإسلام', 'آداب وأخلاق', 'الآداب والأخلاق والرقائق']),
+        ('الفقهية', ['أصول الفقه', 'الفقه وأصوله', 'حقوق وواجبات']),
+        ('العقدية', ['دورة العقيدة الواسطية', 'عقائد ونبوات']),
         ('الفنون', ['التفسير', 'الحديث', 'النحو'])]),
     ('book-index', 'فهارس الكتب', 'edit-tags__post_type-book__taxonomy-book-index.html'),
 ]
@@ -207,6 +207,8 @@ def toc_texts(page):
             v = v.replace(a, b)
         if v != str(t):
             t.replace_with(v)
+    for inp in page.select('#wpbody-content input[value]'):
+        inp['value'] = inp['value'].replace('بحث فهارس الكتب', 'بحث').replace('أضف فهرس الكتب جديد', 'أضف')
     page.title.string = page.title.string.replace('تحرير فهرس الكتب', 'تحرير الفهرس أو قائمة المحتويات') \
         .replace('فهارس الكتب', 'الفهارس وقوائم المحتويات')
     cls = [c for c in page.body['class'] if c not in ('post-type-book', 'taxonomy-book-index', 'ac-wp-taxonomy_book-index')]
@@ -341,6 +343,68 @@ def build_toc(template):
     return [TOC_LIST, TOC_EDIT]
 
 
+# شجرات التصنيف (Omar, 2026-10-18): the trees of شجرة التصنيفات. Each tree is only a
+# name; the trees are the top level of the شجرة التصنيفات box on the add/edit pages,
+# shown as headings without a checkbox (proto.js). الموضوعية is always on (it is
+# selected and disabled in the Aalaam wizard), so it has no «حذف».
+TREES_LIST, TREES_EDIT = 'edit-tags__taxonomy-tree.html', 'term__tag_ID-402__taxonomy-tree.html'
+TREES = ['الموضوعية', 'الفقهية', 'العقدية', 'الفنون']
+
+
+def tree_texts(page):
+    for t in page.select_one('#wpbody-content').find_all(string=True):
+        v = str(t)
+        for a, b in (('أضف فهرسًا أو قائمة محتويات', 'أضف شجرة تصنيف'),
+                     ('تحرير الفهرس أو قائمة المحتويات', 'تحرير شجرة التصنيف'), ('ترجمة الفهرس', 'ترجمة الشجرة'),
+                     ('الفهارس وقوائم المحتويات', 'شجرات التصنيف'), ('4 عناصر', '%d عناصر' % len(TREES))):
+            v = v.replace(a, b)
+        if v != str(t):
+            t.replace_with(v)
+    page.title.string = page.title.string.replace('تحرير الفهرس أو قائمة المحتويات', 'تحرير شجرة التصنيف') \
+        .replace('الفهارس وقوائم المحتويات', 'شجرات التصنيف')
+    page.body['class'] = [c for c in page.body['class'] if c != 'taxonomy-toc'] + ['taxonomy-tree']
+    for x in page.select('#cms-toc-posts, .term-content-type-wrap, .term-post-wrap, .term-slug-wrap, '
+                         '.term-description-wrap, .column-content-type, .column-post, .column-slug'):
+        x.decompose()
+
+
+def build_trees(template):
+    page = soup(os.path.join(FINAL, TOC_LIST))
+    tree_texts(page)
+    rows = page.select('#the-list tr')
+    tmpl = copy.copy(rows[0])
+    for r in rows:
+        r.decompose()
+    body = page.select_one('#the-list')
+    for i, name in enumerate(TREES):
+        tr = copy.copy(tmpl)
+        tid = 401 + i
+        tr['id'], tr['data-id'] = 'tag-%d' % tid, str(tid)
+        for a in tr.select('a.row-title, .row-actions .edit a'):
+            a['href'] = TREES_EDIT
+        tr.select_one('a.row-title').string = name
+        tr.select_one('a.row-title')['aria-label'] = '“%s” (تحرير)' % name
+        for d in tr.select('.hidden .name'):
+            d.string = name
+        cb = tr.select_one('.check-column input')
+        cb['value'], cb['id'] = str(tid), 'cb-select-%d' % tid
+        sr = tr.select_one('.check-column .screen-reader-text')
+        if sr:
+            sr.string = 'تحديد ' + name
+        if i == 0:  # always on: no delete
+            for x in tr.select('.row-actions .delete'):
+                x.decompose()
+            cb['disabled'] = ''
+        body.append(tr)
+    write(os.path.join(FINAL, TREES_LIST), page)
+
+    page = soup(os.path.join(FINAL, TOC_EDIT))
+    tree_texts(page)
+    page.select_one('#name')['value'] = TREES[1]
+    write(os.path.join(FINAL, TREES_EDIT), page)
+    return [TREES_LIST, TREES_EDIT]
+
+
 def mark(menu, target):
     """Open the menu item that links to `target` and mark that submenu entry current.
     القراء is marked by proto.js (it moves it under الكتب الصوتية)."""
@@ -395,6 +459,7 @@ def main():
 
     built += build_order(LIST_OF['topic'], template)
     built += build_toc(template)
+    built += build_trees(template)
 
     existing = {os.path.basename(p) for p in glob.glob(os.path.join(FINAL, '*.html'))}
     changed = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(FINAL, '*.html'))) if fix_links(p, existing)]
