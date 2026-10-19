@@ -2194,9 +2194,21 @@ body.admin_page_zad-icmss-taxonomy-order #order-terms .alignleft { float: none; 
 .postbox .hndle .cms-box-help:hover::after { display: block; }
 .postbox:has(.cms-box-help:hover) { overflow: visible; z-index: 10; }
 
-/* فروع التصنيفات add/edit: «شجرة التصنيف» full width like «التصنيف الأب»
-   (zad-common does this for select#parent) */
-body:is(.edit-tags-php, .term-php).wp-core-ui select#tree {
+/* «شجرة التصنيف» (فروع التصنيفات) and «نوع المحتوى» / «المادة» / «العنصر الأب»
+   (قوائم المحتويات) full width like «التصنيف الأب» (zad-common does this for select#parent) */
+body:is(.edit-tags-php, .term-php).wp-core-ui :is(select#tree, select#toc-content-type, select#toc-post, select#toc-parent) {
   width: 100%;
   max-width: initial;
+}
+
+/* «الاسم اللطيف» (slug) hidden everywhere (Omar, 2026-10-19): the term form field, the
+   list column and its screen option, the «الاسم اللطيف» box on add/edit pages and its
+   screen option, and the quick edit field */
+.term-slug-wrap,
+.wp-list-table :is(th, td).column-slug,
+label[for="slug-hide"],
+#slugdiv,
+label[for="slugdiv-hide"],
+.inline-edit-row label:has(:is(input[name="slug"], input[name="post_name"])) {
+  display: none !important;
 }
