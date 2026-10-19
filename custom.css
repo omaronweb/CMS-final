@@ -2193,3 +2193,10 @@ body.admin_page_zad-icmss-taxonomy-order #order-terms .alignleft { float: none; 
 }
 .postbox .hndle .cms-box-help:hover::after { display: block; }
 .postbox:has(.cms-box-help:hover) { overflow: visible; z-index: 10; }
+
+/* فروع التصنيفات add/edit: «شجرة التصنيف» full width like «التصنيف الأب»
+   (zad-common does this for select#parent) */
+body:is(.edit-tags-php, .term-php).wp-core-ui select#tree {
+  width: 100%;
+  max-width: initial;
+}
