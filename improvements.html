@@ -243,6 +243,7 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <h2>التصنيفات <a href="edit-tags__post_type-article__taxonomy-topic.html">افتح الصفحة</a></h2>
 <p class="day">2026-10-19</p>
 <ul>
+<li>التسلسل في القائمة بخطوط شجرة بدل الخط الجانبي: خط عمودي لكل مستوى وذراع أفقي إلى كل اسم (├── للعنصر الذي يليه أخ، └── للأخير)، كما في عرض الملفات الشجري. CSS فقط بلا تغيير في HTML (الأعمدة والصفوف كما هي، والحساب بـ<code>:has()</code> على صفوف <code>level-N</code>).<span class="k">CSS</span></li>
 <li>عمود «شجرة التصنيف» بعد «الاسم» في قائمة <a href="edit-tags__post_type-article__taxonomy-topic.html">فروع التصنيفات</a>، يعرض شجرة كل تصنيف (التصنيف الفرعي يتبع شجرة أبيه).<span class="k">PHP</span></li>
 <li>حقل «شجرة التصنيف» في إضافة <a href="edit-tags__post_type-article__taxonomy-topic.html">فرع</a> و<a href="term__post_type-article__tag_ID-38__taxonomy-topic.html">تحريره</a>، قبل «التصنيف الأب»، خياراته الشجرات المضافة في <a href="edit-tags__taxonomy-tree.html">شجرات التصنيف</a>، والافتراضي «الموضوعية». القائمة بكامل العرض مثل «التصنيف الأب».<span class="k">PHP</span><span class="k">CSS</span></li>
 <li>«التصنيف الأب» صارت «التصنيف الأب» (ومعها «— التصنيف الأب —» في إضافة تصنيف من صفحات المحتوى)، و«لغة» صارت «اللغة».<span class="k">PHP</span></li>
@@ -279,6 +280,7 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <h2>قوائم المحتويات <a href="edit-tags__taxonomy-toc.html">القائمة والإضافة</a> <a href="term__tag_ID-301__taxonomy-toc.html">تحرير فهرس</a></h2>
 <p class="day">2026-10-19</p>
 <ul>
+<li>عناصر قوائم المحتويات متسلسلة كفروع التصنيفات (باب ← فصل ← مبحث) وتظهر بخطوط الشجرة نفسها. أمثلة في النموذج تحت «فهرس كتاب حصن المسلم» و«قائمة محتويات شرح اقتضاء الصراط المستقيم».<span class="k">PHP</span><span class="k">CSS</span></li>
 <li>في الإضافة والتحرير بعد «الاسم»: «نوع المحتوى» ثم «المادة». قائمة «المادة» معطلة حتى يُختار نوع المحتوى، ثم تعرض مواد ذلك النوع فقط (مثال: الكتب الصوتية ← كتاب حصن المسلم من أذكار الكتاب والسنة). ثم «العنصر الأب»: معطلة حتى تُختار المادة، ثم تعرض «بدون» وعناصر قائمة محتويات تلك المادة فقط. القوائم الثلاث بكامل العرض مثل «التصنيف الأب».<span class="k">PHP</span><span class="k">JS</span><span class="k">CSS</span></li>
 <li>أعمدة القائمة: الاسم، نوع المحتوى، المادة.<span class="k">PHP</span></li>
 <li>صفحتا القائمة والتحرير بتصميم صفحات «فروع التصنيفات» نفسه.<span class="k">CSS</span></li>

@@ -200,7 +200,12 @@ def toc_data(page, types):
 
 # «العنصر الأب» (Omar, 2026-10-19): after «المادة», the entry this one sits under, from the
 # entries of the same المادة (proto.js fills it). Sample entries for the sample materials.
-TOC_CHAPTERS = ['الباب الأول', 'الباب الثاني', 'الباب الثالث']
+# (entry, level) under a sample TOC, in list order (Omar, 2026-10-19: show nesting like فروع التصنيفات)
+TOC_ENTRIES = {
+    'فهرس كتاب حصن المسلم': [('الباب الأول: أذكار الصباح والمساء', 1), ('أذكار الصباح', 2), ('سيد الاستغفار', 3),
+                             ('آية الكرسي', 3), ('أذكار المساء', 2), ('الباب الثاني: أذكار النوم', 1)],
+    'قائمة محتويات شرح اقتضاء الصراط المستقيم': [('المقدمة', 1), ('النهي عن التشبه', 1), ('أدلة الكتاب', 2)],
+}
 PARENT_HELP = 'العنصر الذي يندرج تحته هذا العنصر في قائمة محتويات المادة المختارة.'
 
 
@@ -212,9 +217,9 @@ def toc_parent_select(page, exclude=None):
     entries = {}
     for name, _, post in TOC_SAMPLES:
         entries.setdefault(post, [])
-        if name != exclude:
-            entries[post].append(name)
-        entries[post] += [c for c in TOC_CHAPTERS if c not in entries[post]]
+        for e in [name] + [c for c, _ in TOC_ENTRIES.get(name, [])]:
+            if e != exclude:
+                entries[post].append(e)
     data = page.new_tag('script', id='cms-toc-parents', type='application/json')
     data.string = json.dumps(entries, ensure_ascii=False)
     return sel, data
@@ -343,9 +348,24 @@ def build_toc(template):
         slug.string = str(632 + i)
         tr.select_one('td.column-posts').decompose()
         body.append(tr)
+        # sample entries under it (same المادة), nested like فروع التصنيفات
+        for j, (child, level) in enumerate(TOC_ENTRIES.get(name, [])):
+            c = copy.copy(tr)
+            cid = 311 + 10 * i + j
+            c['id'], c['data-id'], c['class'] = 'tag-%d' % cid, str(cid), ['level-%d' % level]
+            c.select_one('a.row-title').string = child
+            c.select_one('.row-title')['aria-label'] = '“%s” (تحرير)' % child
+            for d in c.select('.hidden .name'):
+                d.string = child
+            cb = c.select_one('.check-column input')
+            cb['value'], cb['id'] = str(cid), 'cb-select-%d' % cid
+            if c.select_one('.check-column .screen-reader-text'):
+                c.select_one('.check-column .screen-reader-text').string = 'تحديد ' + child
+            c.select_one('td.column-slug').string = str(cid + 400)
+            body.append(c)
     tmpl.decompose()
     for n in page.select('.displaying-num'):
-        n.string = '%d عناصر' % len(TOC_SAMPLES)
+        n.string = '%d عنصرًا' % len(body.find_all('tr', recursive=False))
     form.insert(0, toc_data(page, types))  # before proto.js runs
     form.insert(1, parent_data)
     topic_look(page, LIST_OF['topic'])

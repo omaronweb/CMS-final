@@ -1475,16 +1475,134 @@ body.edit-tags-php .wp-list-table #the-list > tr.level-0 {
 body.edit-tags-php .wp-list-table #the-list > tr:not(.level-0) {
   background-color: #eef1f6 !important;
 }
-/* the line sits just before the indented name, so it steps in with each level */
-body.edit-tags-php .wp-list-table tr:not(.level-0) > td.column-name {
-  background-image: linear-gradient(#c3c8d1, #c3c8d1);
-  background-repeat: no-repeat;
-  background-size: 2px 100%;
-  background-position: right 12px top 0;
+/* Tree connectors (Omar, 2026-10-19), CSS only, like a «tree» listing (├── / └──):
+   each name cell draws, as background layers, one vertical line per depth (--v1…--v4)
+   and an arm (──) to its name. A row's own line runs the full height when a sibling
+   follows (├), else it stops at the arm (└); an ancestor's line runs through when that
+   ancestor has a later sibling. "Follows" means the next row at that depth or higher is
+   at that depth, checked with :has() over up to 12 deeper rows in between. */
+body.edit-tags-php .wp-list-table #the-list > tr > td.column-name {
+  background-image: var(--v1, none), var(--v2, none), var(--v3, none), var(--v4, none), var(--arm, none) !important;
+  background-repeat: no-repeat !important;
+  background-size: 1px var(--h1, 100%), 1px var(--h2, 100%), 1px var(--h3, 100%), 1px var(--h4, 100%), 10px 1px !important;
+  background-position: right 10px top 0, right 34px top 0, right 58px top 0, right 82px top 0, right var(--x, 0) top 20px !important;
 }
-body.edit-tags-php .wp-list-table tr.level-2 > td.column-name { background-position: right 36px top 0; }
-body.edit-tags-php .wp-list-table tr.level-3 > td.column-name { background-position: right 60px top 0; }
-body.edit-tags-php .wp-list-table tr.level-4 > td.column-name { background-position: right 84px top 0; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-1 { --v1: linear-gradient(#9aa3b2, #9aa3b2); --h1: 21px; --arm: linear-gradient(#9aa3b2, #9aa3b2); --x: 10px; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-2 { --v2: linear-gradient(#9aa3b2, #9aa3b2); --h2: 21px; --arm: linear-gradient(#9aa3b2, #9aa3b2); --x: 34px; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-3 { --v3: linear-gradient(#9aa3b2, #9aa3b2); --h3: 21px; --arm: linear-gradient(#9aa3b2, #9aa3b2); --x: 58px; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-4 { --v4: linear-gradient(#9aa3b2, #9aa3b2); --h4: 21px; --arm: linear-gradient(#9aa3b2, #9aa3b2); --x: 82px; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-1:has(
+    + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1) { --h1: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr:is(.level-2, .level-3, .level-4, .level-5):has(
+    + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1,
+    + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr:is(.level-2, .level-3, .level-4, .level-5) + tr.level-1) { --v1: linear-gradient(#9aa3b2, #9aa3b2); --h1: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-2:has(
+    + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2) { --h2: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr:is(.level-3, .level-4, .level-5):has(
+    + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2,
+    + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr:is(.level-3, .level-4, .level-5) + tr.level-2) { --v2: linear-gradient(#9aa3b2, #9aa3b2); --h2: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-3:has(
+    + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3) { --h3: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr:is(.level-4, .level-5):has(
+    + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3,
+    + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr:is(.level-4, .level-5) + tr.level-3) { --v3: linear-gradient(#9aa3b2, #9aa3b2); --h3: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr.level-4:has(
+    + tr.level-4,
+    + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4) { --h4: 100%; }
+body.edit-tags-php .wp-list-table #the-list > tr:is(.level-5):has(
+    + tr.level-4,
+    + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4,
+    + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr:is(.level-5) + tr.level-4) { --v4: linear-gradient(#9aa3b2, #9aa3b2); --h4: 100%; }
 
 
 /* ------------------------------------------------------------------
