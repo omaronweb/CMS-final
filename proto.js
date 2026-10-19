@@ -454,6 +454,7 @@
     // Prototype pages — the only pages included in CMS-final, one click away
     // (the doc pages build the same bar with proto-bar.js; keep both lists in sync)
     var protoPages = [
+      ['wizard/02-content.html', 'الشجرات في الويزارد'], // خطوة «المحتوى» في معالج أعلام
       ['index.html', 'الرئيسية'],                          // الرئيسية
       ['edit__post_type-article.html', 'قائمة المقالات'], // قائمة المقالات
       ['post-new__post_type-article.html', 'أضف مقالة'],     // أضف مقالة
@@ -463,7 +464,6 @@
       ['homepage.html', 'واجهة الموقع'], // الصفحة الرئيسية للموقع
       ['list-pages-columns.html', 'أعمدة القوائم'], // أعمدة صفحات القوائم
       ['improvements.html', 'قائمة التحسينات'], // ما تغيّر مقارنةً بـ cms-testing، للمطوّر
-      ['wizard/02-content.html', 'معالج أعلام'] // خطوة «المحتوى» في معالج أعلام، مع بطاقة شجرات التصنيف
     ];
     var here = (location.pathname.split('/').pop() || 'index.html');
     var nav = document.createElement('nav');

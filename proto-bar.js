@@ -4,6 +4,7 @@
 (function () {
   'use strict';
   var PAGES = [
+    ['wizard/02-content.html', 'الشجرات في الويزارد'], // خطوة «المحتوى» في معالج أعلام
     ['index.html', 'الرئيسية'],
     ['edit__post_type-article.html', 'قائمة المقالات'],
     ['post-new__post_type-article.html', 'أضف مقالة'],
@@ -13,7 +14,6 @@
     ['homepage.html', 'واجهة الموقع'],
     ['list-pages-columns.html', 'أعمدة القوائم'],
     ['improvements.html', 'قائمة التحسينات'],
-    ['wizard/02-content.html', 'معالج أعلام']
   ];
   // links are relative to the prototype root, where this script lives
   var base = (document.currentScript && document.currentScript.src || '').replace(/[^/]*$/, '');
