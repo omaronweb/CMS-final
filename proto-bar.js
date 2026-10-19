@@ -12,7 +12,8 @@
     ['post__action-edit__post-702.html', 'الإعدادات العامة'],
     ['homepage.html', 'واجهة الموقع'],
     ['list-pages-columns.html', 'أعمدة القوائم'],
-    ['improvements.html', 'قائمة التحسينات']
+    ['improvements.html', 'قائمة التحسينات'],
+    ['wizard/02-content.html', 'معالج أعلام']
   ];
   // links are relative to the prototype root, where this script lives
   var base = (document.currentScript && document.currentScript.src || '').replace(/[^/]*$/, '');

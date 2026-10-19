@@ -462,7 +462,8 @@
       ['post__action-edit__post-702.html', 'الإعدادات العامة'], // الإعدادات العامة
       ['homepage.html', 'واجهة الموقع'], // الصفحة الرئيسية للموقع
       ['list-pages-columns.html', 'أعمدة القوائم'], // أعمدة صفحات القوائم
-      ['improvements.html', 'قائمة التحسينات'] // ما تغيّر مقارنةً بـ cms-testing، للمطوّر
+      ['improvements.html', 'قائمة التحسينات'], // ما تغيّر مقارنةً بـ cms-testing، للمطوّر
+      ['wizard/02-content.html', 'معالج أعلام'] // خطوة «المحتوى» في معالج أعلام، مع بطاقة شجرات التصنيف
     ];
     var here = (location.pathname.split('/').pop() || 'index.html');
     var nav = document.createElement('nav');
