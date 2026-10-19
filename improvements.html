@@ -29,6 +29,13 @@ li{margin:4px 0}
 section h2 + .day{margin-top:4px}
 .legend{font-size:13px;color:var(--muted);margin:0 0 8px}
 .rules li{margin:6px 0}
+.view-switch{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:4px 0 10px;background:var(--card)}
+.view-switch button{font:inherit;font-size:13px;border:0;background:none;padding:4px 14px;cursor:pointer;color:inherit}
+.view-switch button[aria-pressed="true"]{background:var(--chip);font-weight:600}
+#by-date h3{font-size:15px;margin:12px 0 2px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+#by-date h3 a{font-size:12px;font-weight:400}
+body.view-date section:not(.date-group), body.view-date nav.toc{display:none}
+body:not(.view-date) #by-date{display:none}
 code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chip);border-radius:4px;padding:0 4px}
 </style>
 </head>
@@ -42,7 +49,8 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <span class="k">JS</span> سلوك في الواجهة ·
 <span class="k">PHP</span> إعداد ووردبريس أو ACF أو حفظ البيانات.
 التنسيقات كلها في <code>custom.css</code>، والسلوك المحاكى في <code>proto.js</code>، وبنية HTML هي نفسها في اللوحة.</p>
-<p class="legend">البنود في كل قسم مجمّعة حسب اليوم (الأحدث أولًا): التاريخ يوم إضافة البند أو آخر تعديل على صياغته، وما سُجّل قبل إنشاء هذه الصفحة يحمل تاريخ إنشائها (2026-10-07).</p>
+<p class="legend">البنود في كل قسم مجمّعة حسب اليوم (الأحدث أولًا)، و«حسب التاريخ» يعرض كل تغييرات اليوم الواحد معًا: التاريخ يوم إضافة البند أو آخر تعديل على صياغته، وما سُجّل قبل إنشاء هذه الصفحة يحمل تاريخ إنشائها (2026-10-07).</p>
+<div class="view-switch" role="group" aria-label="طريقة التجميع"><button type="button" data-view="page" aria-pressed="true">حسب الصفحة</button><button type="button" data-view="date" aria-pressed="false">حسب التاريخ</button></div>
 <nav class="toc">
 <a href="#rules">ملاحظات للتطوير</a><a href="#general">عام</a><a href="#menu">القائمة الجانبية</a><a href="#home">الرئيسية</a><a href="#list">صفحات القوائم</a><a href="#edit">صفحات الإضافة والتحرير</a><a href="#types">أنواع المحتوى</a><a href="#topics">التصنيفات</a><a href="#toc">الفهارس وقوائم المحتويات</a><a href="#trees">شجرات التصنيف</a><a href="#order">ترتيب التصنيفات</a><a href="#users">الأعضاء</a><a href="#media">مكتبة الوسائط</a><a href="#settings">الإعدادات العامة</a><a href="#site">واجهة الموقع</a>
 </nav>
@@ -310,6 +318,45 @@ code{direction:ltr;unicode-bidi:isolate;font:13px monospace;background:var(--chi
 <li>أُزيل رابط «تجريب» من قائمة الموقع.<span class="k">PHP</span></li>
 </ul>
 </section>
+<div id="by-date"></div>
+<script>
+// Two groupings (Omar, 2026-10-19): by page (the sections above) or by date — every
+// change made on one day together, under the page it belongs to. Built from the sections.
+(function () {
+  var box = document.getElementById('by-date');
+  var days = {};
+  document.querySelectorAll('main > section').forEach(function (sec) {
+    var h2 = sec.querySelector('h2');
+    sec.querySelectorAll(':scope > p.day').forEach(function (d) {
+      var ul = d.nextElementSibling;
+      if (!ul || ul.tagName !== 'UL') return;
+      (days[d.textContent.trim()] = days[d.textContent.trim()] || []).push({ h2: h2, ul: ul });
+    });
+  });
+  Object.keys(days).sort().reverse().forEach(function (day) {
+    var sec = document.createElement('section');
+    sec.className = 'date-group';
+    sec.innerHTML = '<h2 dir="ltr" style="justify-content:flex-end">' + day + '</h2>';
+    days[day].forEach(function (g) {
+      var h3 = document.createElement('h3');
+      h3.innerHTML = g.h2.innerHTML;
+      sec.appendChild(h3);
+      sec.appendChild(g.ul.cloneNode(true));
+    });
+    box.appendChild(sec);
+  });
+  var buttons = document.querySelectorAll('.view-switch button');
+  function show(view) {
+    document.body.classList.toggle('view-date', view === 'date');
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === view)); });
+    try { localStorage.setItem('improvements-view', view); } catch (e) {}
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.view); }); });
+  var saved = null;
+  try { saved = localStorage.getItem('improvements-view'); } catch (e) {}
+  if (saved === 'date') show('date');
+})();
+</script>
 </main>
 <script src="proto-bar.js"></script>
 </body>
