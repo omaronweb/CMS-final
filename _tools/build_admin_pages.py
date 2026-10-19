@@ -198,6 +198,28 @@ def toc_data(page, types):
     return tag
 
 
+# «العنصر الأب» (Omar, 2026-10-19): after «المادة», the entry this one sits under, from the
+# entries of the same المادة (proto.js fills it). Sample entries for the sample materials.
+TOC_CHAPTERS = ['الباب الأول', 'الباب الثاني', 'الباب الثالث']
+PARENT_HELP = 'العنصر الذي يندرج تحته هذا العنصر في قائمة محتويات المادة المختارة.'
+
+
+def toc_parent_select(page, exclude=None):
+    sel = page.new_tag('select', id='toc-parent', attrs={'name': 'toc_parent', 'class': 'cms-toc-parent'})
+    o = page.new_tag('option', value='')
+    o.string = 'بدون'
+    sel.append(o)
+    entries = {}
+    for name, _, post in TOC_SAMPLES:
+        entries.setdefault(post, [])
+        if name != exclude:
+            entries[post].append(name)
+        entries[post] += [c for c in TOC_CHAPTERS if c not in entries[post]]
+    data = page.new_tag('script', id='cms-toc-parents', type='application/json')
+    data.string = json.dumps(entries, ensure_ascii=False)
+    return sel, data
+
+
 def toc_texts(page):
     for t in page.select_one('#wpbody-content').find_all(string=True):
         v = str(t)
@@ -235,6 +257,26 @@ def core_styles(page):
                                         media='all', rel='stylesheet'))
 
 
+def topic_look(page, shell):
+    """Give a page the stylesheets of a فروع التصنيفات page (`shell`), so قوائم المحتويات and
+    شجرات التصنيف look the same (Omar, 2026-10-19). The book-index captures carry other
+    plugins' CSS and miss some of the core and theme CSS."""
+    src = soup(os.path.join(FINAL, shell))
+    is_css = lambda t: t.name == 'style' or (t.name == 'link' and 'stylesheet' in (t.get('rel') or []))
+    for t in page.head.find_all(is_css) + page.body.find_all(is_css):
+        t.decompose()
+    title = page.head.title
+    for t in src.head.find_all(is_css):
+        page.head.append(copy.copy(t))
+    first = page.body.contents[0] if page.body.contents else None
+    for t in src.body.find_all(is_css):
+        if first is not None:
+            first.insert_before(copy.copy(t))
+        else:
+            page.body.append(copy.copy(t))
+    assert title is not None
+
+
 def build_toc(template):
     types = toc_types()
     # list page
@@ -246,10 +288,13 @@ def build_toc(template):
         for x in form.select(sel):
             x.decompose()
     type_sel, post_sel = toc_selects(page, types)
+    parent_sel, parent_data = toc_parent_select(page)
     after = form.select_one('.term-name-wrap')
-    for cls, label, sel, helptext in (('term-post-wrap', 'المادة', post_sel, POST_HELP),
+    for cls, label, sel, helptext in (('term-toc-parent-wrap', 'العنصر الأب', parent_sel, PARENT_HELP),
+                                      ('term-post-wrap', 'المادة', post_sel, POST_HELP),
                                       ('term-content-type-wrap', 'نوع المحتوى', type_sel, TYPE_HELP)):
-        div = page.new_tag('div', attrs={'class': 'form-field form-required ' + cls})
+        req = '' if cls == 'term-toc-parent-wrap' else 'form-required '
+        div = page.new_tag('div', attrs={'class': 'form-field ' + req + cls})
         lab = page.new_tag('label', attrs={'for': sel['id']})
         lab.string = label
         div.extend([lab, sel, field_desc(page, helptext)])
@@ -302,7 +347,8 @@ def build_toc(template):
     for n in page.select('.displaying-num'):
         n.string = '%d عناصر' % len(TOC_SAMPLES)
     form.insert(0, toc_data(page, types))  # before proto.js runs
-    core_styles(page)
+    form.insert(1, parent_data)
+    topic_look(page, LIST_OF['topic'])
     write(os.path.join(FINAL, TOC_LIST), page)
     # the shell itself (فهارس الكتب) has the same gap
     shell = soup(os.path.join(FINAL, TAXONOMIES['book-index'][0]))
@@ -326,10 +372,13 @@ def build_toc(template):
     form.select_one('#name')['value'] = name
     form.select_one('#slug')['value'] = '632'
     type_sel, post_sel = toc_selects(page, types, (ptype, post))
+    parent_sel, parent_data = toc_parent_select(page, exclude=name)
     after = form.select_one('tr.term-name-wrap')
-    for cls, label, sel, helptext in (('term-post-wrap', 'المادة', post_sel, POST_HELP),
+    for cls, label, sel, helptext in (('term-toc-parent-wrap', 'العنصر الأب', parent_sel, PARENT_HELP),
+                                      ('term-post-wrap', 'المادة', post_sel, POST_HELP),
                                       ('term-content-type-wrap', 'نوع المحتوى', type_sel, TYPE_HELP)):
-        tr = page.new_tag('tr', attrs={'class': 'form-field form-required ' + cls})
+        req = '' if cls == 'term-toc-parent-wrap' else 'form-required '
+        tr = page.new_tag('tr', attrs={'class': 'form-field ' + req + cls})
         th = page.new_tag('th', scope='row')
         lab = page.new_tag('label', attrs={'for': sel['id']})
         lab.string = label
@@ -339,6 +388,8 @@ def build_toc(template):
         tr.extend([th, td])
         after.insert_after(tr)
     form.insert(0, toc_data(page, types))
+    form.insert(1, parent_data)
+    topic_look(page, TAXONOMIES['topic'][1])
     write(os.path.join(FINAL, TOC_EDIT), page)
     return [TOC_LIST, TOC_EDIT]
 
@@ -364,7 +415,7 @@ def tree_texts(page):
         .replace('قوائم المحتويات', 'شجرات التصنيف')
     page.body['class'] = [c for c in page.body['class'] if c != 'taxonomy-toc'] + ['taxonomy-tree']
     for x in page.select('#cms-toc-posts, .term-content-type-wrap, .term-post-wrap, .term-slug-wrap, '
-                         '.term-description-wrap, .column-content-type, .column-post, .column-slug'):
+                         '.term-description-wrap, .term-toc-parent-wrap, #cms-toc-parents, .column-content-type, .column-post, .column-slug'):
         x.decompose()
 
 

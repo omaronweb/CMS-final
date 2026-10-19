@@ -563,8 +563,27 @@
       });
       post.disabled = !type.value;
     };
-    type.addEventListener('change', function () { fill(''); });
+    // «العنصر الأب»: the entries of the chosen المادة (Omar, 2026-10-19)
+    var parent = $('.cms-toc-parent'), pdata = document.getElementById('cms-toc-parents');
+    var entries = pdata ? JSON.parse(pdata.textContent) : {};
+    var fillParent = function () {
+      if (!parent) return;
+      parent.innerHTML = '';
+      var first = document.createElement('option');
+      first.value = '';
+      first.textContent = post.value ? 'بدون' : '— اختر المادة أولًا —';
+      parent.appendChild(first);
+      (entries[post.value] || []).forEach(function (t) {
+        var o = document.createElement('option');
+        o.value = o.textContent = t;
+        parent.appendChild(o);
+      });
+      parent.disabled = !post.value;
+    };
+    type.addEventListener('change', function () { fill(''); fillParent(); });
+    post.addEventListener('change', fillParent);
     fill(post.getAttribute('data-selected') || '');
+    fillParent();
   })();
 
   // ── Bulk edit on the list pages: with 2+ rows checked, a bar under the header
