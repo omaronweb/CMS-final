@@ -17,7 +17,8 @@
   ];
   // links are relative to the prototype root, where this script lives
   var base = (document.currentScript && document.currentScript.src || '').replace(/[^/]*$/, '');
-  var here = new URL(location.href).pathname.split('/').pop() || 'index.html';
+  // the page's path from the prototype root (pages in subfolders, like wizard/, included)
+  var here = location.href.split(/[?#]/)[0].replace(base, '') || 'index.html';
 
   var css = document.createElement('style');
   css.textContent =
