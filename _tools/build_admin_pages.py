@@ -8,15 +8,15 @@ the same way as build_content_pages.py. The design and the hidden sections
 (Rank Math, WPML language settings, profile options) are in custom.css.
 
 التصنيفات: one list page per taxonomy (WordPress has a copy per content type) and
-one edit page per taxonomy. شجرة التصنيفات keeps its hand-tuned list page and
+one edit page per taxonomy. فروع التصنيفات keeps its hand-tuned list page and
 only gets an edit page here; التصنيفات الفقهية is not built (it is
-a parent inside شجرة التصنيفات).
+a parent inside فروع التصنيفات).
 
 ترتيب التصنيفات (zad-icmss-taxonomy-order): one page per tab, built on the
-شجرة التصنيفات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
+فروع التصنيفات list page as a shell, with the plugin's markup (tabs, #tto_sortable list,
 .save-order button). Omar's decisions (2026-10-07): no taxonomy radio table, no
 «<type> — التصنيفات» heading, no plugin promo; the save button also sits above the
-list; the page opens on شجرة التصنيفات. Drag and drop is in proto.js.
+list; the page opens on فروع التصنيفات. Drag and drop is in proto.js.
 
 Run after build_content_pages.py:  python3 _tools/build_admin_pages.py
 """
@@ -66,7 +66,7 @@ FILTER_WORDS = {'in': 'من', 'to': 'إلى'}
 # ترتيب التصنيفات: (taxonomy, tab label, terms or the list page to read them from)
 ORDER = 'admin__page-zad-icmss-taxonomy-order'
 ORDER_TABS = [
-    ('topic', 'شجرة التصنيفات', [
+    ('topic', 'فروع التصنيفات', [
         ('الموضوعية', ['آداب الإسلام', 'آداب وأخلاق', 'الآداب والأخلاق والرقائق']),
         ('الفقهية', ['أصول الفقه', 'الفقه وأصوله', 'حقوق وواجبات']),
         ('العقدية', ['دورة العقيدة الواسطية', 'عقائد ونبوات']),
@@ -141,7 +141,7 @@ def build_order(shell, template):
     return built
 
 
-# الفهارس وقوائم المحتويات (Omar, 2026-10-15): a taxonomy under التصنيفات whose
+# قوائم المحتويات (Omar, 2026-10-15): a taxonomy under التصنيفات whose
 # terms each point at one item: pick the content type, then the item of that type.
 # Built on the فهارس الكتب pages as shells; the item list is filled by proto.js
 # from the JSON in the page (titles from the list pages).
@@ -203,14 +203,14 @@ def toc_texts(page):
         v = str(t)
         for a, b in (('أضف فهرس الكتب جديد', 'أضف فهرسًا أو قائمة محتويات'), ('تحديث فهرس الكتب', 'تحديث'),
                      ('تحرير فهرس الكتب', 'تحرير الفهرس أو قائمة المحتويات'), ('ترجمة فهرس الكتب', 'ترجمة الفهرس'),
-                     ('فهارس الكتب', 'الفهارس وقوائم المحتويات')):
+                     ('فهارس الكتب', 'قوائم المحتويات')):
             v = v.replace(a, b)
         if v != str(t):
             t.replace_with(v)
     for inp in page.select('#wpbody-content input[value]'):
         inp['value'] = inp['value'].replace('بحث فهارس الكتب', 'بحث').replace('أضف فهرس الكتب جديد', 'أضف')
     page.title.string = page.title.string.replace('تحرير فهرس الكتب', 'تحرير الفهرس أو قائمة المحتويات') \
-        .replace('فهارس الكتب', 'الفهارس وقوائم المحتويات')
+        .replace('فهارس الكتب', 'قوائم المحتويات')
     cls = [c for c in page.body['class'] if c not in ('post-type-book', 'taxonomy-book-index', 'ac-wp-taxonomy_book-index')]
     page.body['class'] = cls + ['taxonomy-toc']
 
@@ -343,8 +343,8 @@ def build_toc(template):
     return [TOC_LIST, TOC_EDIT]
 
 
-# شجرات التصنيف (Omar, 2026-10-18): the trees of شجرة التصنيفات. Each tree is only a
-# name; the trees are the top level of the شجرة التصنيفات box on the add/edit pages,
+# شجرات التصنيف (Omar, 2026-10-18): the trees of فروع التصنيفات. Each tree is only a
+# name; the trees are the top level of the فروع التصنيفات box on the add/edit pages,
 # shown as headings without a checkbox (proto.js). الموضوعية is always on (it is
 # selected and disabled in the Aalaam wizard), so it has no «حذف».
 TREES_LIST, TREES_EDIT = 'edit-tags__taxonomy-tree.html', 'term__tag_ID-402__taxonomy-tree.html'
@@ -356,12 +356,12 @@ def tree_texts(page):
         v = str(t)
         for a, b in (('أضف فهرسًا أو قائمة محتويات', 'أضف شجرة تصنيف'),
                      ('تحرير الفهرس أو قائمة المحتويات', 'تحرير شجرة التصنيف'), ('ترجمة الفهرس', 'ترجمة الشجرة'),
-                     ('الفهارس وقوائم المحتويات', 'شجرات التصنيف'), ('4 عناصر', '%d عناصر' % len(TREES))):
+                     ('قوائم المحتويات', 'شجرات التصنيف'), ('4 عناصر', '%d عناصر' % len(TREES))):
             v = v.replace(a, b)
         if v != str(t):
             t.replace_with(v)
     page.title.string = page.title.string.replace('تحرير الفهرس أو قائمة المحتويات', 'تحرير شجرة التصنيف') \
-        .replace('الفهارس وقوائم المحتويات', 'شجرات التصنيف')
+        .replace('قوائم المحتويات', 'شجرات التصنيف')
     page.body['class'] = [c for c in page.body['class'] if c != 'taxonomy-toc'] + ['taxonomy-tree']
     for x in page.select('#cms-toc-posts, .term-content-type-wrap, .term-post-wrap, .term-slug-wrap, '
                          '.term-description-wrap, .column-content-type, .column-post, .column-slug'):
@@ -403,6 +403,47 @@ def build_trees(template):
     page.select_one('#name')['value'] = TREES[1]
     write(os.path.join(FINAL, TREES_EDIT), page)
     return [TREES_LIST, TREES_EDIT]
+
+
+def add_tree_field(name):
+    """فروع التصنيفات add/edit form: «شجرة التصنيف» select (the trees of شجرات التصنيف)
+    before «التصنيف الأب» (Omar, 2026-10-19)."""
+    path = os.path.join(FINAL, name)
+    page = soup(path)
+    if page.select_one('.term-tree-wrap'):
+        return
+    wrap = page.select_one('.term-parent-wrap')
+    opts = ''.join('<option value="%d"%s>%s</option>' % (401 + i, ' selected=""' if i == 0 else '', t)
+                   for i, t in enumerate(TREES))
+    sel = '<select class="postform" id="tree" name="tree">%s</select>' % opts
+    if wrap.name == 'tr':
+        html = ('<tr class="form-field term-tree-wrap"><th scope="row"><label for="tree">شجرة التصنيف</label></th>'
+                '<td>%s</td></tr>' % sel)
+    else:
+        html = '<div class="form-field term-tree-wrap"><label for="tree">شجرة التصنيف</label>%s</div>' % sel
+    wrap.insert_before(BeautifulSoup(html, 'html.parser'))
+    write(path, page)
+
+
+def add_tree_column(name):
+    """فروع التصنيفات list: «شجرة التصنيف» column after الاسم (Omar, 2026-10-19). proto.js nests
+    the first 12 rows (its demo levels), so a child shows its top-level row's tree."""
+    path = os.path.join(FINAL, name)
+    page = soup(path)
+    if page.select_one('.column-tree'):
+        return
+    for th in page.select('table.wp-list-table :is(thead, tfoot) .column-name'):
+        th.insert_after(BeautifulSoup('<th class="manage-column column-tree" scope="col">شجرة التصنيف</th>',
+                                      'html.parser'))
+    levels = [0, 1, 2, 1, 2, 3, 0, 1, 1, 1, 0, 0]  # proto.js «Demo hierarchy»
+    roots = {0: 'الموضوعية', 6: 'الفقهية', 10: 'العقدية', 11: 'الفنون'}
+    tree = TREES[0]
+    for i, tr in enumerate(page.select('#the-list > tr')):
+        if i < len(levels) and levels[i] == 0 or i >= len(levels):
+            tree = roots.get(i, TREES[0])
+        tr.select_one('td.column-name').insert_after(BeautifulSoup(
+            '<td class="tree column-tree" data-colname="شجرة التصنيف">%s</td>' % tree, 'html.parser'))
+    write(path, page)
 
 
 def mark(menu, target):
@@ -460,6 +501,9 @@ def main():
     built += build_order(LIST_OF['topic'], template)
     built += build_toc(template)
     built += build_trees(template)
+    for name in (LIST_OF['topic'], TAXONOMIES['topic'][1]):
+        add_tree_field(name)
+    add_tree_column(LIST_OF['topic'])
 
     existing = {os.path.basename(p) for p in glob.glob(os.path.join(FINAL, '*.html'))}
     changed = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(FINAL, '*.html'))) if fix_links(p, existing)]

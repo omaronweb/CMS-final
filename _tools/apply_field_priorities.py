@@ -293,7 +293,7 @@ def list_page(path, labels):
 
 
 # Taxonomies Omar deleted (2026-10-18): no box on the add/edit pages, no list column.
-# فهارس is covered by «الفهارس وقوائم المحتويات».
+# فهارس is covered by «قوائم المحتويات».
 REMOVED_BOXES = ['tagsdiv-keyword', 'article-typediv', 'course-indexdiv', 'radio-indexdiv']
 REMOVED_COLUMNS = ['taxonomy-keyword', 'taxonomy-article-type', 'taxonomy-course-index', 'taxonomy-index']
 

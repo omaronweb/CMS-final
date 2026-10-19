@@ -54,7 +54,7 @@ SERIES_OF = {
 # Post types that CMS-improvements doesn't have, built from a look-alike type's
 # pages: {new type: (source type, fake post id for its edit page, text replacements)}.
 # audio-book-series has the same fields as book-browser-series on the live CMS
-# (حالة السلسلة، الصور، تاريخ الإلقاء) and no شجرة التصنيفات box.
+# (حالة السلسلة، الصور، تاريخ الإلقاء) and no فروع التصنيفات box.
 AR = r'(?<![\u0621-\u064A])%s(?![\u0621-\u064A])'  # whole words (Arabic letters, not \u00AB\u060C\u00BB)
 DERIVED = {
     'audio-book-series': ('book-browser-series', ('5620', '95620'), [
@@ -78,6 +78,13 @@ RENAMES = [
     (AR % 'أضف درس تفسير', 'أضف درس دورة'),
     # «البيانات الوصفية» was the section's name for a week (2026-10-07); Omar renamed it back to التصنيفات
     (AR % 'البيانات الوصفية', 'التصنيفات'),
+    # Omar, 2026-10-19
+    (AR % 'الفهارس وقوائم المحتويات', 'قوائم المحتويات'),
+    (AR % 'شجرة التصنيفات', 'فروع التصنيفات'),
+    (AR % 'أب تصنيف', 'التصنيف الأب'),
+    (r'>لغة<', '>اللغة<'),
+    (r'اللوحة: لغة<', 'اللوحة: اللغة<'),
+    (r'صندوق لغة ', 'صندوق اللغة '),
 ]
 RENAME_PAGES = {'interpret-series': [(AR % 'دورات', 'الدورات')], 'interpret-lesson': []}
 
