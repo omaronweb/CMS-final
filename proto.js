@@ -478,7 +478,7 @@
 
 
   // ── التصنيفات holds the taxonomy pages, without الكلمات المفتاحية، المجموعات،
-  // فهارس الدورات and فهارس (Omar, 2026-10-15/18; deleted everywhere), plus «الفهارس وقوائم المحتويات». القراء sits
+  // فهارس الدورات and فهارس (Omar, 2026-10-15/18; deleted everywhere), plus «قوائم المحتويات». القراء sits
   // with the audio books, next to their lessons (it is the lessons' taxonomy).
   (function () {
     var here = (location.pathname.split('/').pop() || 'index.html');
@@ -506,7 +506,7 @@
       });
     };
     // [page, label, menu item it goes under, the page and its edit pages, sorted with (submenu block)]
-    [['edit-tags__taxonomy-toc.html', 'الفهارس وقوائم المحتويات', catsTop, /taxonomy-toc\.html$/, null],
+    [['edit-tags__taxonomy-toc.html', 'قوائم المحتويات', catsTop, /taxonomy-toc\.html$/, null],
      ['edit-tags__taxonomy-tree.html', 'شجرات التصنيف', catsTop, /taxonomy-tree\.html$/, null],
      ['edit-tags__post_type-audio-book-lesson__taxonomy-reciter.html', 'القراء',
       document.getElementById('menu-posts-audio-book-series'), /taxonomy-reciter\.html$/, 'menu-posts-audio-book-lesson']
@@ -524,10 +524,10 @@
     });
   })();
 
-  // ── شجرة التصنيفات and الوسوم on Add / Edit: a help icon after the box title
+  // ── فروع التصنيفات and الوسوم on Add / Edit: a help icon after the box title
   // says when to use each (hover shows the note)
   (function () {
-    [['topicdiv', 'شجرة التصنيفات: تصنيف موضوعي ثابت ومتدرّج (أبواب وتحتها فروع)، تُختار منه الموضوعات التي تنتمي إليها المادة، ويتصفّح به الزائر المحتوى حسب الموضوع.'],
+    [['topicdiv', 'فروع التصنيفات: تصنيف موضوعي ثابت ومتدرّج (أبواب وتحتها فروع)، تُختار منه الموضوعات التي تنتمي إليها المادة، ويتصفّح به الزائر المحتوى حسب الموضوع.'],
      ['tagsdiv-public-tag', 'الوسوم: كلمات حرّة بلا ترتيب ولا أبواب، تُضاف عند الحاجة لأسماء أو موضوعات محددة تتناولها المادة (شخص، كتاب، مكان، حدث، مناسبة)، فتساعد في البحث وتربط المواد المتشابهة.']
     ].forEach(function (b) {
       var h = $('#' + b[0] + ' .postbox-header .hndle');
@@ -541,7 +541,7 @@
     });
   })();
 
-  // ── الفهارس وقوائم المحتويات: «المادة» lists the items of the content type
+  // ── قوائم المحتويات: «المادة» lists the items of the content type
   // chosen in «نوع المحتوى» (the titles come from the JSON in the page)
   (function () {
     var data = document.getElementById('cms-toc-posts');
@@ -710,7 +710,7 @@
       link.textContent = open ? 'إخفاء الخيارات الإضافية' : 'عرض خيارات إضافية';
     });
   })();
-  // ── شجرة التصنيفات on Add / Edit: the top level is the trees of «شجرات التصنيف»
+  // ── فروع التصنيفات on Add / Edit: the top level is the trees of «شجرات التصنيف»
   // (الموضوعية، الفقهية، العقدية، الفنون), shown as headings without a checkbox
   // (Omar, 2026-10-18); the terms sit under them, at most three each; typing in «فلترة...» lists the matching terms, each with its
   // parent's name in parentheses.
@@ -791,7 +791,7 @@
         });
         return any;
       })(list);
-      // the «كل شجرة التصنيفات» tab holds the results
+      // the «كل فروع التصنيفات» tab holds the results
       var all = document.getElementById('topic-all'); var pop = document.getElementById('topic-pop');
       if (q && all && pop) { all.style.display = ''; pop.style.display = 'none'; }
     });

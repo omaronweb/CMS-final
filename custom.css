@@ -1456,7 +1456,7 @@ th#taxonomy-fiqhi-topic {
 
 
 /* ------------------------------------------------------------------
-   Categories (شجرة التصنيفات): child topics carry a right border so the
+   Categories (فروع التصنيفات): child topics carry a right border so the
    parent → child relationship reads at a glance; all rows regular weight
    ------------------------------------------------------------------ */
 body.edit-tags-php .wp-list-table .row-title,
@@ -1748,7 +1748,7 @@ body.index-php #dashboard-widgets {
   padding-bottom: 96px !important;
 }
 
-/* Add-term form: the WPML لغة field reads as one more field of the card —
+/* Add-term form: the WPML اللغة field reads as one more field of the card —
    same white background, label and select as الاسم / أب / الوصف */
 body.edit-tags-php #addtag [id^="icl_tax_"][id$="_lang"] {
   background: transparent !important;
@@ -1944,7 +1944,7 @@ body.edit-tags-php #addtag > p.submit {
   box-shadow: none;
 }
 
-/* شجرة التصنيفات on Add / Edit: the trees (الموضوعية، الفقهية، العقدية، الفنون) are
+/* فروع التصنيفات on Add / Edit: the trees (الموضوعية، الفقهية، العقدية، الفنون) are
    headings without a checkbox; while filtering, matching terms show flat with their
    tree in parentheses */
 #topicchecklist > li.cms-tax-parent > .cms-tree-name {
@@ -2039,7 +2039,7 @@ body.post-type-article .acf-postbox .acf-field-article-fields-video-url > .acf-l
 /* ------------------------------------------------------------------
    Users, media and التصنيفات pages (2026-10-07)
    ------------------------------------------------------------------ */
-/* فهارس الدورات: no الصور field in the add form, as on شجرة التصنيفات */
+/* فهارس الدورات: no الصور field in the add form, as on فروع التصنيفات */
 body.edit-tags-php .acf-field[data-name="course_index_fields_images"],
 body.edit-tags-php #acf-term-fields:not(:has(> .acf-field:not([data-name="course_index_fields_images"]))) {
   display: none;
@@ -2154,7 +2154,7 @@ body.admin_page_zad-icmss-taxonomy-order #order-terms .alignleft { float: none; 
   display: none !important;
 }
 
-/* ── شجرة التصنيفات and الوسوم boxes: a help icon after the title (proto.js);
+/* ── فروع التصنيفات and الوسوم boxes: a help icon after the title (proto.js);
    hovering it shows when to use each */
 .postbox-header:has(.cms-box-help) { position: relative; }
 .postbox-header:has(.cms-box-help) .hndle { position: static; }
