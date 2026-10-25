@@ -1916,34 +1916,21 @@ body.edit-tags-php #addtag > p.submit {
   color: #d63638;
 }
 
-/* Alternatives (one of them to fill): a help icon after the label, orange
-   (one is required) or green (one is recommended); hovering it shows «يجب /
-   يفضل تعبئة أحد هذه الحقول: …» from the label's data-alt-note. The field's own
-   help (p.description) stays as text under the label. */
-.acf-field > .acf-label > label[data-alt-note] {
-  position: relative;
-  display: inline-block;
+/* «*» after a label: red when the field is required, orange when one of a group of
+   alternatives is required, green when one is recommended. Hovering it shows its
+   note (data-note): «حقل مطلوب» or «يجب / يفضل تعبئة أحد هذه الحقول: …» */
+.acf-field.zad-alt-required > .acf-label .acf-required {
+  color: #e26f00 !important;
 }
-.acf-field > .acf-label > label[data-alt-note]::after {
-  content: "\f14c";
-  display: inline-block;
-  margin-inline-start: 4px;
-  font-family: dashicons;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1;
-  vertical-align: text-bottom;
+.acf-field.zad-alt-recommended > .acf-label .acf-required {
+  color: #008a20 !important;
+}
+.acf-label .acf-required[data-note] {
+  position: relative;
   cursor: help;
 }
-.acf-field.zad-alt-required > .acf-label > label[data-alt-note]::after {
-  color: #e26f00;
-}
-.acf-field.zad-alt-recommended > .acf-label > label[data-alt-note]::after {
-  color: #008a20;
-}
-.acf-field > .acf-label > label[data-alt-note]::before {
-  content: attr(data-alt-note);
-  display: none;
+.acf-label .acf-required[data-note]:hover::after {
+  content: attr(data-note);
   position: absolute;
   top: 100%;
   inset-inline-start: 0;
@@ -1961,10 +1948,7 @@ body.edit-tags-php #addtag > p.submit {
   color: #fff;
   white-space: normal;
 }
-.acf-field > .acf-label > label[data-alt-note]:hover::before {
-  display: block;
-}
-.acf-postbox:has(label[data-alt-note]:hover) {
+.acf-postbox:has(.acf-required[data-note]:hover) {
   overflow: visible;
   z-index: 10;
 }
