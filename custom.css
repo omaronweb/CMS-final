@@ -1453,6 +1453,26 @@ th#taxonomy-fiqhi-topic {
   color: var(--cms-menu) !important;
   font-weight: 600;
 }
+/* ✕ hides the bar to a small «صفحات مختارة» button (proto.js) */
+#proto-pages .proto-pages-toggle {
+  margin-inline-start: 4px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+#proto-pages .proto-pages-toggle:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+#proto-pages.is-collapsed {
+  padding: 4px;
+}
+#proto-pages.is-collapsed > :not(.proto-pages-toggle) {
+  display: none;
+}
 
 
 /* ------------------------------------------------------------------
@@ -2329,4 +2349,9 @@ label[for="slug-hide"],
 label[for="slugdiv-hide"],
 .inline-edit-row label:has(:is(input[name="slug"], input[name="post_name"])) {
   display: none !important;
+}
+
+/* List thumbnails: the picture fills its square (cropped, not stretched) */
+.wp-list-table .ac-image img {
+  object-fit: cover;
 }

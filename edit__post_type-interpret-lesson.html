@@ -364,7 +364,7 @@
 <ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">الإعدادات العامة</li><li class="wp-first-item"><a class="wp-first-item" href="post__action-edit__post-702.html">الكل</a></li><li><a class="proto-dead" data-orig-href="post-new__post_type-public-config.html" href="#">أضف</a></li></ul></li>
 <li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-fatwa" id="menu-posts-fatwa">
 <a class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-fatwa" data-ariahaspopup="" href="edit__post_type-fatwa.html"><div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-editor-help"><br/></div><div class="wp-menu-name">أسئلة وأجوبة</div></a>
-<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">أسئلة وأجوبة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-fatwa.html">الكل</a></li><li><a href="post-new__post_type-fatwa.html">أضف</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-source.html" href="#">المصادر</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-file.html" href="#">الملفات</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-subsite.html" href="#">المواقع الفرعية</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-website-learning.html" href="#">تعلم المواقع</a></li></ul></li>
+<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">أسئلة وأجوبة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-fatwa.html">الكل</a></li><li><a href="post-new__post_type-fatwa.html">أضف</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-source.html" href="#">المصادر</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-file.html" href="#">الملفات</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-subsite.html" href="#">المواقع الفرعية</a></li></ul></li>
 <li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-static-page" id="menu-posts-static-page">
 <a class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-static-page" data-ariahaspopup="" href="edit__post_type-static-page.html"><div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-text-page"><br/></div><div class="wp-menu-name">الصفحات الثابتة</div></a>
 <ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">الصفحات الثابتة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-static-page.html">الكل</a></li><li><a href="post-new__post_type-static-page.html">أضف</a></li></ul></li>
@@ -517,7 +517,16 @@
 <input class="button" id="search-submit" type="submit" value="بحث دروس الدورات"/></p>
 <input class="post_status_page" name="post_status" type="hidden" value="all"/>
 <input class="post_type_page" name="post_type" type="hidden" value="interpret-lesson"/>
-<input id="_wpnonce" name="_wpnonce" type="hidden" value="1ca4917cf3"/><input name="_wp_http_referer" type="hidden" value="/wp/wp-admin/edit.php?post_type=interpret-lesson"/> <div class="tablenav top"><div class="actions acp-smartfilter-actions"><div class="acp-smartfilters"><div class="acp-smartfilters__add -has-segments"><div class="acp-smartfilters__add__group" role="none"><div style="display: contents; --menu-z-index: 30000;"><div class="acui-dropdown"><div aria-haspopup="true" class="acui-dropdown-trigger" role="button" tabindex="-1"><button class="button" slot="trigger" type="button">أضف فلتر</button></div> </div></div> <button class="button acp-segments__toggle" type="button"></button></div> </div> </div>
+<input id="_wpnonce" name="_wpnonce" type="hidden" value="1ca4917cf3"/><input name="_wp_http_referer" type="hidden" value="/wp/wp-admin/edit.php?post_type=interpret-lesson"/> <div class="tablenav top">
+<div class="alignleft actions bulkactions">
+<label class="screen-reader-text" for="bulk-action-selector-top">تحديد إجراء مُجمع</label><select id="bulk-action-selector-top" name="action">
+<option selected="" value="-1">تنفيذ الأمر</option>
+<option class="hide-if-no-js" value="edit">تحرير</option>
+<option value="trash">نقل إلى سلة المُهملات</option>
+</select>
+<input class="button action" id="doaction" type="submit" value="تطبيق"/>
+</div>
+<div class="alignleft actions">
 <label class="screen-reader-text" for="filter-by-date">تصفية بحسب التاريخ</label>
 <select id="filter-by-date" name="m">
 <option selected="" value="0">كل التواريخ</option>
@@ -547,15 +556,7 @@
 <option value="ClaimReview">تحقق من الحقائق</option>
 <option value="HowTo">كيفية</option>
 </select>
-<input class="button" id="post-query-submit" name="filter_action" type="submit" value="تصفية"/><a class="ac-clear-filters" href="#" style="display: none;">مسح الفلاتر</a></div>
-<div class="alignleft actions bulkactions">
-<label class="screen-reader-text" for="bulk-action-selector-top">تحديد إجراء مُجمع</label><select id="bulk-action-selector-top" name="action">
-<option selected="" value="-1">تنفيذ الأمر</option>
-<option class="hide-if-no-js" value="edit">تحرير</option>
-<option value="trash">نقل إلى سلة المُهملات</option>
-</select>
-<input class="button action" id="doaction" type="submit" value="تطبيق"/>
-</div>
+<input class="button" id="post-query-submit" name="filter_action" type="submit" value="تصفية"/> </div>
 <div class="ac-table-actions -init" id="ac-table-actions">
 <div class="ac-table-actions-buttons">
 <a class="ac-table-button" data-ac-tip="تصدير إلى CSV" data-ac-tooltip-init="1" data-slug="export">تصدير</a><a class="ac-table-button">التنسيق الشرطي <span class="acp-cf-button-count" data-count="" style="display: none;">0</span></a></div>
@@ -588,7 +589,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1339">
-<img alt="" src="assets/b54b8dd342-Arabic_calligraphy_and_tree_202607080727-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/e7a3854a2d-Arabic_calligraphy_and_tree_202607080727-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“(1) {وَقَضَى رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ} الآية 23” (تحرير)" class="row-title" href="post__action-edit__lang-ar__post-1149.html">(1) {وَقَضَى رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ} الآية 23</a></strong>
@@ -648,7 +649,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1306">
-<img alt="" src="assets/36c2259e5d-Arabic_calligraphy_Al-Fatiha_2_202607071452-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/d63334b89e-Arabic_calligraphy_Al-Fatiha_2_202607071452-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“تفسير سورة الفاتحة (2)” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1145&amp;action=edit&amp;lang=ar" href="#">تفسير سورة الفاتحة (2)</a></strong>
@@ -678,7 +679,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1329">
-<img alt="" src="assets/095b56796a-Arabic_calligraphy______________202607071551-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/42a3c0933d-Arabic_calligraphy______________202607071551-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“تتمة {الزَّانِيَةُ وَالزَّانِي} إلى {إِلَّا الَّذِينَ تَابُوا} [2-4]” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1143&amp;action=edit&amp;lang=ar" href="#">تتمة {الزَّانِيَةُ وَالزَّانِي} إلى {إِلَّا الَّذِينَ تَابُوا} [2-4]</a></strong>
@@ -738,7 +739,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1325">
-<img alt="" src="assets/f7ac0f96df-Lanterns_and_Arabic_calligraphy_202607071529-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/2c06ba12c9-Lanterns_and_Arabic_calligraphy_202607071529-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“(2) قوله تعالى: {كَمَا كُتِبَ عَلَى الَّذِينَ مِنْ قَبْلِكُمْ}” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1135&amp;action=edit&amp;lang=ar" href="#">(2) قوله تعالى: {كَمَا كُتِبَ عَلَى الَّذِينَ مِنْ قَبْلِكُمْ}</a></strong>
@@ -768,7 +769,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1308">
-<img alt="" src="assets/159e6906af-Glowing_path_toward_gateway_202607071454-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/0d5210fc77-Glowing_path_toward_gateway_202607071454-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“تفسير سورة الفاتحة (1)” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1144&amp;action=edit&amp;lang=ar" href="#">تفسير سورة الفاتحة (1)</a></strong>
@@ -798,7 +799,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1323">
-<img alt="" src="assets/f51d6642f7-Arabic_calligraphy_on_parchment_202607071522-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/e94e348493-Arabic_calligraphy_on_parchment_202607071522-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“مقدمات .. ما المراد بضرب الأمثال في القرآن” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1132&amp;action=edit&amp;lang=ar" href="#">مقدمات .. ما المراد بضرب الأمثال في القرآن</a></strong>
@@ -828,7 +829,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1320">
-<img alt="" src="assets/538effd325-Arabic_calligraphy_and_lamp_202607071520-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/3d989dd4d5-Arabic_calligraphy_and_lamp_202607071520-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“من بداية السورة إلى {الزَّانِيَةُ وَالزَّانِي فَاجْلِدُوا} [1-2]” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1139&amp;action=edit&amp;lang=ar" href="#">من بداية السورة إلى {الزَّانِيَةُ وَالزَّانِي فَاجْلِدُوا} [1-2]</a></strong>
@@ -918,7 +919,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1318">
-<img alt="" src="assets/561b523d93-Arabic_calligraphy_on_parchment_202607071511-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/93de179651-Arabic_calligraphy_on_parchment_202607071511-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“مقدمات .. معنى المثل في القرآن” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1129&amp;action=edit&amp;lang=ar" href="#">مقدمات .. معنى المثل في القرآن</a></strong>
@@ -948,7 +949,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1304">
-<img alt="" src="assets/67d723ce52-Serene_landscape_with_glowing_lamp_202607071449-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/3ccfbdab82-Serene_landscape_with_glowing_lamp_202607071449-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“[2] قوله تعالى: {الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ}” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1123&amp;action=edit&amp;lang=ar" href="#">[2] قوله تعالى: {الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ}</a></strong>
@@ -978,7 +979,7 @@
 </div>
 </th><td class="3aa033ad7374bc column-3aa033ad7374bc field_interpret_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1302">
-<img alt="" src="assets/27d4100125-Calligraphy_reading______________202607071447-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/15a3433520-Calligraphy_reading______________202607071447-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“[1] تأملات عامة في سورة الفاتحة” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1122&amp;action=edit&amp;lang=ar" href="#">[1] تأملات عامة في سورة الفاتحة</a></strong>

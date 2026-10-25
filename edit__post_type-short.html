@@ -366,7 +366,7 @@
 <ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">الإعدادات العامة</li><li class="wp-first-item"><a class="wp-first-item" href="post__action-edit__post-702.html">الكل</a></li><li><a class="proto-dead" data-orig-href="post-new__post_type-public-config.html" href="#">أضف</a></li></ul></li>
 <li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-fatwa" id="menu-posts-fatwa">
 <a class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-fatwa" data-ariahaspopup="" href="edit__post_type-fatwa.html"><div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-editor-help"><br/></div><div class="wp-menu-name">أسئلة وأجوبة</div></a>
-<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">أسئلة وأجوبة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-fatwa.html">الكل</a></li><li><a href="post-new__post_type-fatwa.html">أضف</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-source.html" href="#">المصادر</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-file.html" href="#">الملفات</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-subsite.html" href="#">المواقع الفرعية</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-website-learning.html" href="#">تعلم المواقع</a></li></ul></li>
+<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">أسئلة وأجوبة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-fatwa.html">الكل</a></li><li><a href="post-new__post_type-fatwa.html">أضف</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-source.html" href="#">المصادر</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-file.html" href="#">الملفات</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-subsite.html" href="#">المواقع الفرعية</a></li></ul></li>
 <li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-static-page" id="menu-posts-static-page">
 <a class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-static-page" data-ariahaspopup="" href="edit__post_type-static-page.html"><div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-text-page"><br/></div><div class="wp-menu-name">الصفحات الثابتة</div></a>
 <ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">الصفحات الثابتة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-static-page.html">الكل</a></li><li><a href="post-new__post_type-static-page.html">أضف</a></li></ul></li>
@@ -520,7 +520,16 @@
 <input class="button" id="search-submit" type="submit" value="بحث مقاطع قصيرة"/></p>
 <input class="post_status_page" name="post_status" type="hidden" value="all"/>
 <input class="post_type_page" name="post_type" type="hidden" value="short"/>
-<input id="_wpnonce" name="_wpnonce" type="hidden" value="1ca4917cf3"/><input name="_wp_http_referer" type="hidden" value="/wp/wp-admin/edit.php?post_type=short"/> <div class="tablenav top"><div class="actions acp-smartfilter-actions"><div class="acp-smartfilters"><div class="acp-smartfilters__add -has-segments"><div class="acp-smartfilters__add__group" role="none"><div style="display: contents; --menu-z-index: 30000;"><div class="acui-dropdown"><div aria-haspopup="true" class="acui-dropdown-trigger" role="button" tabindex="-1"><button class="button" slot="trigger" type="button">أضف فلتر</button></div> </div></div> <button class="button acp-segments__toggle" type="button"></button></div> </div> </div>
+<input id="_wpnonce" name="_wpnonce" type="hidden" value="1ca4917cf3"/><input name="_wp_http_referer" type="hidden" value="/wp/wp-admin/edit.php?post_type=short"/> <div class="tablenav top">
+<div class="alignleft actions bulkactions">
+<label class="screen-reader-text" for="bulk-action-selector-top">تحديد إجراء مُجمع</label><select id="bulk-action-selector-top" name="action">
+<option selected="" value="-1">تنفيذ الأمر</option>
+<option class="hide-if-no-js" value="edit">تحرير</option>
+<option value="trash">نقل إلى سلة المُهملات</option>
+</select>
+<input class="button action" id="doaction" type="submit" value="تطبيق"/>
+</div>
+<div class="alignleft actions">
 <label class="screen-reader-text" for="filter-by-date">تصفية بحسب التاريخ</label>
 <select id="filter-by-date" name="m">
 <option selected="" value="0">كل التواريخ</option>
@@ -550,15 +559,7 @@
 <option value="ClaimReview">تحقق من الحقائق</option>
 <option value="HowTo">كيفية</option>
 </select>
-<input class="button" id="post-query-submit" name="filter_action" type="submit" value="تصفية"/><a class="ac-clear-filters" href="#" style="display: none;">مسح الفلاتر</a></div>
-<div class="alignleft actions bulkactions">
-<label class="screen-reader-text" for="bulk-action-selector-top">تحديد إجراء مُجمع</label><select id="bulk-action-selector-top" name="action">
-<option selected="" value="-1">تنفيذ الأمر</option>
-<option class="hide-if-no-js" value="edit">تحرير</option>
-<option value="trash">نقل إلى سلة المُهملات</option>
-</select>
-<input class="button action" id="doaction" type="submit" value="تطبيق"/>
-</div>
+<input class="button" id="post-query-submit" name="filter_action" type="submit" value="تصفية"/> </div>
 <div class="ac-table-actions -init" id="ac-table-actions">
 <div class="ac-table-actions-buttons">
 <a class="ac-table-button" data-ac-tip="تصدير إلى CSV" data-ac-tooltip-init="1" data-slug="export">تصدير</a><a class="ac-table-button">التنسيق الشرطي <span class="acp-cf-button-count" data-count="" style="display: none;">0</span></a></div>
@@ -591,7 +592,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1495">
-<img alt="" src="assets/07fe3af0a4-Arabic_calligraphy_over_orchard_202607081429-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/fd87396b5f-Arabic_calligraphy_over_orchard_202607081429-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“هؤلاء أهل الخبرة والبركة والخير” (تحرير)" class="row-title" href="post__action-edit__lang-ar__post-1423.html">هؤلاء أهل الخبرة والبركة والخير</a></strong>
@@ -621,7 +622,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1493">
-<img alt="" src="assets/78842fa37b-Arabic_calligraphy_on_parchment_202607081427-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/016aca09a9-Arabic_calligraphy_on_parchment_202607081427-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“من صفات الرجال العفة عن الحرام” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1429&amp;action=edit&amp;lang=ar" href="#">من صفات الرجال العفة عن الحرام</a></strong>
@@ -651,7 +652,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1491">
-<img alt="" src="assets/ccbf6ff992-Arabic_calligraphy_on_navy_backg__202607081425-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/0e746b236a-Arabic_calligraphy_on_navy_backg__202607081425-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“مكانة كبار أهل العلم” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1435&amp;action=edit&amp;lang=ar" href="#">مكانة كبار أهل العلم</a></strong>
@@ -681,7 +682,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1487">
-<img alt="" src="assets/29909464c3-Arabic_calligraphy___________gold_202607081421-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/88766211a1-Arabic_calligraphy___________gold_202607081421-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“حب الكتاب” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1438&amp;action=edit&amp;lang=ar" href="#">حب الكتاب</a></strong>
@@ -711,7 +712,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1485">
-<img alt="" src="assets/5b02d9e6f6-A_tight_symmetrical_layout_of_202607081419-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/dbe610d93d-A_tight_symmetrical_layout_of_202607081419-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“الفرق بين تعملون وتفعلون” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1442&amp;action=edit&amp;lang=ar" href="#">الفرق بين تعملون وتفعلون</a></strong>
@@ -741,7 +742,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1483">
-<img alt="" src="assets/f7f9354eca-Arabic_calligraphy_______________202607081417-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/863b3057c4-Arabic_calligraphy_______________202607081417-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“يريدون الجنة بلا تعب” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1445&amp;action=edit&amp;lang=ar" href="#">يريدون الجنة بلا تعب</a></strong>
@@ -771,7 +772,7 @@
 </div>
 </th><td class="1b7cb8bf69374c column-1b7cb8bf69374c field_short_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="1481">
-<img alt="" src="assets/388c789c8c-Arabic_calligraphy_glowing_gold___202607081413-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/46363f9aaa-Arabic_calligraphy_glowing_gold___202607081413-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“نعمة الصيام” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=1418&amp;action=edit&amp;lang=ar" href="#">نعمة الصيام</a></strong>

@@ -473,6 +473,24 @@
       protoPages.map(function (p) {
         return '<a href="' + p[0] + '"' + (p[0] === here ? ' class="is-current" aria-current="page"' : '') + '>' + p[1] + '</a>';
       }).join('');
+    // ✕ hides the bar down to a small «صفحات مختارة» button that shows it again;
+    // remembered across pages (this browser only)
+    var hideKey = 'proto-pages-hidden';
+    var toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'proto-pages-toggle';
+    function setHidden(on) {
+      nav.classList.toggle('is-collapsed', on);
+      toggle.textContent = on ? 'صفحات مختارة' : '✕';
+      toggle.setAttribute('aria-label', on ? 'إظهار شريط الصفحات' : 'إخفاء شريط الصفحات');
+      toggle.title = toggle.getAttribute('aria-label');
+      try { localStorage.setItem(hideKey, on ? '1' : ''); } catch (e) {}
+    }
+    toggle.addEventListener('click', function () { setHidden(!nav.classList.contains('is-collapsed')); });
+    nav.appendChild(toggle);
+    var startHidden = false;
+    try { startHidden = localStorage.getItem(hideKey) === '1'; } catch (e) {}
+    setHidden(startHidden);
     body.appendChild(nav);
   })();
 
