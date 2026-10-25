@@ -19,7 +19,7 @@ does on the live CMS.
 | General settings | `post__action-edit__post-702.html` | cms-testing (live), with the CMS-improvements sidebar and admin bar |
 | Every other content type (أنواع المحتوى) | `edit__post_type-*.html`, `post-new__post_type-*.html`, `post__action-edit__lang-ar__post-*.html` | CMS-improvements, built by `_tools/build_content_pages.py` |
 
-Open `index.html` in a browser. Links to pages that are not part of this set show a toast.
+Open `index.html` in a browser. The «صفحات مختارة» bar at the bottom hides with its ✕; Cmd+Shift+U (Ctrl+Shift+U) shows and hides it. Links to pages that are not part of this set show a toast.
 
 ## Content type pages
 `python3 _tools/build_content_pages.py` (with CMS-improvements and cms-testing checked out next to
