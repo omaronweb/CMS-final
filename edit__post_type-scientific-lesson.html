@@ -358,7 +358,7 @@
 <ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">الإعدادات العامة</li><li class="wp-first-item"><a class="wp-first-item" href="post__action-edit__post-702.html">الكل</a></li><li><a class="proto-dead" data-orig-href="post-new__post_type-public-config.html" href="#">أضف</a></li></ul></li>
 <li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-fatwa" id="menu-posts-fatwa">
 <a class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-fatwa" data-ariahaspopup="" href="edit__post_type-fatwa.html"><div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-editor-help"><br/></div><div class="wp-menu-name">أسئلة وأجوبة</div></a>
-<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">أسئلة وأجوبة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-fatwa.html">الكل</a></li><li><a href="post-new__post_type-fatwa.html">أضف</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-source.html" href="#">المصادر</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-file.html" href="#">الملفات</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-subsite.html" href="#">المواقع الفرعية</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-website-learning.html" href="#">تعلم المواقع</a></li></ul></li>
+<ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">أسئلة وأجوبة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-fatwa.html">الكل</a></li><li><a href="post-new__post_type-fatwa.html">أضف</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-source.html" href="#">المصادر</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-file.html" href="#">الملفات</a></li><li><a class="proto-dead" data-orig-href="edit-tags__post_type-fatwa__taxonomy-subsite.html" href="#">المواقع الفرعية</a></li></ul></li>
 <li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-static-page" id="menu-posts-static-page">
 <a class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-static-page" data-ariahaspopup="" href="edit__post_type-static-page.html"><div class="wp-menu-arrow"><div></div></div><div aria-hidden="true" class="wp-menu-image dashicons-before dashicons-text-page"><br/></div><div class="wp-menu-name">الصفحات الثابتة</div></a>
 <ul class="wp-submenu wp-submenu-wrap"><li aria-hidden="true" class="wp-submenu-head">الصفحات الثابتة</li><li class="wp-first-item"><a class="wp-first-item" href="edit__post_type-static-page.html">الكل</a></li><li><a href="post-new__post_type-static-page.html">أضف</a></li></ul></li>
@@ -514,7 +514,16 @@
 <input class="button" id="search-submit" type="submit" value="بحث الدروس العلمية"/></p>
 <input class="post_status_page" name="post_status" type="hidden" value="all"/>
 <input class="post_type_page" name="post_type" type="hidden" value="scientific-lesson"/>
-<input id="_wpnonce" name="_wpnonce" type="hidden" value="1ca4917cf3"/><input name="_wp_http_referer" type="hidden" value="/wp/wp-admin/edit.php?post_type=scientific-lesson"/> <div class="tablenav top"><div class="actions acp-smartfilter-actions"><div class="acp-smartfilters"><div class="acp-smartfilters__add -has-segments"><div class="acp-smartfilters__add__group" role="none"><div style="display: contents; --menu-z-index: 30000;"><div class="acui-dropdown"><div aria-haspopup="true" class="acui-dropdown-trigger" role="button" tabindex="-1"><button class="button" slot="trigger" type="button">أضف فلتر</button></div> </div></div> <button class="button acp-segments__toggle" type="button"></button></div> </div> </div>
+<input id="_wpnonce" name="_wpnonce" type="hidden" value="1ca4917cf3"/><input name="_wp_http_referer" type="hidden" value="/wp/wp-admin/edit.php?post_type=scientific-lesson"/> <div class="tablenav top">
+<div class="alignleft actions bulkactions">
+<label class="screen-reader-text" for="bulk-action-selector-top">تحديد إجراء مُجمع</label><select id="bulk-action-selector-top" name="action">
+<option selected="" value="-1">تنفيذ الأمر</option>
+<option class="hide-if-no-js" value="edit">تحرير</option>
+<option value="trash">نقل إلى سلة المُهملات</option>
+</select>
+<input class="button action" id="doaction" type="submit" value="تطبيق"/>
+</div>
+<div class="alignleft actions">
 <label class="screen-reader-text" for="filter-by-date">تصفية بحسب التاريخ</label>
 <select id="filter-by-date" name="m">
 <option selected="" value="0">كل التواريخ</option>
@@ -544,15 +553,7 @@
 <option value="ClaimReview">تحقق من الحقائق</option>
 <option value="HowTo">كيفية</option>
 </select>
-<input class="button" id="post-query-submit" name="filter_action" type="submit" value="تصفية"/><a class="ac-clear-filters" href="#" style="display: none;">مسح الفلاتر</a></div>
-<div class="alignleft actions bulkactions">
-<label class="screen-reader-text" for="bulk-action-selector-top">تحديد إجراء مُجمع</label><select id="bulk-action-selector-top" name="action">
-<option selected="" value="-1">تنفيذ الأمر</option>
-<option class="hide-if-no-js" value="edit">تحرير</option>
-<option value="trash">نقل إلى سلة المُهملات</option>
-</select>
-<input class="button action" id="doaction" type="submit" value="تطبيق"/>
-</div>
+<input class="button" id="post-query-submit" name="filter_action" type="submit" value="تصفية"/> </div>
 <div class="ac-table-actions -init" id="ac-table-actions">
 <div class="ac-table-actions-buttons">
 <a class="ac-table-button" data-ac-tip="تصدير إلى CSV" data-ac-tooltip-init="1" data-slug="export">تصدير</a><a class="ac-table-button">التنسيق الشرطي <span class="acp-cf-button-count" data-count="" style="display: none;">0</span></a></div>
@@ -585,7 +586,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="966">
-<img alt="" src="assets/ee1d648011-Arabic_calligraphy_prayer_times___202607041733-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/54323c84e2-Arabic_calligraphy_prayer_times___202607041733-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“مواقيت الصلاة - الدرس الأول” (تحرير)" class="row-title" href="post__action-edit__lang-ar__post-631.html">مواقيت الصلاة - الدرس الأول</a></strong>
@@ -615,7 +616,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="971">
-<img alt="" src="assets/3cdbe30870-Arabic_calligraphy_on_lectern_202607041934-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/2c63ef1a4f-Arabic_calligraphy_on_lectern_202607041934-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“باب الأدب - الدرس الأول” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=633&amp;action=edit&amp;lang=ar" href="#">باب الأدب - الدرس الأول</a></strong>
@@ -645,7 +646,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="979">
-<img alt="" src="assets/93f28728c3-Arabic_calligraphy_on_wooden_lec__202607041946-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/ed5a88cc87-Arabic_calligraphy_on_wooden_lec__202607041946-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“(1) من بداية المنظومة إلى مباحث الإسناد الحقيقي والمجازي” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=641&amp;action=edit&amp;lang=ar" href="#">(1) من بداية المنظومة إلى مباحث الإسناد الحقيقي والمجازي</a></strong>
@@ -675,7 +676,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="981">
-<img alt="" src="assets/67c022f4df-Arabic_calligraphy_on_parchment_202607041949-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/ad1aa4490e-Arabic_calligraphy_on_parchment_202607041949-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“(1) مقدمة مع بداية المتن إلى نهاية باب الكلام” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=643&amp;action=edit&amp;lang=ar" href="#">(1) مقدمة مع بداية المتن إلى نهاية باب الكلام</a></strong>
@@ -705,7 +706,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="977">
-<img alt="" src="assets/498f15c350-Mosque_library_with_Arabic_calli__202607041944-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/10cf672c4e-Mosque_library_with_Arabic_calli__202607041944-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“القواعد الفقهية - الدرس الأول” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=639&amp;action=edit&amp;lang=ar" href="#">القواعد الفقهية - الدرس الأول</a></strong>
@@ -735,7 +736,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="975">
-<img alt="" src="assets/3dc6fa4ee7-Mosque_library_with_Arabic_calli__202607041941-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/e65400f9c9-Mosque_library_with_Arabic_calli__202607041941-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“الدرس الأول” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=637&amp;action=edit&amp;lang=ar" href="#">الدرس الأول</a></strong>
@@ -765,7 +766,7 @@
 </div>
 </th><td class="1a4894572d0e56 column-1a4894572d0e56 field_scientific_lesson_fields_images" data-colname="الصور">
 <span class="ac-image -cover" data-media-id="973">
-<img alt="" src="assets/77e9d41e21-Mosque_library_with_Arabic_calli__202607041938-150x150.jpeg" style="width:60px;height:60px"/>
+<img alt="" src="assets/a0c999e193-Mosque_library_with_Arabic_calli__202607041938-300x167.jpeg" style="width:60px;height:60px"/>
 </span>
 </td><td class="title column-title has-row-actions column-primary page-title" data-colname="العنوان"><div class="locked-info"><span class="locked-avatar"></span> <span class="locked-text"></span></div>
 <strong><a aria-label="“ما يشق التحرز عنه من الحيوان هل هو طاهر؟” (تحرير)" class="row-title proto-dead" data-orig-href="https://mushkat-admin-testing.zadapps.info/wp/wp-admin/post.php?post=635&amp;action=edit&amp;lang=ar" href="#">ما يشق التحرز عنه من الحيوان هل هو طاهر؟</a></strong>
