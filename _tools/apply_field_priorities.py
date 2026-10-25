@@ -8,7 +8,7 @@ twice changes nothing.
 
 In the content type's fields box («حقول …»):
   top   required and high-priority fields, shown directly
-  alt   alternatives (one of them to fill): a «*» after the label, orange when one
+  alt   alternatives (one of them to fill): a «*» after the label, amber when one
         is required, green when one is recommended; hovering it shows «يجب / يفضل
         تعبئة أحد هذه الحقول: …» (the «*»'s data-note, shown by CSS). A required
         field's red «*» shows «حقل مطلوب». The field's own help stays under the label. On publish, proto.js
@@ -120,7 +120,7 @@ def label_text(field):
 
 
 def mark_label(field, required, alt, note=''):
-    """«*» after the label: red when required («حقل مطلوب» on hover), orange/green for an
+    """«*» after the label: red when required («حقل مطلوب» on hover), amber/green for an
     alternative (its note on hover). The note is the «*»'s data-note, shown by CSS."""
     field = re.sub(r' ?<span class="acf-required"[^>]*>\*+</span>', '', field, count=1)
     field = re.sub(r'(<label for="[^"]*") data-alt-note="[^"]*">', r'\1>', field, count=1)  # earlier version

@@ -34,7 +34,7 @@
 
   // Alternatives (one of them to fill, _tools/apply_field_priorities.py): on publish, what
   // ACF validation does on the live CMS — when none is filled, each gets ACF's error
-  // message; «يجب» (orange) stops the save, «يفضل» (green) only tells
+  // message; «يجب» (amber) stops the save, «يفضل» (green) only tells
   var ALT_MSG = { required: '(يجب تعبئة أحد هذه الحقول)', recommended: '(يفضل تعبئة أحد هذه الحقول)' };
   function filled(field) {
     if (field.dataset.type === 'repeater') return $$('.acf-row:not(.acf-clone)', field).length > 0;
