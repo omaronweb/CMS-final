@@ -8,10 +8,10 @@ twice changes nothing.
 
 In the content type's fields box («حقول …»):
   top   required and high-priority fields, shown directly
-  alt   alternatives (one of them to fill): a help icon after the label, orange
-        with «يجب تعبئة أحد هذه الحقول: …» when required, green with «يفضل تعبئة
-        أحد هذه الحقول: …» when recommended (the label's data-alt-note, shown by
-        CSS); the field's own help stays under the label. On publish, proto.js
+  alt   alternatives (one of them to fill): a «*» after the label, orange when one
+        is required, green when one is recommended; hovering it shows «يجب / يفضل
+        تعبئة أحد هذه الحقول: …» (the «*»'s data-note, shown by CSS). A required
+        field's red «*» shows «حقل مطلوب». The field's own help stays under the label. On publish, proto.js
         shows ACF's error message on them when none is filled (as ACF validation does)
   rest  low-priority, plain optional and unlisted fields, in the collapsed
         «حقول إضافية»
@@ -34,6 +34,7 @@ FINAL = os.path.dirname(HERE)
 IMAGES_DESC = 'الصورة الأولى هي الصورة البارزة، وتظهر الصور الأخرى بعدها.'
 VIDEO_URL_DESC = 'رابط مباشر لملف فيديو مرفوع على خادم (وليس رابط يوتيوب)، ينتهي بامتداد الملف، مثل: https://www.example.com/video.mp4'
 COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.'
+REQUIRED_NOTE = 'حقل مطلوب'
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
 # Field labels renamed on every type (Omar, 2026-10-13)
 RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو', 'audios': 'ملفات صوتية'}
@@ -119,12 +120,13 @@ def label_text(field):
 
 
 def mark_label(field, required, alt, note=''):
-    """Red «*» after the label when required; an alternative's note on the label (its help icon)."""
-    field = re.sub(r' ?<span class="acf-required">\*+</span>', '', field, count=1)
-    field = re.sub(r'(<label for="[^"]*")(?: data-alt-note="[^"]*")?>', r'\1%s>' % (
-        ' data-alt-note="%s"' % note if alt else ''), field, count=1)
-    if required:
-        field = re.sub(r'(<label for="[^"]*">.*?)(</label>)', r'\1 <span class="acf-required">*</span>\2',
+    """«*» after the label: red when required («حقل مطلوب» on hover), orange/green for an
+    alternative (its note on hover). The note is the «*»'s data-note, shown by CSS."""
+    field = re.sub(r' ?<span class="acf-required"[^>]*>\*+</span>', '', field, count=1)
+    field = re.sub(r'(<label for="[^"]*") data-alt-note="[^"]*">', r'\1>', field, count=1)  # earlier version
+    if required or alt:
+        star = '<span class="acf-required" data-note="%s">*</span>' % (REQUIRED_NOTE if required else note)
+        field = re.sub(r'(<label for="[^"]*">.*?)(</label>)', lambda m: m.group(1) + ' ' + star + m.group(2),
                        field, count=1, flags=re.S)
     field = set_class(field, 'is-required', required)
     for kind in ALT_NOTE:
@@ -161,6 +163,12 @@ def describe_or_drop(field, text):
     if text:
         return describe(field, text)
     return re.sub(r'(</label>)<p class="description">.*?</p>', r'\1', field, count=1, flags=re.S)
+
+
+def required_notes(s):
+    """Every other required «*» (ACF fields on any page) gets the same hover note."""
+    return s.replace('<span class="acf-required">*</span>',
+                     '<span class="acf-required" data-note="%s">*</span>' % REQUIRED_NOTE)
 
 
 def relabel(s):
@@ -341,6 +349,11 @@ def main():
             add_page(os.path.join(FINAL, edit_of[ptype]), cfg)
         if cfg.get('delete_columns'):
             list_page(os.path.join(FINAL, 'edit__post_type-%s.html' % ptype), cfg['delete_columns'])
+    for path in glob.glob(os.path.join(FINAL, '*.html')):
+        s = open(path, encoding='utf-8').read()
+        t = required_notes(s)
+        if t != s:
+            open(path, 'w', encoding='utf-8').write(t)
 
 
 if __name__ == '__main__':
