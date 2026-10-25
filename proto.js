@@ -473,20 +473,26 @@
       protoPages.map(function (p) {
         return '<a href="' + p[0] + '"' + (p[0] === here ? ' class="is-current" aria-current="page"' : '') + '>' + p[1] + '</a>';
       }).join('');
-    // ✕ hides the bar down to a small «صفحات مختارة» button that shows it again;
-    // remembered across pages (this browser only)
+    // ✕ hides the bar completely; Cmd+Shift+U (Ctrl+Shift+U on Windows) shows and
+    // hides it again. Remembered across pages (this browser only)
     var hideKey = 'proto-pages-hidden';
     var toggle = document.createElement('button');
     toggle.type = 'button';
     toggle.className = 'proto-pages-toggle';
+    toggle.textContent = '✕';
+    toggle.title = 'إخفاء الشريط (⌘⇧U / Ctrl+Shift+U لإظهاره)';
+    toggle.setAttribute('aria-label', toggle.title);
     function setHidden(on) {
-      nav.classList.toggle('is-collapsed', on);
-      toggle.textContent = on ? 'صفحات مختارة' : '✕';
-      toggle.setAttribute('aria-label', on ? 'إظهار شريط الصفحات' : 'إخفاء شريط الصفحات');
-      toggle.title = toggle.getAttribute('aria-label');
+      nav.hidden = on;
       try { localStorage.setItem(hideKey, on ? '1' : ''); } catch (e) {}
     }
-    toggle.addEventListener('click', function () { setHidden(!nav.classList.contains('is-collapsed')); });
+    toggle.addEventListener('click', function () { setHidden(true); });
+    document.addEventListener('keydown', function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey && e.code === 'KeyU') {
+        e.preventDefault();
+        setHidden(!nav.hidden);
+      }
+    });
     nav.appendChild(toggle);
     var startHidden = false;
     try { startHidden = localStorage.getItem(hideKey) === '1'; } catch (e) {}

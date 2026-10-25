@@ -31,8 +31,7 @@
     '#proto-pages a.is-current{background:#c49a2a;color:#0f1a2e;font-weight:600}' +
     '#proto-pages .proto-pages-toggle{margin-inline-start:4px;padding:4px 10px;border:0;border-radius:8px;background:rgba(255,255,255,.12);color:#fff;font:inherit;cursor:pointer}' +
     '#proto-pages .proto-pages-toggle:hover{background:rgba(255,255,255,.24)}' +
-    '#proto-pages.is-collapsed{padding:4px}' +
-    '#proto-pages.is-collapsed > :not(.proto-pages-toggle){display:none}' +
+    '#proto-pages[hidden]{display:none!important}' +
     'body{padding-bottom:96px}';
   document.head.appendChild(css);
 
@@ -43,20 +42,26 @@
     PAGES.map(function (p) {
       return '<a href="' + base + p[0] + '"' + (p[0] === here ? ' class="is-current" aria-current="page"' : '') + '>' + p[1] + '</a>';
     }).join('');
-  // ✕ hides the bar down to a small «صفحات مختارة» button that shows it again;
-  // remembered across pages (this browser only)
+  // ✕ hides the bar completely; Cmd+Shift+U (Ctrl+Shift+U on Windows) shows and
+  // hides it again. Remembered across pages (this browser only)
   var hideKey = 'proto-pages-hidden';
   var toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'proto-pages-toggle';
+  toggle.textContent = '✕';
+  toggle.title = 'إخفاء الشريط (⌘⇧U / Ctrl+Shift+U لإظهاره)';
+  toggle.setAttribute('aria-label', toggle.title);
   function setHidden(on) {
-    nav.classList.toggle('is-collapsed', on);
-    toggle.textContent = on ? 'صفحات مختارة' : '✕';
-    toggle.setAttribute('aria-label', on ? 'إظهار شريط الصفحات' : 'إخفاء شريط الصفحات');
-    toggle.title = toggle.getAttribute('aria-label');
+    nav.hidden = on;
     try { localStorage.setItem(hideKey, on ? '1' : ''); } catch (e) {}
   }
-  toggle.addEventListener('click', function () { setHidden(!nav.classList.contains('is-collapsed')); });
+  toggle.addEventListener('click', function () { setHidden(true); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey && e.code === 'KeyU') {
+      e.preventDefault();
+      setHidden(!nav.hidden);
+    }
+  });
   nav.appendChild(toggle);
   var startHidden = false;
   try { startHidden = localStorage.getItem(hideKey) === '1'; } catch (e) {}

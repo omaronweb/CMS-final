@@ -1453,7 +1453,7 @@ th#taxonomy-fiqhi-topic {
   color: var(--cms-menu) !important;
   font-weight: 600;
 }
-/* ✕ hides the bar to a small «صفحات مختارة» button (proto.js) */
+/* ✕ hides the bar completely; Cmd/Ctrl+Shift+U toggles it (proto.js) */
 #proto-pages .proto-pages-toggle {
   margin-inline-start: 4px;
   padding: 4px 10px;
@@ -1467,11 +1467,8 @@ th#taxonomy-fiqhi-topic {
 #proto-pages .proto-pages-toggle:hover {
   background: rgba(255, 255, 255, 0.24);
 }
-#proto-pages.is-collapsed {
-  padding: 4px;
-}
-#proto-pages.is-collapsed > :not(.proto-pages-toggle) {
-  display: none;
+#proto-pages[hidden] {
+  display: none !important;
 }
 
 
