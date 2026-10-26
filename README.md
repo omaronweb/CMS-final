@@ -56,3 +56,7 @@ The members (أعضاء) are invented: six men with a mix of Arabic names (مح�
 سامر النجار، إبراهيم عبد الله، خالد منصور), @zadgroup.net emails and the CMS roles (2 مدير لوحة تحكم,
 3 محرر, 1 مشاهد); the logged-in account is محمد علي. Their photos (`assets/avatar-*.jpg`) are portraits of
 Arab and Muslim men from Unsplash (Unsplash licence, free to use, no attribution required).
+`python3 _tools/build_members.py` keeps them consistent everywhere: the posts the generic «admin» account
+wrote are shared out among the members who write (list rows, edit pages, author pickers; viewers can't
+author), the أعضاء list counts only the six, and each member has an edit page (`user-edit__user_id-N.html`,
+built from `profile.html`). Run it after the build scripts.
