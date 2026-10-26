@@ -2345,3 +2345,8 @@ label[for="slugdiv-hide"],
 .wp-list-table .ac-image img {
   object-fit: cover;
 }
+
+/* أعضاء: a role button waits for a role to be chosen (proto.js) */
+.button.zad-await-choice {
+  display: none !important;
+}

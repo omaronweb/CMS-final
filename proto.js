@@ -303,6 +303,16 @@
     sync();
   });
 
+  // أعضاء: «إضافة» / «إزالة» next to «إضافة دور…» / «إزالة دور…» show only once a role is chosen
+  // (top and bottom bars); the theme's .button beats [hidden], so a class hides them
+  $$('select[id^="members-add-role-"], select[id^="members-remove-role-"]').forEach(function (sel) {
+    var btn = document.getElementById(sel.id.replace(/-role-(top|bottom)$/, '-role-submit-$1'));
+    if (!btn) return;
+    function sync() { btn.classList.toggle('zad-await-choice', !sel.value); }
+    sel.addEventListener('change', sync);
+    sync();
+  });
+
   // ACF accordions — what ACF's JS does on the live CMS: the fields after an accordion
   // (up to the next accordion) move into it, behind a clickable title.
   // An accordion marked as an endpoint only closes the group and is removed.
