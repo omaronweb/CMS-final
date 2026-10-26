@@ -5,8 +5,8 @@
   who write (editors more than managers): the list rows' «بواسطة …» and hidden
   author, the edit page's «آخر تحرير بواسطة …», its revisions and author picker.
   So no account outside the six, and no one-word «مدير» role, is left.
-- أعضاء: «الكل (6)» without the administrator filter, no repeated header row at
-  the bottom, every member's name and «تحرير» open his edit page.
+- أعضاء: «الكل (6)» without the administrator filter, no repeated header row or
+  role controls at the bottom, every member's name and «تحرير» open his edit page.
 - user-edit__user_id-N.html: each member's edit page, built from profile.html
   (the logged-in member's own page), with his name, email, photo and role.
 
@@ -150,6 +150,8 @@ def users_page():
                count=1, flags=re.S)
     # no repeated column header under the list
     s = re.sub(r'\s*<tfoot>.*?</tfoot>', '', s, count=1, flags=re.S)
+    # «إضافة دور…» / «إزالة دور…» only above the list, not again below it
+    s = re.sub(r'\n?<div class="alignleft actions">\n(?:(?!</div>).)*?members-add-role-bottom.*?</div>', '', s, count=1, flags=re.S)
 
     def row(m):
         r = m.group(0)
