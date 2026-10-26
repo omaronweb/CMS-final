@@ -52,6 +52,7 @@ The rules per type are in its `TYPES` table. Running it twice changes nothing.
   (copied from cms-testing; includes the General settings and ACF layout improvements).
 
 ## Members
-The members (أعضاء) are invented: six men with Arabic names, @zadgroup.net emails and the CMS roles
-(2 مدير لوحة تحكم, 3 محرر, 1 مشاهد); the logged-in account is عبدالله الزهراني. Their photos
-(`assets/avatar-*.jpg`) are free Unsplash portraits (Unsplash licence, no attribution required).
+The members (أعضاء) are invented: six men with a mix of Arabic names (محمد علي، أحمد يوسف، طارق بن عيسى،
+سامر النجار، إبراهيم عبد الله، خالد منصور), @zadgroup.net emails and the CMS roles (2 مدير لوحة تحكم,
+3 محرر, 1 مشاهد); the logged-in account is محمد علي. Their photos (`assets/avatar-*.jpg`) are portraits of
+Arab and Muslim men from Unsplash (Unsplash licence, free to use, no attribution required).
