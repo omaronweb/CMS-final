@@ -50,3 +50,8 @@ The rules per type are in its `TYPES` table. Running it twice changes nothing.
   filters/bars above the list table, Additional fields accordion.
 - `assets/c0f6f5a9e1-admin.css` and `assets/1c4c38122f-admin.css` — the live zad-common admin CSS
   (copied from cms-testing; includes the General settings and ACF layout improvements).
+
+## Members
+The members (أعضاء) are invented: six men with Arabic names, @zadgroup.net emails and the CMS roles
+(2 مدير لوحة تحكم, 3 محرر, 1 مشاهد); the logged-in account is عبدالله الزهراني. Their photos
+(`assets/avatar-*.jpg`) are free Unsplash portraits (Unsplash licence, no attribution required).
