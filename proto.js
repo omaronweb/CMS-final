@@ -304,7 +304,7 @@
   });
 
   // أعضاء: «إضافة» / «إزالة» next to «إضافة دور…» / «إزالة دور…» show only once a role is chosen
-  // (top and bottom bars); the theme's .button beats [hidden], so a class hides them
+  // (above the list); the theme's .button beats [hidden], so a class hides them
   $$('select[id^="members-add-role-"], select[id^="members-remove-role-"]').forEach(function (sel) {
     var btn = document.getElementById(sel.id.replace(/-role-(top|bottom)$/, '-role-submit-$1'));
     if (!btn) return;
