@@ -1916,11 +1916,23 @@ body.edit-tags-php #addtag > p.submit {
   color: #d63638;
 }
 
-/* «*» after a label: red when the field is required, amber when one of a group of
-   alternatives is required, green when one is recommended. Hovering it shows its
-   note (data-note): «حقل مطلوب» or «يجب / يفضل تعبئة أحد هذه الحقول: …» */
-.acf-field.zad-alt-required > .acf-label .acf-required {
-  color: #b07d00 !important;
+/* Alternatives (one of a group to fill): a line under the label, after the help text —
+   «• من الحقول التي يجب / يفضل ملء أحدها على الأقل»; the bullet is red (يجب) or green (يفضل).
+   Hovering the line lists the group (title). The red «*» stays for required fields only. */
+.acf-field .acf-label p.description.zad-alt-note {
+  margin-top: 2px;
+  cursor: help;
+}
+.acf-field .acf-label p.description.zad-alt-note::before {
+  content: "•";
+  margin-inline-end: 6px;
+  font-weight: 700;
+}
+.acf-field.zad-alt-required > .acf-label p.description.zad-alt-note::before {
+  color: #d63638;
+}
+.acf-field.zad-alt-recommended > .acf-label p.description.zad-alt-note::before {
+  color: #008a20;
 }
 /* …and the publish check's message on required alternatives in the same amber */
 .acf-field .acf-notice.zad-alt-message.-warning {
