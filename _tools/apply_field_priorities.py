@@ -36,6 +36,9 @@ VIDEO_URL_DESC = 'رابط مباشر لملف فيديو مرفوع على خا
 COVER_DESC = 'الصورة الأولى هي صورة الغلاف، وتظهر الصور الأخرى بعدها.'
 REQUIRED_NOTE = 'حقل مطلوب'
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
+# Line under the label of each alternative, after its help text; its bullet is red (يجب) or
+# green (يفضل) in custom.css. Hovering it lists the group (title). (Omar, 2026-11-03; replaced the coloured «*»)
+ALT_LINE = {'required': 'من الحقول التي يجب ملء أحدها على الأقل', 'recommended': 'من الحقول التي يفضل ملء أحدها على الأقل'}
 # Field labels renamed on every type (Omar, 2026-10-13)
 RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو', 'audios': 'ملفات صوتية'}
 # Labels renamed on every add/edit page, wherever the field or box is (Omar, 2026-10-13)
@@ -124,8 +127,8 @@ def mark_label(field, required, alt, note=''):
     alternative (its note on hover). The note is the «*»'s data-note, shown by CSS."""
     field = re.sub(r' ?<span class="acf-required"[^>]*>\*+</span>', '', field, count=1)
     field = re.sub(r'(<label for="[^"]*") data-alt-note="[^"]*">', r'\1>', field, count=1)  # earlier version
-    if required or alt:
-        star = '<span class="acf-required" data-note="%s">*</span>' % (REQUIRED_NOTE if required else note)
+    if required:
+        star = '<span class="acf-required" data-note="%s">*</span>' % REQUIRED_NOTE
         field = re.sub(r'(<label for="[^"]*">.*?)(</label>)', lambda m: m.group(1) + ' ' + star + m.group(2),
                        field, count=1, flags=re.S)
     field = set_class(field, 'is-required', required)
@@ -148,6 +151,16 @@ def describe(field, text):
     """The field's help under its label is «text» (replacing what was there)."""
     field = re.sub(r'(</label>)<p class="description">.*?</p>', r'\1', field, count=1, flags=re.S)
     return field.replace('</label>', '</label><p class="description">%s</p>' % text, 1)
+
+
+def alt_line(field, kind, note):
+    """The alternative's line under its label (after the help text), or none."""
+    field = re.sub(r'<p class="description zad-alt-note"[^>]*>.*?</p>', '', field, count=1, flags=re.S)
+    if not kind:
+        return field
+    line = '<p class="description zad-alt-note" title="%s">%s</p>' % (note, ALT_LINE[kind])
+    m = re.search(r'</label>(?:<p class="description">.*?</p>)?', field, re.S)
+    return field[:m.end()] + line + field[m.end():]
 
 
 def accordion(prefix):
@@ -246,6 +259,9 @@ def arrange(s, cfg):
         own['images'] = describe(own['images'], IMAGES_DESC)
     if 'cover_images' in own:
         own['cover_images'] = describe(own['cover_images'], COVER_DESC)
+    for x in own:
+        own[x] = alt_line(own[x], kind if x in alts else None,
+                          '%s: %s.' % (ALT_NOTE[kind], '، '.join(labels)) if x in alts else '')
 
     seq = [own[x] for x in top]
     seq += [own[x] for x in alts if x in own]
