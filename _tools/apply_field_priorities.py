@@ -38,7 +38,7 @@ REQUIRED_NOTE = 'حقل مطلوب'
 ALT_NOTE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}
 # Line under the label of each alternative, after its help text; its bullet is red (يجب) or
 # green (يفضل) in custom.css. Hovering it lists the group (title). (Omar, 2026-11-03; replaced the coloured «*»)
-ALT_LINE = {'required': 'من الحقول التي يجب ملء أحدها على الأقل', 'recommended': 'من الحقول التي يفضل ملء أحدها على الأقل'}
+ALT_LINE = {'required': 'يجب تعبئة أحد هذه الحقول', 'recommended': 'يفضل تعبئة أحد هذه الحقول'}  # wording: Omar, 2026-11-03
 # Field labels renamed on every type (Omar, 2026-10-13)
 RENAME = {'video_url': 'رابط فيديو', 'videos': 'مقاطع فيديو', 'audios': 'ملفات صوتية'}
 # Labels renamed on every add/edit page, wherever the field or box is (Omar, 2026-10-13)
